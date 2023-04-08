@@ -1,0 +1,23 @@
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body.chakra-ui-light {
+  background-color: #112D4E;
+  height: 100vh;    
+}
+
+.chakra-stack{
+  padding: 1vh;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  color: #F9F7F7;
+}
