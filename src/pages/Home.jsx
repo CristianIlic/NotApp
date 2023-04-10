@@ -6,6 +6,15 @@ import {AiOutlineUserAdd, AiOutlineLogin} from "react-icons/ai"
 import { Link } from '@chakra-ui/react'
 import '.././styles/index.css'
 
+import {
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
+  Box
+} from '@chakra-ui/react'
+
 const Home = () => {
     const title = 'NotApp'
 
@@ -13,9 +22,9 @@ const Home = () => {
     <div className="home">   
       <div>
       <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQhttps://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
-        <img src={notAppLogo} className="logo" alt="Vite logo" />
+        <img src={notAppLogo} className="logo" alt="NotApp logo" />
       </a>
-    </div>
+      </div>
     <h1>{title}</h1>
     <p>Para un efectivo monitoreo de tu rendimiento académico</p>
 
@@ -23,17 +32,59 @@ const Home = () => {
       <Link href='/signup'>
         <Button 
           leftIcon={<AiOutlineUserAdd />} 
-          size="sm">
+          size="sm"
+          bg="secondary"
+          color='white'>
             Registrarse
         </Button>
       </Link>
       <Button 
         leftIcon={<AiOutlineLogin />} 
-        size="sm">
+        size="sm"
+        bg="secondary"
+        color='white'>
           Iniciar sesión
       </Button>
     </Stack>
+
+    <div className='accordion'>
+      <Accordion allowToggle>
+        <AccordionItem border='none'>
+          <h2>
+            <AccordionButton>
+              <Box as="span" flex='1' textAlign='left'>
+                <p>Como funciona?</p>
+              </Box>
+              <AccordionIcon color='white'/>
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+              tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+              veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+              commodo consequat.</p>
+          </AccordionPanel>
+        </AccordionItem>
+
+        <AccordionItem border='none'>
+          <h2>
+            <AccordionButton>
+              <Box as="span" flex='1' textAlign='left'>
+                <p>Nosotros</p>
+              </Box>
+              <AccordionIcon color='white'/>
+            </AccordionButton>
+          </h2>
+          <AccordionPanel pb={4}>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+            tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+            veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+            commodo consequat.</p>
+          </AccordionPanel>
+        </AccordionItem>
+      </Accordion>
     </div>
+  </div>
     );
 }
  
