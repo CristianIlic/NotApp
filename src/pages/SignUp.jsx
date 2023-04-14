@@ -56,7 +56,11 @@ const SignUp = () => {
                 size="sm"
                 bg="secondary"
                 color='white'
-                margin='15px'>
+                margin='15px'
+                _hover={{
+                    background:"white",
+                    color:"#27E1C1"
+                  }}>
                 Registrarse
                 </Button>
 

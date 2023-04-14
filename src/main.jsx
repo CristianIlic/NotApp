@@ -5,7 +5,7 @@ import App from './App'
 import './styles/index.css'
 import theme from './styles/theme'
 
-import '@fontsource/Poppins/300.css'
+import '@fontsource/Raleway/700.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>

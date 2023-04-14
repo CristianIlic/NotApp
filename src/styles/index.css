@@ -10,13 +10,13 @@ body.chakra-ui-light {
 h1 {
   font-size: 5em;
   line-height: 1.1;
-  color: #F5F3C1;
+  color: white;
 }
 
 p {
   font-size: 1.3em;
   line-height: 1.1;
-  color: #F5F3C1;
+  color: white;
   padding: 0.5rem;
 }
 
