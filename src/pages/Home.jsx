@@ -30,7 +30,7 @@ const Home = () => {
     <Stack direction='row' spacing={10} justify='center'>
       <Link href='/signup'>
         <Button 
-          leftIcon={<AiOutlineUserAdd />} 
+          leftIcon={<AiOutlineLogin />} 
           size="sm"
           bg="secondary"
           color='white'
