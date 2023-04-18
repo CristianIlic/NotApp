@@ -1,6 +1,5 @@
 import notAppLogo from '.././assets/logonotapp.png'
-
-import { Button } from '@chakra-ui/react'
+import { Button, background } from '@chakra-ui/react'
 import { Stack } from '@chakra-ui/react'
 import {AiOutlineUserAdd, AiOutlineLogin} from "react-icons/ai"
 import { Link } from '@chakra-ui/react'
@@ -31,10 +30,14 @@ const Home = () => {
     <Stack direction='row' spacing={10} justify='center'>
       <Link href='/signup'>
         <Button 
-          leftIcon={<AiOutlineUserAdd />} 
+          leftIcon={<AiOutlineLogin />} 
           size="sm"
           bg="secondary"
-          color='white'>
+          color='white'
+          _hover={{
+            background:"white",
+            color:"#27E1C1"
+          }}>
             Registrarse
         </Button>
       </Link>
@@ -42,7 +45,11 @@ const Home = () => {
         leftIcon={<AiOutlineLogin />} 
         size="sm"
         bg="secondary"
-        color='white'>
+        color='white'
+        _hover={{
+          background:"white",
+          color:"#27E1C1"
+        }}>
           Iniciar sesión
       </Button>
     </Stack>
