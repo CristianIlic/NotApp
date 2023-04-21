@@ -41,17 +41,19 @@ const Home = () => {
             Registrarse
         </Button>
       </Link>
-      <Button 
-        leftIcon={<AiOutlineLogin />} 
-        size="sm"
-        bg="secondary"
-        color='white'
-        _hover={{
-          background:"white",
-          color:"#27E1C1"
-        }}>
-          Iniciar sesión
-      </Button>
+      <Link href='/login'>
+        <Button 
+          leftIcon={<AiOutlineLogin />} 
+          size="sm"
+          bg="secondary"
+          color='white'
+          _hover={{
+            background:"white",
+            color:"#27E1C1"
+          }}>
+            Iniciar sesión
+        </Button>
+      </Link>
     </Stack>
 
     <div className='accordion'>

@@ -2,6 +2,7 @@ import Navbar from './components/Navbar'
 import Home from './pages/Home'
 import SignUp from './pages/SignUp'
 import Login from './pages/Login'
+import Teacher from './pages/Teacher'
 import './styles/App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
@@ -28,6 +29,7 @@ function App() {
               <Route path='/' Component={Home} />
               <Route path='/signup' Component={SignUp} />
               <Route path='/login' Component={Login} />
+              <Route path='/teacher' Component={Teacher} />
             </Routes>
           </div>
         </Router>

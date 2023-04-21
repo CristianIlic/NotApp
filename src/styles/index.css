@@ -12,6 +12,11 @@ h1 {
   line-height: 1.1;
   color: white;
 }
+h2 {
+  font-size: 5em;
+  line-height: 1.1;
+  color: #2F0F5D;
+}
 
 p {
   font-size: 1.3em;
@@ -52,6 +57,11 @@ p {
 
 .accordion {
   max-width: 600px;
+  margin: 0 auto;
+}
+
+.accordion-button {
+  color: #2F0F5D;
 }
 
 .form-control{
@@ -61,3 +71,17 @@ p {
   padding: 20px;
   max-width: 500px;
 }
+
+.body-teacher{
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 900px;
+}
+.body-teacher.cursos{
+  background-color: black;
+  }
+
+
+
