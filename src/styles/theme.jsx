@@ -10,6 +10,9 @@ const theme = extendTheme({
     primary: '#0EA293',
     secondary: '#27E1C1',
     pastel: '#F5F3C1'
+  },
+  accordion: {
+    
   }
 })
 
