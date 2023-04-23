@@ -50,6 +50,9 @@ p {
   margin: 5px;
   padding: 8px;
 }
+.links a:hover{
+  background-color: #0EA293;
+}
 
 .chakra-collapse {
   display: block !important;

@@ -6,25 +6,23 @@ import {
   AccordionPanel,
   Box,
 } from "@chakra-ui/react";
-import { doc, getFirestore } from "firebase/firestore";
-import { 
-  useFirestore,
-  useFirebaseApp,
-  useFirestoreDocData,
-  FirestoreProvider
-} from "reactfire";
+// import { doc, getFirestore } from "firebase/firestore";
+// import { 
+//   useFirestore,
+//   useFirebaseApp,
+//   useFirestoreDocData,
+//   FirestoreProvider
+// } from "reactfire";
 
-function ListaAlumnos(){
-  const alumnosRef = doc(useFirestore(), 'tryreactfire', 'burrito');
-  const { status, data } = useFirestoreDocData(alumnosRef);
+// function ListaAlumnos(){
+//   const alumnosRef = doc(useFirestore(), 'tryreactfire', 'burrito');
+//   const { status, data } = useFirestoreDocData(alumnosRef);
 
-  return <p>{data.yummy ? 'wena' : 'caca'}</p>
-}
+//   return <p>{data.yummy ? 'wena' : 'caca'}</p>
+// }
 
 const Teacher = () => {
-  const firestoreInstance = getFirestore(useFirebaseApp());
   return (
-    <FirestoreProvider sdk={firestoreInstance}>
     <div className="body-teacher">
       <h2>Notas</h2>
       <div className="accordion">
@@ -40,7 +38,7 @@ const Teacher = () => {
             </h3>
             <AccordionPanel pb={4}>
               <p>
-                Marcelo Aguilera <ListaAlumnos/>
+                Marcelo Aguilera
               </p>
               <p>
                 Cristian Ilic
@@ -125,7 +123,6 @@ const Teacher = () => {
         </Accordion>
       </div>
     </div>
-    </FirestoreProvider>
   );
 };
 

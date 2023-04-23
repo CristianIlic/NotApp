@@ -2,7 +2,6 @@ import {
   FormControl,
   FormLabel,
   FormErrorMessage,
-  FormHelperText,
   Input,
   Select,
   Button,
@@ -11,24 +10,60 @@ import {
   HStack,
 } from "@chakra-ui/react";
 
+import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { auth } from "../AuthContext";
+import { useNavigate } from 'react-router-dom'
+
 import { HiOutlineUser } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 
-const SignUp = () => {
+const SignUp = (  ) => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
+    watch
   } = useForm();
 
-  function onSubmit(values) {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        alert(JSON.stringify(values, null, 2));
-        resolve();
-      }, 3000);
-    });
-  }
+  const navigate = useNavigate()
+
+  async function onSubmit(data) {
+    console.log(data)
+      try {
+       const result = await createUserWithEmailAndPassword(
+       auth, data.email, data.contrasena)
+
+    
+       if(result.user){
+
+        await updateProfile(result.user,{ displayName : data.nombres })
+
+        navigate("/");
+
+        alert ("Usuario creado exitosamente")
+       }else{
+
+
+          alert ("Creación de usuario fallida")
+       }
+
+
+       
+       } catch (error) {
+       console.log(error)
+       alert ("Creación de usuario fallida")
+       alert(error);
+     }
+   }
+
+  // function onSubmit(values) {
+  //   return new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       alert(JSON.stringify(values, null, 2));
+  //       resolve();
+  //     }, 3000);
+  //   });
+  // }
 
   return (
     <div className="form-control">
@@ -101,7 +136,7 @@ const SignUp = () => {
           <FormLabel fontWeight="bold">Correo electrónico</FormLabel>
           <Input
             borderWidth="3px"
-            type="text"
+            type="email"
             {...register("email", {
               required: "* Campo obligatorio",
               pattern: { value: /^\S+@\S+$/i, message: "* Correo inválido" },
@@ -128,15 +163,19 @@ const SignUp = () => {
           </FormErrorMessage>
         </FormControl>
 
-        <FormControl>
+        <FormControl isInvalid={errors.confirmaContrasena}>
           <FormLabel>Repite tu contraseña</FormLabel>
           <Input
             borderWidth="3px"
             type="password"
-            {...register("verif_contrasena", {
-              required: false
-            })}
+            {...register( 'confirmaContrasena', {
+              validate: value =>
+              value === watch("contrasena", "") || "Las contraseñas no coinciden"
+              })}
           />
+          <FormErrorMessage>
+            {errors.confirmaContrasena && errors.confirmaContrasena.message}
+          </FormErrorMessage>
         </FormControl>
 
         <FormControl>
@@ -156,7 +195,7 @@ const SignUp = () => {
           margin="15px"
           isLoading={isSubmitting}
           _hover={{
-            background: "27E1C1",
+            background: "primary",
           }}
         >
           Registrarse

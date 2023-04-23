@@ -5,6 +5,9 @@ import { AiOutlineUserAdd, AiOutlineLogin } from "react-icons/ai";
 import { Link } from "@chakra-ui/react";
 import ".././styles/index.css";
 
+
+import { useUser,useAuth } from 'reactfire'
+
 import {
   Accordion,
   AccordionItem,
@@ -16,6 +19,10 @@ import {
 
 const Home = () => {
   const title = "NotApp";
+
+  const caca = useAuth()
+
+  console.log('flanweko',caca.currentUser)
 
   return (
     <div className="home">
@@ -38,8 +45,7 @@ const Home = () => {
             bg="secondary"
             color="white"
             _hover={{
-              background: "white",
-              color: "#27E1C1",
+              background: "primary"
             }}
           >
             Registrarse
@@ -52,8 +58,7 @@ const Home = () => {
             bg="secondary"
             color="white"
             _hover={{
-              background: "white",
-              color: "#27E1C1",
+              background: "primary"
             }}
           >
             Iniciar sesión

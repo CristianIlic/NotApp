@@ -1,13 +1,13 @@
 import Navbar from './components/Navbar'
-import Home from './pages/Home'
-import SignUp from './pages/SignUp'
-import Login from './pages/Login'
-import Teacher from './pages/Teacher'
-import Burrito from './pages/ejemploConexionBBDD'
+import Home from './components/Home'
+import SignUp from './components/SignUp'
+import Login from './components/Login'
+import Teacher from './components/Teacher'
+import Burrito from './components/ejemploConexionBBDD'
 import './styles/App.css'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 
-import { getAuth } from 'firebase/auth'; // Firebase v9+
+import { auth } from './AuthContext'
 import { getDatabase } from 'firebase/database'; // Firebase v9+
 import { AuthProvider, DatabaseProvider, useFirebaseApp } from 'reactfire';
 
@@ -17,10 +17,8 @@ function App() {
   
   // initialize Database and Auth with the normal Firebase SDK functions
   const database = getDatabase(app);
-  const auth = getAuth(app);
   
   return (
-    
     <AuthProvider sdk={auth}>
       <DatabaseProvider sdk={database}>
         <Router>
