@@ -36,7 +36,7 @@ function BurritoTaste() {
   return <p>Mi tula ta {data.yummy ? 'wena' : 'caca'}!</p>;
 }
 
-function App() {
+function Burrito() {
   const firestoreInstance = getFirestore(useFirebaseApp());
   return (
     <FirestoreProvider sdk={firestoreInstance}>
@@ -46,4 +46,4 @@ function App() {
   );
 }
 
-export default App
+export default Burrito
