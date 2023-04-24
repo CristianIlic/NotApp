@@ -7,8 +7,17 @@ const { definePartsStyle, defineMultiStyleConfig } =
 const baseStyle = definePartsStyle({
   // define the part you're going to style
   container: {
-    bg: '#2F0F5D', // change the backgroundColor of the container
+    bg: '#0EA293', // change the backgroundColor of the container
+    borderRadius: '8px',
+    margin: '8px'
+  },
+  button: {
+    bg: '#27E1C1',
+    borderRadius: '8px',
+  },
+  panel:{
+    bg: '#19092e',
+    borderRadius: '5px',
   }
 })
-
 export const accordionTheme = defineMultiStyleConfig({ baseStyle })

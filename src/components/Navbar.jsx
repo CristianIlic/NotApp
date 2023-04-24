@@ -1,13 +1,28 @@
+import { signOut } from "firebase/auth";
+import { auth } from "../AuthContext";
+import notAppLogo from ".././assets/logonotapp.png";
+
 const Navbar = () => {
-    return (
-      <nav className="navbar">
-        <div className="links">
-          <a href="/">Home</a>
-          <a href="/teacher">Profesor</a>
-          <a href="/burrito">Burrito</a>
-        </div>
-      </nav>
-    );
-  }
-   
-  export default Navbar;
+  const logout = async () => {
+    await signOut(auth);
+    console.log("Se cerró sesión");
+  };
+
+  return (
+    <nav className="navbar">
+      <a href="/">
+      <div className="navbar-izq">
+        <img src={notAppLogo} alt="NotApp logo" className="logo-navbar" />
+        <h2>NotApp</h2>
+      </div>
+      </a>
+      <div className="links">
+        <a href="/">Home</a>
+        <a href="/teacher">Profesor</a>
+        <a onClick={logout}>Cerrar sesión</a>
+      </div>
+    </nav>
+  );
+};
+
+export default Navbar;

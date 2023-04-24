@@ -10,51 +10,47 @@ import {
   HStack,
 } from "@chakra-ui/react";
 
-import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../AuthContext";
-import { useNavigate } from 'react-router-dom'
+import { useNavigate } from "react-router-dom";
 
 import { HiOutlineUser } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 
-const SignUp = (  ) => {
+const SignUp = () => {
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    watch
+    watch,
   } = useForm();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   async function onSubmit(data) {
-    console.log(data)
-      try {
-       const result = await createUserWithEmailAndPassword(
-       auth, data.email, data.contrasena)
+    console.log(data);
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        data.email,
+        data.contrasena
+      );
 
-    
-       if(result.user){
-
-        await updateProfile(result.user,{ displayName : data.nombres })
+      if (result.user) {
+        await updateProfile(result.user, { displayName: data.nombres });
 
         navigate("/");
 
-        alert ("Usuario creado exitosamente")
-       }else{
-
-
-          alert ("Creación de usuario fallida")
-       }
-
-
-       
-       } catch (error) {
-       console.log(error)
-       alert ("Creación de usuario fallida")
-       alert(error);
-     }
-   }
+        alert("NotApp: Usuario creado exitosamente");
+      } else {
+        alert("NotApp: Creación de usuario fallida");
+      }
+    } catch (error) {
+      console.log(error);
+      alert("Creación de usuario fallida");
+      alert(error);
+    }
+  }
 
   // function onSubmit(values) {
   //   return new Promise((resolve) => {
@@ -154,8 +150,14 @@ const SignUp = (  ) => {
             type="password"
             {...register("contrasena", {
               required: "Debe contener entre 8 y 12 caracteres",
-              maxLength: {value: 12, message: "Debe contener entre 8 y 12 caracteres"},
-              minLength: {value : 8, message: "Debe contener entre 8 y 12 caracteres"}
+              maxLength: {
+                value: 12,
+                message: "Debe contener entre 8 y 12 caracteres",
+              },
+              minLength: {
+                value: 8,
+                message: "Debe contener entre 8 y 12 caracteres",
+              },
             })}
           />
           <FormErrorMessage>
@@ -168,10 +170,11 @@ const SignUp = (  ) => {
           <Input
             borderWidth="3px"
             type="password"
-            {...register( 'confirmaContrasena', {
-              validate: value =>
-              value === watch("contrasena", "") || "Las contraseñas no coinciden"
-              })}
+            {...register("confirmaContrasena", {
+              validate: (value) =>
+                value === watch("contrasena", "") ||
+                "Las contraseñas no coinciden",
+            })}
           />
           <FormErrorMessage>
             {errors.confirmaContrasena && errors.confirmaContrasena.message}

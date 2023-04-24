@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
-import { Navigate } from "react-router-dom";
-import { AuthContext } from "../AuthContext";
-import firebaseConfig from "../firebase-config.js";
-import {  signInWithEmailAndPassword   } from 'firebase/auth';
-import { useForm, Controller } from 'react-hook-form';
+import { useNavigate } from "react-router-dom";
+import { AuthContext, auth } from "../AuthContext";
+import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useForm } from "react-hook-form";
 import {
   Flex,
   Box,
@@ -15,80 +14,88 @@ import {
   Link,
   Button,
   Heading,
-  Text,
   useColorModeValue,
-  FormErrorMessage
 } from "@chakra-ui/react";
 
 const Login = () => {
-
   const {
-   handleSubmit,
-   control,
-   register,
-   trigger,
-   formState: { errors },
+    handleSubmit,
+    control,
+    register,
+    trigger,
+    formState: { errors, isSubmitting },
   } = useForm();
+  const navigate = useNavigate();
+  const submitHandler = async () => {
+    try {
+      const result = await signInWithEmailAndPassword(
+        auth,
+        document.querySelector('.email').value ,
+        document.querySelector('.contrasena').value
+      );
+      if (result.user) {
+        navigate("/");
 
-  const submitHandler = async ({ email, contrasena }) => {
-        try {
-          await signInWithEmailAndPassword(email, contrasena);
-      } catch (error) {
-        alert(error);
+        alert("NotApp: Inició sesión correctamente");
+      } else {
+        alert("NotApp: No se pudo iniciar sesión");
       }
-    };
-
-    const currentUser = useContext(AuthContext);
-
-    if (currentUser) {
-      return <Navigate to="/" />;
+    } catch (error) {
+      console.log(error);
+      alert(error);
     }
-    return (
-      <Flex
-        minH={'100vh'}
-        align={'center'}
-        justify={'center'}
-        bg={useColorModeValue('gray.50', 'gray.800')}>
-        <Stack spacing={8} mx={'auto'} maxW={'lg'} py={12} px={6}>
-          <Stack align={'center'}>
-            <Heading fontSize={'4xl'}>Inicia sesión</Heading>
+  }
+
+  const currentUser = useContext(AuthContext);
+
+  if (currentUser) {
+    return <Navigate to="/" />;
+  }
+  return (
+        <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+          <Stack align={"center"}>
+            <Heading fontSize={"4xl"}>Inicia sesión ✌</Heading>
           </Stack>
           <Box
-            rounded={'lg'}
-            bg={useColorModeValue('white', 'gray.700')}
-            boxShadow={'lg'}
-            p={8}>
+            rounded={"lg"}
+            bg={useColorModeValue("white", "gray.700")}
+            boxShadow={"lg"}
+            p={8}
+          >
             <Stack spacing={4}>
               <FormControl id="email">
                 <FormLabel>Correo electrónico</FormLabel>
-                <Input type="email" />
+                <Input type="email"  className="email"/>
               </FormControl>
-              <FormControl id="password">
+              <FormControl id="contrasena">
                 <FormLabel>Contraseña</FormLabel>
-                <Input type="password" />
+                <Input type="password" className="contrasena" />
               </FormControl>
               <Stack spacing={10}>
                 <Stack
-                  direction={{ base: 'column', sm: 'row' }}
-                  align={'start'}
-                  justify={'space-between'}>
+                  direction={{ base: "column", sm: "row" }}
+                  align={"start"}
+                  justify={"space-between"}
+                >
                   <Checkbox>Recordarme</Checkbox>
-                  <Link color={'blue.400'}>Olvidaste tu contraseña?</Link>
+                  <Link color={"blue.400"}>Olvidaste tu contraseña?</Link>
                 </Stack>
                 <Button
-                  bg={'secondary'}
-                  color={'white'}
+                  onClick={() => submitHandler()}
+                  bg={"secondary"}
+                  color={"white"}
+                  isLoading={isSubmitting}
                   _hover={{
-                    bg: 'primary',
-                  }}>
+                    bg: "primary",
+                  }}
+                >
                   Entrar
                 </Button>
               </Stack>
             </Stack>
           </Box>
         </Stack>
-      </Flex>
-    );
-  }
+  );
+};
 
-export default Login
+export default Login;

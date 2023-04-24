@@ -29,7 +29,6 @@ function App() {
               <Route path='/signup' Component={SignUp} />
               <Route path='/login' Component={Login} />
               <Route path='/teacher' Component={Teacher} />
-              <Route path='/burrito' Component={Burrito} />
             </Routes>
           </div>
         </Router>

@@ -13,9 +13,9 @@ h1 {
   color: white;
 }
 h2 {
-  font-size: 5em;
+  font-size: 3em;
   line-height: 1.1;
-  color: #2F0F5D;
+  color: white;
 }
 
 p {
@@ -36,7 +36,9 @@ p {
 .navbar {
   padding: 20px;
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
   max-width: 100%;
   margin: 0 auto;
   /* border-bottom: 1px solid #f2f2f2; */
@@ -63,12 +65,9 @@ p {
   margin: 0 auto;
 }
 
-button {
-  color: #2F0F5D;
-}
-
 .accordion p {
-  color: #27E1C1;
+  color: white;
+  text-align: start;
 }
 
 .form-control{
@@ -81,7 +80,6 @@ button {
 
 .body-teacher{
   margin: 0 auto;
-  background-color: white;
   border-radius: 8px;
   padding: 20px;
   max-width: 900px;
@@ -89,6 +87,3 @@ button {
 .body-teacher.cursos{
   background-color: black;
   }
-
-
-

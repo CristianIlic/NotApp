@@ -12,6 +12,20 @@
   transition: filter 300ms;
   margin: 0 auto;
 }
+.logo-navbar{
+  height: 75px;
+  padding: 1em;
+  will-change: filter;
+  transition: filter 300ms;
+  margin: 0 auto;
+}
+
+.navbar-izq{
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
 .logo:hover {
   filter: drop-shadow(0 0 2em #8763b9);
 }
