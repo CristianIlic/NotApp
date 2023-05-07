@@ -16,7 +16,7 @@ const baseStyle = definePartsStyle({
     borderRadius: '8px',
   },
   panel:{
-    bg: '#19092e',
+    bg: 'backgroundText',
     borderRadius: '5px',
   }
 })

@@ -17,7 +17,6 @@ const Navbar = () => {
       </div>
       </a>
       <div className="links">
-        <a href="/">Home</a>
         <a href="/teacher">Profesor</a>
         <a onClick={logout}>Cerrar sesión</a>
       </div>

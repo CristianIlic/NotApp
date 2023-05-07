@@ -1,140 +1,46 @@
 import {
-  Accordion,
-  AccordionButton,
-  AccordionItem,
-  AccordionIcon,
-  AccordionPanel,
-  Box,
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  SimpleGrid,
+  Text,
+  Heading,
   Button,
+  Link,
 } from "@chakra-ui/react";
-import ModalEdit from "./ModalEdit";
-import { initializeApp } from "firebase/app";
-import {
-  getFirestore,
-  collection,
-  query,
-  where,
-  onSnapshot,
-  orderBy,
-} from "firebase/firestore";
-import firebaseConfig from "../firebase-config";
-
-initializeApp(firebaseConfig);
-
-//iniciar servicios
-const db = getFirestore();
-
-//referencia a la coleccion
-const colRef = collection(db, "alumnos");
-
-// queries
-
-const q = query(colRef, orderBy("apellidos"));
-
-//data de la coleccion en tiempo real
-
-const alumnos = [];
-
-onSnapshot(q, (snapshot) => {
-  snapshot.docs.forEach((doc) => {
-    alumnos.push({ ...doc.data(), id: doc.id });
-  });
-  console.log(alumnos);
-});
+import { useFirestore, useFirestoreCollectionData } from "reactfire";
+import { collection} from "firebase/firestore";
 
 const Teacher = () => {
+  const profesoresRef = collection(useFirestore(), "profesores");
+
+  // subscribe to a document for realtime updates. just one line!
+  const { status, data } = useFirestoreCollectionData(profesoresRef);
+  if (status === "loading") {
+    return <p>Cargando...</p>;
+  }
+console.log('profesores',data)
   return (
     <div>
-      <div className="body-teacher">
-        <h2>Notas</h2>
-        <div className="accordion">
-          <Accordion allowToggle>
-            <AccordionItem border="none">
-              <h3>
-                <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left">
-                    <p>Curso 1</p>
-                  </Box>
-                  <AccordionIcon color="white" />
-                </AccordionButton>
-              </h3>
-              <AccordionPanel pb={4}>
-                {alumnos}
-
-                <ModalEdit buttonText="Editar" modalTitle="Editar"></ModalEdit>
-                <Button
-                  size="sm"
-                  bg="red"
-                  color="white"
-                  margin="15px"
-                  _hover={{
-                    background: "primary",
-                  }}
-                >
-                  Eliminar
-                </Button>
-              </AccordionPanel>
-            </AccordionItem>
-
-            <AccordionItem border="none">
-              <h3>
-                <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left">
-                    <p>Curso 2</p>
-                  </Box>
-                  <AccordionIcon color="white" />
-                </AccordionButton>
-              </h3>
-              <AccordionPanel pb={4}>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </AccordionPanel>
-            </AccordionItem>
-
-            <AccordionItem border="none">
-              <h3>
-                <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left">
-                    <p>Curso 3</p>
-                  </Box>
-                  <AccordionIcon color="white" />
-                </AccordionButton>
-              </h3>
-              <AccordionPanel pb={4}>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </AccordionPanel>
-            </AccordionItem>
-
-            <AccordionItem border="none">
-              <h3>
-                <AccordionButton>
-                  <Box as="span" flex="1" textAlign="left">
-                    <p>Curso 4</p>
-                  </Box>
-                  <AccordionIcon color="white" />
-                </AccordionButton>
-              </h3>
-              <AccordionPanel pb={4}>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                  laboris nisi ut aliquip ex ea commodo consequat.
-                </p>
-              </AccordionPanel>
-            </AccordionItem>
-          </Accordion>
-        </div>
-      </div>
+      <SimpleGrid spacing={4} minChildWidth="300px">
+        {data.map((profesor) => {
+          <Link style={{ textDecoration: "none" }} href="/info-curso">
+            <Card>
+              <CardHeader>
+                <Heading size="md">Curso 1</Heading>
+              </CardHeader>
+              <CardBody>
+                <Text>
+                  Profesor: <p>{profesor.nombres}</p>
+                </Text>
+                <Text>Curso: 1 Medio A</Text>
+              </CardBody>
+              <CardFooter color="white">Alumnos: pendiente</CardFooter>
+            </Card>
+          </Link>;
+        })}
+      </SimpleGrid>
     </div>
   );
 };
