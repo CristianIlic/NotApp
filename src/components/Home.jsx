@@ -38,18 +38,6 @@ const Home = () => {
       <p>Para un efectivo monitoreo de tu rendimiento académico</p>
 
       <Stack direction="row" spacing={10} justify="center">
-        <Link href="/signup">
-          <Button
-            leftIcon={<AiOutlineLogin />}
-            bg="secondary"
-            color="white"
-            _hover={{
-              background: "primary",
-            }}
-          >
-            Registrarse
-          </Button>
-        </Link>
         <Link href="/login">
           <Button
             leftIcon={<AiOutlineLogin />}

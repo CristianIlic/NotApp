@@ -5,6 +5,7 @@ import Login from "./components/Login";
 import Teacher from "./components/Teacher";
 import InfoCurso from "./components/InfoCurso";
 import Calendario from "./components/Calendario";
+import Admini from "./components/Admini";
 import "./styles/App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -39,6 +40,7 @@ function App() {
                 <Route path="/teacher" Component={Teacher} />
                 <Route path="/info-curso" Component={InfoCurso} />
                 <Route path="/calendario" Component={Calendario} />
+                <Route path="/admini" Component={Admini} />
               </Routes>
             </div>
           </Router>
