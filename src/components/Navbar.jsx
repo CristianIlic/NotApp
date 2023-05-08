@@ -18,6 +18,7 @@ const Navbar = () => {
       </a>
       <div className="links">
         <a href="/teacher">Profesor</a>
+        <a href="/admini">Admin</a>
         <a onClick={logout}>Cerrar sesión</a>
       </div>
     </nav>
