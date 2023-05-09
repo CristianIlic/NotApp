@@ -6,7 +6,6 @@ import {
   SimpleGrid,
   Text,
   Heading,
-  Button,
   Link,
 } from "@chakra-ui/react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
@@ -20,26 +19,26 @@ const Teacher = () => {
   if (status === "loading") {
     return <p>Cargando...</p>;
   }
-console.log('profesores',data)
+  console.log('profesores',data)
   return (
     <div>
       <SimpleGrid spacing={4} minChildWidth="300px">
-        {data.map((profesor) => {
-          <Link style={{ textDecoration: "none" }} href="/info-curso">
-            <Card>
-              <CardHeader>
-                <Heading size="md">Curso 1</Heading>
-              </CardHeader>
-              <CardBody>
-                <Text>
-                  Profesor: <p>{profesor.nombres}</p>
-                </Text>
-                <Text>Curso: 1 Medio A</Text>
-              </CardBody>
-              <CardFooter color="white">Alumnos: pendiente</CardFooter>
-            </Card>
-          </Link>;
-        })}
+        {data.map((profesor, index) => (
+    <Link key={index} style={{ textDecoration: "none" }} href="/InfoCurso">
+      <Card>
+        <CardHeader>
+          <Heading size="md">Curso 1</Heading>
+        </CardHeader>
+        <CardBody>
+          <Text>
+            Profesor: <p>{profesor.nombres}{profesor.apellidos}</p>
+          </Text>
+          <Text>Curso: {profesor.curso} </Text>
+        </CardBody>
+        <CardFooter color="white">Alumnos: pendiente</CardFooter>
+      </Card>
+    </Link>
+  ))}
       </SimpleGrid>
     </div>
   );
