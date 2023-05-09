@@ -17,8 +17,8 @@ const Navbar = () => {
       </div>
       </a>
       <div className="links">
-        <a href="/">Home</a>
         <a href="/teacher">Profesor</a>
+        <a href="/admini">Admin</a>
         <a onClick={logout}>Cerrar sesión</a>
       </div>
     </nav>

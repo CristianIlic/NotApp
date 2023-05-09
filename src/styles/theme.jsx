@@ -1,5 +1,6 @@
 import { extendTheme } from '@chakra-ui/react'
 import { accordionTheme } from '../components/Accordion'
+import { cardTheme } from '../components/Card'
 
 
 const theme = extendTheme({
@@ -9,11 +10,16 @@ const theme = extendTheme({
   },
   colors: {
     background: '#2F0F5D',
+    backgroundText: '#19092e',
     primary: '#0EA293',
     secondary: '#27E1C1',
     pastel: '#F5F3C1'
   },
-  components: { Accordion: accordionTheme},
+  components: { 
+    Accordion: accordionTheme,
+    Card: cardTheme,
+      
+  }
 })
 
 export default theme
