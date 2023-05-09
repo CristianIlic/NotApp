@@ -184,7 +184,6 @@ const SignUp = () => {
         <FormControl>
           <FormLabel fontWeight="bold">Tipo de usuario</FormLabel>
           <Select {...register("tipo_usuario")} borderWidth="3px">
-            <option value="Alumno">Alumno</option>
             <option value="Profesor">Profesor</option>
             <option value="Apoderado">Apoderado</option>
           </Select>
