@@ -11,6 +11,8 @@ import {
 } from "@chakra-ui/react";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { doc, setDoc, getFirestore } from "firebase/firestore";
+
 import { auth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -26,6 +28,7 @@ const SignUp = () => {
   } = useForm();
 
   const navigate = useNavigate();
+  const db = getFirestore();
 
   async function onSubmit(data) {
     console.log(data);
@@ -37,7 +40,36 @@ const SignUp = () => {
       );
 
       if (result.user) {
+        const uid = result.user.uid;
         await updateProfile(result.user, { displayName: data.nombres });
+
+        
+        if (data.tipo_usuario == "Alumno") {
+          await setDoc(doc(db, "alumnos", uid), {
+            nombres: data.nombres,
+            apellidos: data.apellidos,
+            rut: data.rut,
+            genero: data.genero
+          });
+        }
+        
+        if (data.tipo_usuario == "Profesor") {
+          await setDoc(doc(db, "profesores", uid), {
+            nombres: data.nombres,
+            apellidos: data.apellidos,
+            rut: data.rut,
+            genero: data.genero
+          });
+        }
+        
+        if (data.tipo_usuario == "Apoderado") {
+          await setDoc(doc(db, "apoderados", uid), {
+            nombres: data.nombres,
+            apellidos: data.apellidos,
+            rut: data.rut,
+            genero: data.genero
+          });
+        }
 
         navigate("/");
 
@@ -121,9 +153,15 @@ const SignUp = () => {
           <FormLabel fontWeight="bold">Género</FormLabel>
           <RadioGroup defaultValue="Hombre">
             <HStack spacing="20px">
-              <Radio value="Hombre">Hombre</Radio>
-              <Radio value="Mujer">Mujer</Radio>
-              <Radio value="Otro">Otro</Radio>
+              <Radio name="genero" value="Hombre" {...register("genero")}>
+              Hombre
+              </Radio>
+              <Radio name="genero" value="Mujer" {...register("genero")}>
+              Mujer
+              </Radio>
+              <Radio name="genero" value="Otro" {...register("genero")}>
+              Otro
+              </Radio>
             </HStack>
           </RadioGroup>
         </FormControl>
@@ -184,6 +222,7 @@ const SignUp = () => {
         <FormControl>
           <FormLabel fontWeight="bold">Tipo de usuario</FormLabel>
           <Select {...register("tipo_usuario")} borderWidth="3px">
+            <option value="Alumno">Alumno</option>
             <option value="Profesor">Profesor</option>
             <option value="Apoderado">Apoderado</option>
           </Select>

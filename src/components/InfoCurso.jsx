@@ -63,34 +63,34 @@ const InfoCurso = () => {
                 <Td>{index + 1}</Td>
                 <Td>{`${alumno.apellidos} ${alumno.nombres}`}</Td>
                 <Td>
-                  <div></div>
+                  <div className="nota1"></div>
                 </Td>
                 <Td>
-                  <div></div>
+                  <div className="nota2"></div>
                 </Td>
                 <Td>
-                  <div></div>
+                  <div className="nota3"></div>
                 </Td>
                 <Td>
-                  <div></div>
+                  <div className="nota4"></div>
                 </Td>
                 <Td>
-                  <div></div>
+                  <div className="nota5"></div>
                 </Td>
                 <Td>
-                  <div></div>
+                  <div className="nota6"></div>
                 </Td>
                 <Td>
-                  <div></div>
+                  <div className="nota7"></div>
                 </Td>
                 <Td>
-                  <div></div>
+                  <div className="nota8"></div>
                 </Td>
                 <Td>
-                  <div></div>
+                  <div className="nota9"></div>
                 </Td>
                 <Td>
-                  <div></div>
+                  <div className="nota10"></div>
                 </Td>
               </Tr>
             ))}

@@ -25,18 +25,15 @@ const Teacher = () => {
     <div>
       <SimpleGrid spacing={4} minChildWidth="300px">
         {data.map((profesor) => (
-          <Link style={{ textDecoration: "none" }} href="/InfoCurso">
-            <Card>
+          <Link key={profesor.rut} style={{ textDecoration: "none" }} href="/InfoCurso">
+            <Card maxW='500px'>
               <CardHeader>
                 <Image src="/banner.jpg" alt="Foto Libros" borderRadius='8px' width='100%' height='100px'/>
               </CardHeader>
               <CardBody>
               <Text>Curso: {profesor.curso} </Text>
                 <Text>
-                  Profesor:
-                  <p>
-                    {`${profesor.nombres} ${profesor.apellidos}`}
-                  </p>
+                  Profesor: {`${profesor.nombres} ${profesor.apellidos}`}
                 </Text>                
               </CardBody>
               <CardFooter color="white">Alumnos: pendiente</CardFooter>
