@@ -15,23 +15,27 @@ import {
 import { AiOutlineEdit } from "react-icons/ai";
 import { useState } from "react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
-import { collection, orderBy, query } from "firebase/firestore";
+import { collection, orderBy, query, where, getDocs } from "firebase/firestore";
 
 const InfoCurso = () => {
   const [edit, setEdit] = useState(true);
 
   const handleEdit = () => {
-    setEdit(false)
-    if (edit == false){
-      setEdit(true)
-    };
+    setEdit(false);
+    if (edit == false) {
+      setEdit(true);
+    }
   };
 
   const alumnosRef = collection(useFirestore(), "alumnos");
-  const orderedAlumnosRef = query(alumnosRef, orderBy("apellidos"));
+  const orderedAlumnosRef = query(
+    alumnosRef,
+    orderBy("apellidos"),
+    where("curso", "==", "4 Medio A")
+  );
 
   // subscribe to a document for realtime updates. just one line!
-  const { status, data } = useFirestoreCollectionData(orderedAlumnosRef);
+  const { status, data, error } = useFirestoreCollectionData(orderedAlumnosRef);
   if (status === "loading") {
     return <p>Cargando...</p>;
   }
@@ -98,157 +102,153 @@ const InfoCurso = () => {
         </Table>
       </TableContainer>
 
-      <Button
-      mt='30px'
-      bg='blue.400'
-      color='white'
-      onClick={handleEdit}>Editar</Button>
+      <Button mt="30px" bg="blue.400" color="white" onClick={handleEdit}>
+        Editar
+      </Button>
     </div>
   ) : (
     <div>
-    <TableContainer bgColor="white" borderRadius="8px">
-      <Table variant="striped" colorScheme="purple">
-        <Thead>
-          <Tr>
-            <Th>N°</Th>
-            <Th>Alumno</Th>
-            <Th>
-              Nota 1 <AiOutlineEdit size={"20px"} />
-            </Th>
-            <Th>
-              Nota 2 <AiOutlineEdit size={"20px"} />
-            </Th>
-            <Th>
-              Nota 3 <AiOutlineEdit size={"20px"} />
-            </Th>
-            <Th>
-              Nota 4 <AiOutlineEdit size={"20px"} />
-            </Th>
-            <Th>
-              Nota 5 <AiOutlineEdit size={"20px"} />
-            </Th>
-            <Th>
-              Nota 6 <AiOutlineEdit size={"20px"} />
-            </Th>
-            <Th>
-              Nota 7 <AiOutlineEdit size={"20px"} />
-            </Th>
-            <Th>
-              Nota 8 <AiOutlineEdit size={"20px"} />
-            </Th>
-            <Th>
-              Nota 9 <AiOutlineEdit size={"20px"} />
-            </Th>
-            <Th>
-              Nota 10 <AiOutlineEdit size={"20px"} />
-            </Th>
-          </Tr>
-        </Thead>
-        <Tbody>
-          {data.map((alumno, index) => (
-            <Tr key={alumno.rut}>
-              <Td>{index + 1}</Td>
-              <Td>{`${alumno.apellidos} ${alumno.nombres}`}</Td>
-              <Td>
-                <NumberInput>
-                  <NumberInputField
-                    padding="0px"
-                    w="35px"
-                    bgColor="white"
-                  ></NumberInputField>
-                </NumberInput>
-              </Td>
-              <Td>
-                <NumberInput>
-                  <NumberInputField
-                    padding="0px"
-                    w="35px"
-                    bgColor="white"
-                  ></NumberInputField>
-                </NumberInput>
-              </Td>
-              <Td>
-                <NumberInput>
-                  <NumberInputField
-                    padding="0px"
-                    w="35px"
-                    bgColor="white"
-                  ></NumberInputField>
-                </NumberInput>
-              </Td>
-              <Td>
-                <NumberInput>
-                  <NumberInputField
-                    padding="0px"
-                    w="35px"
-                    bgColor="white"
-                  ></NumberInputField>
-                </NumberInput>
-              </Td>
-              <Td>
-                <NumberInput>
-                  <NumberInputField
-                    padding="0px"
-                    w="35px"
-                    bgColor="white"
-                  ></NumberInputField>
-                </NumberInput>
-              </Td>
-              <Td>
-                <NumberInput>
-                  <NumberInputField
-                    padding="0px"
-                    w="35px"
-                    bgColor="white"
-                  ></NumberInputField>
-                </NumberInput>
-              </Td>
-              <Td>
-                <NumberInput>
-                  <NumberInputField
-                    padding="0px"
-                    w="35px"
-                    bgColor="white"
-                  ></NumberInputField>
-                </NumberInput>
-              </Td>
-              <Td>
-                <NumberInput>
-                  <NumberInputField
-                    padding="0px"
-                    w="35px"
-                    bgColor="white"
-                  ></NumberInputField>
-                </NumberInput>
-              </Td>
-              <Td>
-                <NumberInput>
-                  <NumberInputField
-                    padding="0px"
-                    w="35px"
-                    bgColor="white"
-                  ></NumberInputField>
-                </NumberInput>
-              </Td>
-              <Td>
-                <NumberInput>
-                  <NumberInputField
-                    padding="0px"
-                    w="35px"
-                    bgColor="white"
-                  ></NumberInputField>
-                </NumberInput>
-              </Td>
+      <TableContainer bgColor="white" borderRadius="8px">
+        <Table variant="striped" colorScheme="purple">
+          <Thead>
+            <Tr>
+              <Th>N°</Th>
+              <Th>Alumno</Th>
+              <Th>
+                Nota 1 <AiOutlineEdit size={"20px"} />
+              </Th>
+              <Th>
+                Nota 2 <AiOutlineEdit size={"20px"} />
+              </Th>
+              <Th>
+                Nota 3 <AiOutlineEdit size={"20px"} />
+              </Th>
+              <Th>
+                Nota 4 <AiOutlineEdit size={"20px"} />
+              </Th>
+              <Th>
+                Nota 5 <AiOutlineEdit size={"20px"} />
+              </Th>
+              <Th>
+                Nota 6 <AiOutlineEdit size={"20px"} />
+              </Th>
+              <Th>
+                Nota 7 <AiOutlineEdit size={"20px"} />
+              </Th>
+              <Th>
+                Nota 8 <AiOutlineEdit size={"20px"} />
+              </Th>
+              <Th>
+                Nota 9 <AiOutlineEdit size={"20px"} />
+              </Th>
+              <Th>
+                Nota 10 <AiOutlineEdit size={"20px"} />
+              </Th>
             </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
-    <Button
-    mt='30px'
-    bg='green.400'
-    color='white'
-    onClick={handleEdit}>Guardar</Button>
+          </Thead>
+          <Tbody>
+            {data.map((alumno, index) => (
+              <Tr key={alumno.rut}>
+                <Td>{index + 1}</Td>
+                <Td>{`${alumno.apellidos} ${alumno.nombres}`}</Td>
+                <Td>
+                  <NumberInput>
+                    <NumberInputField
+                      padding="0px"
+                      w="35px"
+                      bgColor="white"
+                    ></NumberInputField>
+                  </NumberInput>
+                </Td>
+                <Td>
+                  <NumberInput>
+                    <NumberInputField
+                      padding="0px"
+                      w="35px"
+                      bgColor="white"
+                    ></NumberInputField>
+                  </NumberInput>
+                </Td>
+                <Td>
+                  <NumberInput>
+                    <NumberInputField
+                      padding="0px"
+                      w="35px"
+                      bgColor="white"
+                    ></NumberInputField>
+                  </NumberInput>
+                </Td>
+                <Td>
+                  <NumberInput>
+                    <NumberInputField
+                      padding="0px"
+                      w="35px"
+                      bgColor="white"
+                    ></NumberInputField>
+                  </NumberInput>
+                </Td>
+                <Td>
+                  <NumberInput>
+                    <NumberInputField
+                      padding="0px"
+                      w="35px"
+                      bgColor="white"
+                    ></NumberInputField>
+                  </NumberInput>
+                </Td>
+                <Td>
+                  <NumberInput>
+                    <NumberInputField
+                      padding="0px"
+                      w="35px"
+                      bgColor="white"
+                    ></NumberInputField>
+                  </NumberInput>
+                </Td>
+                <Td>
+                  <NumberInput>
+                    <NumberInputField
+                      padding="0px"
+                      w="35px"
+                      bgColor="white"
+                    ></NumberInputField>
+                  </NumberInput>
+                </Td>
+                <Td>
+                  <NumberInput>
+                    <NumberInputField
+                      padding="0px"
+                      w="35px"
+                      bgColor="white"
+                    ></NumberInputField>
+                  </NumberInput>
+                </Td>
+                <Td>
+                  <NumberInput>
+                    <NumberInputField
+                      padding="0px"
+                      w="35px"
+                      bgColor="white"
+                    ></NumberInputField>
+                  </NumberInput>
+                </Td>
+                <Td>
+                  <NumberInput>
+                    <NumberInputField
+                      padding="0px"
+                      w="35px"
+                      bgColor="white"
+                    ></NumberInputField>
+                  </NumberInput>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      </TableContainer>
+      <Button mt="30px" bg="green.400" color="white" onClick={handleEdit}>
+        Guardar
+      </Button>
     </div>
   );
 };

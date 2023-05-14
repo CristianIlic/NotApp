@@ -43,31 +43,32 @@ const SignUp = () => {
         const uid = result.user.uid;
         await updateProfile(result.user, { displayName: data.nombres });
 
-        
         if (data.tipo_usuario == "Alumno") {
-          await setDoc(doc(db, "alumnos", uid), {
+          await setDoc(doc(db, "alumnos", data.rut), {
             nombres: data.nombres,
             apellidos: data.apellidos,
             rut: data.rut,
-            genero: data.genero
+            genero: data.genero,
           });
         }
-        
+
         if (data.tipo_usuario == "Profesor") {
           await setDoc(doc(db, "profesores", uid), {
             nombres: data.nombres,
             apellidos: data.apellidos,
             rut: data.rut,
-            genero: data.genero
+            genero: data.genero,
           });
+
+          navigate("/teacher");
         }
-        
+
         if (data.tipo_usuario == "Apoderado") {
           await setDoc(doc(db, "apoderados", uid), {
             nombres: data.nombres,
             apellidos: data.apellidos,
             rut: data.rut,
-            genero: data.genero
+            genero: data.genero,
           });
         }
 
@@ -154,13 +155,13 @@ const SignUp = () => {
           <RadioGroup defaultValue="Hombre">
             <HStack spacing="20px">
               <Radio name="genero" value="Hombre" {...register("genero")}>
-              Hombre
+                Hombre
               </Radio>
               <Radio name="genero" value="Mujer" {...register("genero")}>
-              Mujer
+                Mujer
               </Radio>
               <Radio name="genero" value="Otro" {...register("genero")}>
-              Otro
+                Otro
               </Radio>
             </HStack>
           </RadioGroup>

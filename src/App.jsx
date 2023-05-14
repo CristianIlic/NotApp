@@ -2,9 +2,9 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import SignUp from "./components/SignUp";
 import Login from "./components/Login";
-import Teacher from "./components/Teacher";
+import Profesor from "./components/Profesor";
 import InfoCurso from "./components/InfoCurso";
-import Calendario from './components/Calendario';
+import Calendario from "./components/Calendario";
 import Admini from "./components/Admini";
 import "./styles/App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
@@ -12,7 +12,12 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { auth } from "./AuthContext";
 import { getDatabase } from "firebase/database"; // Firebase v9+
 import { getFirestore } from "firebase/firestore";
-import {AuthProvider,DatabaseProvider,FirestoreProvider,useFirebaseApp,} from "reactfire";
+import {
+  AuthProvider,
+  DatabaseProvider,
+  FirestoreProvider,
+  useFirebaseApp,
+} from "reactfire";
 
 function App() {
   const app = useFirebaseApp(); // a parent element contains a `FirebaseAppProvider`
@@ -32,7 +37,7 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/SignUp" element={<SignUp />} />
                 <Route path="/Login" element={<Login />} />
-                <Route path="/Teacher" element={<Teacher />} />
+                <Route path="/Profesor" element={<Profesor />} />
                 <Route path="/InfoCurso" element={<InfoCurso />} />
                 <Route path="/Calendario" element={<Calendario />} />
                 <Route path="/Admini" element={<Admini />} />

@@ -11,13 +11,13 @@ const Navbar = () => {
   return (
     <nav className="navbar">
       <a href="/">
-      <div className="navbar-izq">
-        <img src={notAppLogo} alt="NotApp logo" className="logo-navbar" />
-        <h2>NotApp</h2>
-      </div>
+        <div className="navbar-izq">
+          <img src={notAppLogo} alt="NotApp logo" className="logo-navbar" />
+          <h2>NotApp</h2>
+        </div>
       </a>
       <div className="links">
-        <a href="/teacher">Profesor</a>
+        <a href="/profesor">Profesor</a>
         <a href="/admini">Admin</a>
         <a onClick={logout}>Cerrar sesión</a>
       </div>
