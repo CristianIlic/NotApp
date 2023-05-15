@@ -4,7 +4,7 @@ import SignUp from "./components/SignUp";
 import Login from "./components/Login";
 import Profesor from "./components/Profesor";
 import InfoCurso from "./components/InfoCurso";
-import Calendario from "./components/Calendario";
+import Calendario from "./components/Calendario/Calendario";
 import Admini from "./components/Admini";
 import "./styles/App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";

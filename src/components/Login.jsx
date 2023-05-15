@@ -16,6 +16,7 @@ import {
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react";
+import ModalAddEvent from "./ModalAddEvent";
 
 const Login = () => {
   const {
@@ -30,8 +31,8 @@ const Login = () => {
     try {
       const result = await signInWithEmailAndPassword(
         auth,
-        document.querySelector('.email').value ,
-        document.querySelector('.contrasena').value
+        document.querySelector(".email").value,
+        document.querySelector(".contrasena").value
       );
       if (result.user) {
         navigate("/");
@@ -44,7 +45,7 @@ const Login = () => {
       console.log(error);
       alert(error);
     }
-  }
+  };
 
   const currentUser = useContext(AuthContext);
 
@@ -52,49 +53,49 @@ const Login = () => {
     return <Navigate to="/" />;
   }
   return (
-        <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-          <Stack align={"center"}>
-            <Heading fontSize={"4xl"}>Inicia sesión ✌</Heading>
-          </Stack>
-          <Box
-            rounded={"lg"}
-            bg={useColorModeValue("white", "gray.700")}
-            boxShadow={"lg"}
-            p={8}
-          >
-            <Stack spacing={4}>
-              <FormControl id="email">
-                <FormLabel>Correo electrónico</FormLabel>
-                <Input type="email"  className="email"/>
-              </FormControl>
-              <FormControl id="contrasena">
-                <FormLabel>Contraseña</FormLabel>
-                <Input type="password" className="contrasena" />
-              </FormControl>
-              <Stack spacing={10}>
-                <Stack
-                  direction={{ base: "column", sm: "row" }}
-                  align={"start"}
-                  justify={"space-between"}
-                >
-                  <Checkbox>Recordarme</Checkbox>
-                  <Link color={"blue.400"}>Olvidaste tu contraseña?</Link>
-                </Stack>
-                <Button
-                  onClick={() => submitHandler()}
-                  bg={"secondary"}
-                  color={"white"}
-                  isLoading={isSubmitting}
-                  _hover={{
-                    bg: "primary",
-                  }}
-                >
-                  Entrar
-                </Button>
-              </Stack>
+    <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+      <Stack align={"center"}>
+        <Heading fontSize={"4xl"}>Inicia sesión ✌</Heading>
+      </Stack>
+      <Box
+        rounded={"lg"}
+        bg={useColorModeValue("white", "gray.700")}
+        boxShadow={"lg"}
+        p={8}
+      >
+        <Stack spacing={4}>
+          <FormControl id="email">
+            <FormLabel>Correo electrónico</FormLabel>
+            <Input type="email" className="email" />
+          </FormControl>
+          <FormControl id="contrasena">
+            <FormLabel>Contraseña</FormLabel>
+            <Input type="password" className="contrasena" />
+          </FormControl>
+          <Stack spacing={10}>
+            <Stack
+              direction={{ base: "column", sm: "row" }}
+              align={"start"}
+              justify={"space-between"}
+            >
+              <Checkbox>Recordarme</Checkbox>
+              <Link color={"blue.400"}>Olvidaste tu contraseña?</Link>
             </Stack>
-          </Box>
+            <Button
+              onClick={() => <ModalAddEvent />}
+              bg={"secondary"}
+              color={"white"}
+              isLoading={isSubmitting}
+              _hover={{
+                bg: "primary",
+              }}
+            >
+              Entrar
+            </Button>
+          </Stack>
         </Stack>
+      </Box>
+    </Stack>
   );
 };
 

@@ -11,11 +11,13 @@ import {
   NumberInput,
   NumberInputField,
   Button,
+  Link,
 } from "@chakra-ui/react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { useState } from "react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import { collection, orderBy, query, where, getDocs } from "firebase/firestore";
+import { ArrowBackIcon } from "@chakra-ui/icons";
 
 const InfoCurso = () => {
   const [edit, setEdit] = useState(true);
@@ -43,6 +45,19 @@ const InfoCurso = () => {
   console.log("alumnos", data);
   return edit ? (
     <div>
+      <Link href="/profesor">
+        <Button
+          size="lg"
+          bg="secondary"
+          color="white"
+          mb="5px"
+          display="flex"
+          _hover={{ background: "primary" }}
+        >
+          <ArrowBackIcon />
+        </Button>
+      </Link>
+
       <TableContainer bgColor="white" borderRadius="8px">
         <Table variant="striped" colorScheme="purple">
           <Thead>

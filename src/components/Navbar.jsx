@@ -1,6 +1,7 @@
 import { signOut } from "firebase/auth";
 import { auth } from "../AuthContext";
 import notAppLogo from ".././assets/logonotapp.png";
+import { Button, Link } from "@chakra-ui/react";
 
 const Navbar = () => {
   const logout = async () => {
@@ -17,9 +18,53 @@ const Navbar = () => {
         </div>
       </a>
       <div className="links">
-        <a href="/profesor">Profesor</a>
-        <a href="/admini">Admin</a>
-        <a onClick={logout}>Cerrar sesión</a>
+        <Link m="3px" href="/profesor">
+          <Button
+            m="3px"
+            bg="secondary"
+            color="white"
+            _hover={{
+              background: "primary",
+            }}
+          >
+            Profesor
+          </Button>
+        </Link>
+        <Link m="3px" href="/admini">
+          <Button
+            m="3px"
+            bg="secondary"
+            color="white"
+            _hover={{
+              background: "primary",
+            }}
+          >
+            Admin
+          </Button>
+        </Link>
+        <Link m="3px" href="/calendario">
+          <Button
+            m="3px"
+            bg="secondary"
+            color="white"
+            _hover={{
+              background: "primary",
+            }}
+          >
+            Calendario
+          </Button>
+        </Link>
+        <Button
+          m="3px"
+          bg="secondary"
+          color="white"
+          _hover={{
+            background: "primary",
+          }}
+          onClick={logout}
+        >
+          Cerrar sesión
+        </Button>
       </div>
     </nav>
   );

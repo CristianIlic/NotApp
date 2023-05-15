@@ -8,11 +8,13 @@ import {
   RadioGroup,
   Radio,
   HStack,
+  Link,
 } from "@chakra-ui/react";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { doc, setDoc, getFirestore } from "firebase/firestore";
 
+import { ArrowBackIcon } from "@chakra-ui/icons";
 import { auth } from "../AuthContext";
 import { useNavigate } from "react-router-dom";
 
@@ -97,6 +99,18 @@ const SignUp = () => {
   return (
     <div className="form-control">
       <form onSubmit={handleSubmit(onSubmit)}>
+        <Link href="/admini">
+          <Button
+            size="lg"
+            bg="secondary"
+            color="white"
+            mb="5px"
+            display="flex"
+            _hover={{ background: "primary" }}
+          >
+            <ArrowBackIcon />
+          </Button>
+        </Link>
         <FormControl isInvalid={errors.nombres}>
           <HiOutlineUser size="50px" />
           <FormLabel fontWeight="bold">Nombres</FormLabel>
@@ -167,6 +181,14 @@ const SignUp = () => {
           </RadioGroup>
         </FormControl>
 
+        <FormControl>
+          <FormLabel fontWeight="bold">Tipo de usuario</FormLabel>
+          <Select {...register("tipo_usuario")} borderWidth="3px">
+            <option value="Profesor">Profesor</option>
+            <option value="Apoderado">Apoderado</option>
+          </Select>
+        </FormControl>
+
         <FormControl isInvalid={errors.email}>
           <FormLabel fontWeight="bold">Correo electrónico</FormLabel>
           <Input
@@ -218,15 +240,6 @@ const SignUp = () => {
           <FormErrorMessage>
             {errors.confirmaContrasena && errors.confirmaContrasena.message}
           </FormErrorMessage>
-        </FormControl>
-
-        <FormControl>
-          <FormLabel fontWeight="bold">Tipo de usuario</FormLabel>
-          <Select {...register("tipo_usuario")} borderWidth="3px">
-            <option value="Alumno">Alumno</option>
-            <option value="Profesor">Profesor</option>
-            <option value="Apoderado">Apoderado</option>
-          </Select>
         </FormControl>
 
         <Button
