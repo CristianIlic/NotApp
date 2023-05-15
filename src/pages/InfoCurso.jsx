@@ -2,18 +2,15 @@ import {
   Table,
   Thead,
   Tbody,
-  Tfoot,
   Tr,
   Th,
   Td,
-  TableCaption,
   TableContainer,
-  NumberInput,
   Input,
   Button,
+  useToast,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
-import { AiOutlineEdit } from "react-icons/ai";
 import { useState } from "react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import {
@@ -21,26 +18,21 @@ import {
   orderBy,
   query,
   where,
-  getDocs,
-  doc,
-  updateDoc,
   getFirestore,
+  writeBatch,
+  doc,
 } from "firebase/firestore";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 
 import { useForm } from "react-hook-form";
 
 const InfoCurso = () => {
+  const toast = useToast();
   const [edit, setEdit] = useState(false);
   const { id } = useParams();
   const db = getFirestore();
 
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit } = useForm();
 
   const [idCurso, idAsignatura] = id.split("@");
 
@@ -52,24 +44,46 @@ const InfoCurso = () => {
   );
 
   // subscribe to a document for realtime updates. just one line!
-  const {
-    status,
-    data: alumnos,
-    error,
-  } = useFirestoreCollectionData(orderedAlumnosRef);
+  const { status, data: alumnos } =
+    useFirestoreCollectionData(orderedAlumnosRef);
   if (status === "loading") {
     return <p>Cargando...</p>;
   }
 
   const onSubmit = async (data) => {
+    const batch = writeBatch(db);
     const asignaturaFormat = idAsignatura.replaceAll("_", " ");
-    await updateDoc(doc(db, "alumnos", alumnos[0].NO_ID_FIELD), {
-      materias: {
-        [asignaturaFormat]: {
-          notas: Object.values(data),
+
+    alumnos.forEach(({ NO_ID_FIELD }) => {
+      const alumnoRef = doc(db, "alumnos", NO_ID_FIELD);
+      let notas = [];
+
+      Object.keys(data)
+        .filter((key) => key.split("_")[1] === NO_ID_FIELD)
+        .forEach((key) => {
+          notas = [...notas, data[key]];
+        });
+
+      batch.update(alumnoRef, {
+        materias: {
+          [asignaturaFormat]: {
+            notas: notas,
+          },
         },
-      },
+      });
     });
+
+    await batch.commit();
+
+    toast({
+      title: "Notas actualizadas",
+      description: "Las notas se han actualizado correctamente",
+      status: "success",
+      duration: 3000,
+      isClosable: true,
+    });
+
+    setEdit(false);
   };
 
   return (
@@ -87,12 +101,7 @@ const InfoCurso = () => {
         </Button>
       </Link>
 
-      <TableContainer
-        as={"form"}
-        onSubmit={handleSubmit(onSubmit)}
-        bgColor="white"
-        borderRadius="8px"
-      >
+      <TableContainer as={"form"} bgColor="white" borderRadius="8px">
         <Table variant="striped" colorScheme="purple">
           <Thead>
             <Tr>
@@ -125,7 +134,7 @@ const InfoCurso = () => {
                               w="60px"
                               bgColor={"white"}
                               defaultValue={nota}
-                              {...register(`nota_${index + 1}`)}
+                              {...register(`${index + 1}_${NO_ID_FIELD}`)}
                             />
                           </Td>
                         ) : (
@@ -139,17 +148,29 @@ const InfoCurso = () => {
             )}
           </Tbody>
         </Table>
-        <input type="submit" />
       </TableContainer>
 
-      <Button
-        mt="30px"
-        bg="blue.400"
-        color="white"
-        onClick={() => setEdit((e) => !e)}
-      >
-        Editar
-      </Button>
+      {!edit && (
+        <Button
+          mt="30px"
+          bg="blue.400"
+          color="white"
+          onClick={() => setEdit((e) => !e)}
+        >
+          Editar
+        </Button>
+      )}
+
+      {edit && (
+        <Button
+          mt="30px"
+          bg="blue.400"
+          color="white"
+          onClick={() => handleSubmit(onSubmit)()}
+        >
+          Guardar
+        </Button>
+      )}
     </div>
   );
 };
