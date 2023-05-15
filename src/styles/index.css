@@ -27,7 +27,7 @@ h1 {
 h2 {
   font-size: 3em;
   line-height: 1.1;
-  color: white;
+  color: black;
 }
 
 p {
@@ -87,5 +87,13 @@ p {
 .body-profesor.cursos{
   background-color: rgb(245, 242, 242);
   }
+
+.body-admini{
+  background-color: white;
+  height: 500px;
+  width: 50vmin;
+  margin: 0 auto;
+  border-radius: 8px;
+}
 
   

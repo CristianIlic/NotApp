@@ -2,7 +2,7 @@ import notAppLogo from ".././assets/logonotapp.png";
 import { Button, background } from "@chakra-ui/react";
 import { Stack } from "@chakra-ui/react";
 import { AiOutlineUserAdd, AiOutlineLogin } from "react-icons/ai";
-import { Link } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import ".././styles/index.css";
 
 import { useUser, useAuth } from "reactfire";
@@ -26,19 +26,17 @@ const Home = () => {
     setUser(currentUser);
   });
 
-  console.log(user?.email);
+  // console.log(user?.email);
 
   return (
     <div className="home">
       <div className="logo-central">
-        <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">
-          <img src={notAppLogo} className="logo" alt="NotApp logo" />
-        </a>
+        <img src={notAppLogo} className="logo" alt="NotApp logo" />
       </div>
       <p>Para un efectivo monitoreo de tu rendimiento académico</p>
 
       <Stack direction="row" spacing={10} justify="center">
-        <Link href="/login">
+        <Link to="/login">
           <Button
             leftIcon={<AiOutlineLogin />}
             bg="secondary"
@@ -55,14 +53,12 @@ const Home = () => {
       <div className="accordion">
         <Accordion allowToggle>
           <AccordionItem border="none">
-            <h2>
-              <AccordionButton>
-                <Box as="span" flex="1" textAlign="left">
-                  <p>Como funciona?</p>
-                </Box>
-                <AccordionIcon color="white" />
-              </AccordionButton>
-            </h2>
+            <AccordionButton>
+              <Box as="span" flex="1" textAlign="left">
+                <p>Como funciona?</p>
+              </Box>
+              <AccordionIcon color="white" />
+            </AccordionButton>
             <AccordionPanel pb={4}>
               <p>
                 Con esta aplicación tendras la posibilidad de: -Mantener un
@@ -79,14 +75,12 @@ const Home = () => {
           </AccordionItem>
 
           <AccordionItem border="none">
-            <h2>
-              <AccordionButton>
-                <Box as="span" flex="1" textAlign="left">
-                  <p>Nosotros</p>
-                </Box>
-                <AccordionIcon color="white" />
-              </AccordionButton>
-            </h2>
+            <AccordionButton>
+              <Box as="span" flex="1" textAlign="left">
+                <p>Nosotros</p>
+              </Box>
+              <AccordionIcon color="white" />
+            </AccordionButton>
             <AccordionPanel pb={4}>
               <p>Aplicación realizada por:</p>
               <p>
@@ -98,11 +92,6 @@ const Home = () => {
                 {" "}
                 -Marcelo Aguilera, estudiante de 5to semestre Analista
                 Programador Computacional Duoc UC
-              </p>
-              <p>
-                {" "}
-                -Javier Sandoval, estudiante de 5to semestre Analista
-                Programador Computacional Duoc UC.
               </p>
             </AccordionPanel>
           </AccordionItem>

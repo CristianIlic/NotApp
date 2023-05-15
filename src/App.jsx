@@ -1,13 +1,20 @@
 import Navbar from "./components/Navbar";
-import Home from "./components/Home";
-import SignUp from "./components/SignUp";
-import Login from "./components/Login";
-import Profesor from "./components/Profesor";
-import InfoCurso from "./components/InfoCurso";
+import Home from "./pages/Home";
+import SignUp from "./pages/SignUp";
+import Login from "./pages/Login";
+import Profesor from "./pages/Profesor";
+import InfoCurso from "./pages/InfoCurso";
 import Calendario from "./components/Calendario/Calendario";
-import Admini from "./components/Admini";
+import Admini from "./pages/Admini";
 import "./styles/App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import Casa from "./pages/Casa";
+import Products from "./pages/products";
+import Product1 from "./pages/product1";
+import Product2 from "./pages/product2";
+import Product3 from "./pages/product3";
+import DynamicPage from "./pages/DynamicPage";
 
 import { auth } from "./AuthContext";
 import { getDatabase } from "firebase/database"; // Firebase v9+
@@ -35,12 +42,17 @@ function App() {
             <div className="App">
               <Routes>
                 <Route path="/" element={<Home />} />
-                <Route path="/SignUp" element={<SignUp />} />
-                <Route path="/Login" element={<Login />} />
-                <Route path="/Profesor" element={<Profesor />} />
-                <Route path="/InfoCurso" element={<InfoCurso />} />
-                <Route path="/Calendario" element={<Calendario />} />
-                <Route path="/Admini" element={<Admini />} />
+                <Route path="/admini" element={<Admini />} />
+                <Route path="/admini/signup" element={<SignUp />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/calendario" element={<Calendario />} />
+                <Route path="/profesor" element={<Profesor />} />
+                <Route path="/cursos/:id" element={<InfoCurso />} />
+                {/* <Route path="/products" element={<Products />} />
+                <Route path="/products/product1" element={<Product1 />} />
+                <Route path="/products/product2" element={<Product2 />} />
+                <Route path="/products/product3" element={<Product3 />} />
+                <Route path="/products/:id" element={<DynamicPage />} /> */}
               </Routes>
             </div>
           </Router>
