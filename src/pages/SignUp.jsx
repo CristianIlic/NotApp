@@ -8,7 +8,7 @@ import {
   RadioGroup,
   Radio,
   HStack,
-  Link,
+  Text,
 } from "@chakra-ui/react";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -16,9 +16,8 @@ import { doc, setDoc, getFirestore } from "firebase/firestore";
 
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { auth } from "../AuthContext";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-import { HiOutlineUser } from "react-icons/hi";
 import { useForm } from "react-hook-form";
 
 const SignUp = () => {
@@ -44,15 +43,6 @@ const SignUp = () => {
       if (result.user) {
         const uid = result.user.uid;
         await updateProfile(result.user, { displayName: data.nombres });
-
-        if (data.tipo_usuario == "Alumno") {
-          await setDoc(doc(db, "alumnos", data.rut), {
-            nombres: data.nombres,
-            apellidos: data.apellidos,
-            rut: data.rut,
-            genero: data.genero,
-          });
-        }
 
         if (data.tipo_usuario == "Profesor") {
           await setDoc(doc(db, "profesores", uid), {
@@ -99,9 +89,12 @@ const SignUp = () => {
   return (
     <div className="form-control">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Link href="/admini">
+        <Text color="black" fontSize="30px">
+          Registro
+        </Text>
+        <Link to="/admini">
           <Button
-            size="lg"
+            size="md"
             bg="secondary"
             color="white"
             mb="5px"
@@ -112,7 +105,6 @@ const SignUp = () => {
           </Button>
         </Link>
         <FormControl isInvalid={errors.nombres}>
-          <HiOutlineUser size="50px" />
           <FormLabel fontWeight="bold">Nombres</FormLabel>
           <Input
             borderWidth="3px"
@@ -127,7 +119,6 @@ const SignUp = () => {
             {errors.nombres && errors.nombres.message}
           </FormErrorMessage>
         </FormControl>
-
         <FormControl isInvalid={errors.apellidos}>
           <FormLabel fontWeight="bold">Apellidos</FormLabel>
           <Input
@@ -143,7 +134,6 @@ const SignUp = () => {
             {errors.apellidos && errors.apellidos.message}
           </FormErrorMessage>
         </FormControl>
-
         <FormControl isInvalid={errors.rut}>
           <FormLabel fontWeight="bold">RUT</FormLabel>
           <Input
@@ -163,7 +153,6 @@ const SignUp = () => {
             {errors.rut && errors.rut.message}
           </FormErrorMessage>
         </FormControl>
-
         <FormControl>
           <FormLabel fontWeight="bold">Género</FormLabel>
           <RadioGroup defaultValue="Hombre">
@@ -180,7 +169,6 @@ const SignUp = () => {
             </HStack>
           </RadioGroup>
         </FormControl>
-
         <FormControl>
           <FormLabel fontWeight="bold">Tipo de usuario</FormLabel>
           <Select {...register("tipo_usuario")} borderWidth="3px">
@@ -188,7 +176,6 @@ const SignUp = () => {
             <option value="Apoderado">Apoderado</option>
           </Select>
         </FormControl>
-
         <FormControl isInvalid={errors.email}>
           <FormLabel fontWeight="bold">Correo electrónico</FormLabel>
           <Input
@@ -203,7 +190,6 @@ const SignUp = () => {
             {errors.email && errors.email.message}
           </FormErrorMessage>
         </FormControl>
-
         <FormControl isInvalid={errors.contrasena}>
           <FormLabel fontWeight="bold">Contraseña</FormLabel>
           <Input
@@ -225,7 +211,6 @@ const SignUp = () => {
             {errors.contrasena && errors.contrasena.message}
           </FormErrorMessage>
         </FormControl>
-
         <FormControl isInvalid={errors.confirmaContrasena}>
           <FormLabel>Repite tu contraseña</FormLabel>
           <Input
@@ -241,7 +226,6 @@ const SignUp = () => {
             {errors.confirmaContrasena && errors.confirmaContrasena.message}
           </FormErrorMessage>
         </FormControl>
-
         <Button
           type="submit"
           size="sm"

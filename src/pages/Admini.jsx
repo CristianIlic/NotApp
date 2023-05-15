@@ -1,4 +1,4 @@
-import { Box, Button, Link } from "@chakra-ui/react";
+import { Box, Button, Text } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
 import { initializeApp } from "firebase/app";
 import {
@@ -9,6 +9,7 @@ import {
   onSnapshot,
   orderBy,
 } from "firebase/firestore";
+import { Link } from "react-router-dom";
 import firebaseConfig from "../firebase-config";
 
 initializeApp(firebaseConfig);
@@ -31,15 +32,16 @@ onSnapshot(q, (snapshot) => {
   snapshot.docs.forEach((doc) => {
     alumnos.push({ ...doc.data(), id: doc.id });
   });
-  console.log(alumnos);
 });
 
 const Admini = () => {
   return (
     <div>
       <div className="body-admini">
-        <h1>Administración</h1>
-        <Link href="/signup">
+        <Text color="black" fontSize="30px">
+          Menú Admin
+        </Text>
+        <Link to="/admini/signup">
           <Button
             size="lg"
             bg="secondary"

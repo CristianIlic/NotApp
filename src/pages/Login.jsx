@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { AuthContext, auth } from "../AuthContext";
 import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { useForm } from "react-hook-form";
@@ -11,12 +11,10 @@ import {
   Input,
   Checkbox,
   Stack,
-  Link,
   Button,
   Heading,
   useColorModeValue,
 } from "@chakra-ui/react";
-import ModalAddEvent from "./ModalAddEvent";
 
 const Login = () => {
   const {
@@ -55,7 +53,9 @@ const Login = () => {
   return (
     <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
       <Stack align={"center"}>
-        <Heading fontSize={"4xl"}>Inicia sesión ✌</Heading>
+        <Heading color="white" fontSize={"4xl"}>
+          Inicia sesión ✌
+        </Heading>
       </Stack>
       <Box
         rounded={"lg"}
@@ -82,7 +82,7 @@ const Login = () => {
               <Link color={"blue.400"}>Olvidaste tu contraseña?</Link>
             </Stack>
             <Button
-              onClick={() => <ModalAddEvent />}
+              onClick={() => submitHandler()}
               bg={"secondary"}
               color={"white"}
               isLoading={isSubmitting}
