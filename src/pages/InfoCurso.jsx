@@ -164,7 +164,7 @@ const InfoCurso = () => {
       {edit && (
         <Button
           mt="30px"
-          bg="blue.400"
+          bg="green.400"
           color="white"
           onClick={() => handleSubmit(onSubmit)()}
         >

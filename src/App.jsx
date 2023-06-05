@@ -6,6 +6,7 @@ import Profesor from "./pages/Profesor";
 import InfoCurso from "./pages/InfoCurso";
 import Calendario from "./components/Calendario/Calendario";
 import Admini from "./pages/Admini";
+import Apoderado from "./pages/Apoderado";
 import "./styles/App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -48,6 +49,7 @@ function App() {
                 <Route path="/calendario" element={<Calendario />} />
                 <Route path="/profesor" element={<Profesor />} />
                 <Route path="/cursos/:id" element={<InfoCurso />} />
+                <Route path="/Apoderado" element={<Apoderado />} />
                 {/* <Route path="/products" element={<Products />} />
                 <Route path="/products/product1" element={<Product1 />} />
                 <Route path="/products/product2" element={<Product2 />} />

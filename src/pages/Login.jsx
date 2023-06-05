@@ -14,6 +14,7 @@ import {
   Button,
   Heading,
   useColorModeValue,
+  useToast,
 } from "@chakra-ui/react";
 
 const Login = () => {
@@ -24,6 +25,7 @@ const Login = () => {
     trigger,
     formState: { errors, isSubmitting },
   } = useForm();
+  const toast = useToast();
   const navigate = useNavigate();
   const submitHandler = async () => {
     try {
@@ -35,13 +37,25 @@ const Login = () => {
       if (result.user) {
         navigate("/");
 
-        alert("NotApp: Inició sesión correctamente");
+        toast({
+          title: "Sesión iniciada",
+          description: "Inició sesión correctamente",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
       } else {
         alert("NotApp: No se pudo iniciar sesión");
       }
     } catch (error) {
       console.log(error);
-      alert(error);
+      toast({
+        title: "Error",
+        description: "Usuario y/o contraseña erroneos",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
     }
   };
 

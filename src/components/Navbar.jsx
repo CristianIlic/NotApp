@@ -10,6 +10,7 @@ import { collection } from "firebase/firestore";
 const Navbar = () => {
   const profesoresRef = collection(useFirestore(), "profesores");
   const { data } = useFirestoreCollectionData(profesoresRef);
+  console.log(data);
 
   // console.log("profesores", data);
   const logout = async () => {
@@ -68,6 +69,18 @@ const Navbar = () => {
               }}
             >
               Calendario
+            </Button>
+          </Link>
+          <Link m="5px" to="/apoderado">
+            <Button
+              m="5px"
+              bg="secondary"
+              color="white"
+              _hover={{
+                background: "primary",
+              }}
+            >
+              Apoderado
             </Button>
           </Link>
           <Button
