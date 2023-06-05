@@ -9,6 +9,8 @@ import Admini from "./pages/Admini";
 import Apoderado from "./pages/Apoderado";
 import "./styles/App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { UserProvider } from "./context/UserContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Casa from "./pages/Casa";
 import Products from "./pages/products";
@@ -38,26 +40,63 @@ function App() {
     <FirestoreProvider sdk={firestore}>
       <AuthProvider sdk={auth}>
         <DatabaseProvider sdk={database}>
-          <Router>
-            <Navbar />
-            <div className="App">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/admini" element={<Admini />} />
-                <Route path="/admini/signup" element={<SignUp />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/calendario" element={<Calendario />} />
-                <Route path="/profesor" element={<Profesor />} />
-                <Route path="/cursos/:id" element={<InfoCurso />} />
-                <Route path="/Apoderado" element={<Apoderado />} />
-                {/* <Route path="/products" element={<Products />} />
+          <UserProvider>
+            <Router>
+              <div className="App">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/admini/signup" element={<SignUp />} />
+                  <Route path="/login" element={<Login />} />
+                  <Route
+                    path="/admini"
+                    element={
+                      <ProtectedRoute>
+                        <Admini />
+                      </ProtectedRoute>
+                    }
+                  />
+
+                  <Route
+                    path="/calendario"
+                    element={
+                      <ProtectedRoute>
+                        <Calendario />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/profesor"
+                    element={
+                      <ProtectedRoute>
+                        <Profesor />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/cursos/:id"
+                    element={
+                      <ProtectedRoute>
+                        <InfoCurso />
+                      </ProtectedRoute>
+                    }
+                  />
+                  <Route
+                    path="/Apoderado"
+                    element={
+                      <ProtectedRoute>
+                        <Apoderado />
+                      </ProtectedRoute>
+                    }
+                  />
+                  {/* <Route path="/products" element={<Products />} />
                 <Route path="/products/product1" element={<Product1 />} />
                 <Route path="/products/product2" element={<Product2 />} />
                 <Route path="/products/product3" element={<Product3 />} />
                 <Route path="/products/:id" element={<DynamicPage />} /> */}
-              </Routes>
-            </div>
-          </Router>
+                </Routes>
+              </div>
+            </Router>
+          </UserProvider>
         </DatabaseProvider>
       </AuthProvider>
     </FirestoreProvider>
