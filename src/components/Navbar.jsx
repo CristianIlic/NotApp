@@ -71,7 +71,7 @@ const Navbar = () => {
               Calendario
             </Button>
           </Link>
-          <Link m="5px" to="/apoderado">
+         {/*  <Link m="5px" to="/apoderado">
             <Button
               m="5px"
               bg="secondary"
@@ -82,7 +82,7 @@ const Navbar = () => {
             >
               Apoderado
             </Button>
-          </Link>
+          </Link> */}
           <Button
             m="5px"
             bg="secondary"
