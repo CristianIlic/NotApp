@@ -4,7 +4,7 @@
   --fc-small-font-size: 1em;
 }
 
-.body-calendario{
+.body-calendario {
   background-color: white;
   border-radius: 8px;
   padding: 2px;
@@ -15,11 +15,11 @@
 }
 
 body.chakra-ui-light {
-  background-color: #2F0F5D;
-  height: 100vh;    
+  background-color: #2f0f5d;
+  height: 100vh;
 }
 
-.chakra-stack{
+.chakra-stack {
   padding: 1vh;
 }
 
@@ -74,7 +74,7 @@ p {
   text-align: start;
 }
 
-.form-control{
+.form-control {
   margin: 0 auto;
   background-color: white;
   border-radius: 8px;
@@ -82,22 +82,20 @@ p {
   max-width: 500px;
 }
 
-.body-profesor{
+.body-profesor {
   margin: 0 auto;
   border-radius: 8px;
   padding: 20px;
   max-width: 900px;
 }
-.body-profesor.cursos{
+.body-profesor.cursos {
   background-color: rgb(245, 242, 242);
-  }
+}
 
-.body-admini{
+.body-admini {
   background-color: white;
   height: 500px;
   width: 50vmin;
   margin: 0 auto;
   border-radius: 8px;
 }
-
-  

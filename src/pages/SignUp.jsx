@@ -15,7 +15,13 @@ import {
 } from "@chakra-ui/react";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
-import { doc, setDoc, getFirestore, collection } from "firebase/firestore";
+import {
+  doc,
+  setDoc,
+  getFirestore,
+  collection,
+  collectionGroup,
+} from "firebase/firestore";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 
 import { ArrowBackIcon } from "@chakra-ui/icons";
@@ -23,7 +29,7 @@ import { auth } from "../AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import { useState } from "react";
+import React, { useState } from "react";
 import { MultiSelect } from "chakra-multiselect";
 
 const SignUp = () => {
@@ -36,11 +42,27 @@ const SignUp = () => {
     control,
   } = useForm();
 
-  const cursosRef = collection(useFirestore(), "curso");
-  const { data: cursos } = useFirestoreCollectionData(cursosRef);
+  const idCurso = watch("profesorDe");
 
-  const asignaturasRef = collection(useFirestore(), "asignaturas");
-  const { data: asignaturas } = useFirestoreCollectionData(asignaturasRef);
+  console.log("idCurso", idCurso);
+
+  const [selectedCurso, setSelectedCurso] = useState("1-EMA-23");
+
+  const cursosRef = collection(useFirestore(), "curso");
+
+  const { data: cursos } = useFirestoreCollectionData(cursosRef);
+  console.log("CURSOS", cursos);
+
+  // const asignaturasRef = collectionGroup(useFirestore(), "asignaturas");
+  const asignaturasCursoRef = collection(
+    useFirestore(),
+    "curso",
+    selectedCurso,
+    "asignaturas"
+  );
+  const { data: asignaturas } = useFirestoreCollectionData(asignaturasCursoRef);
+
+  console.log("asignaturas", asignaturas);
 
   const navigate = useNavigate();
   const db = getFirestore();
@@ -58,6 +80,8 @@ const SignUp = () => {
 
     const curso = {};
 
+    console.log("datita", data);
+
     profesorDe.forEach(({ curso: idCurso, asignatura }) => {
       curso[idCurso] = asignatura;
     });
@@ -71,8 +95,6 @@ const SignUp = () => {
       rut,
       curso,
     };
-
-    console.log("data del savmit", formattedData);
     try {
       const result = await createUserWithEmailAndPassword(
         auth,
@@ -102,6 +124,7 @@ const SignUp = () => {
       alert("Creación de usuario fallida");
       alert(error);
     }
+    console.log("data formateada", curso);
   }
 
   return (
@@ -252,6 +275,7 @@ const SignUp = () => {
                   "genero",
                   "email",
                   "contrasena",
+                  "confirmaContrasena",
                 ]);
                 if (result && setSecondStep(true));
               }}
@@ -273,23 +297,33 @@ const SignUp = () => {
               ¿En qué cursos impartirá clases?
             </Text>
 
-            {fields.map((index) => (
+            {fields.map(({ id }, index) => (
               //  <li key={item.id}>
-              //  <input {...register(`test.${index}.firstName`)} />
-              <>
-                <Select
-                  m="20px auto"
-                  placeholder="Seleccione un curso"
-                  {...register(`profesorDe.${index}.curso`)}
-                >
-                  {cursos.map(({ NO_ID_FIELD: idCurso, nombre }) => {
-                    return (
-                      <option key={idCurso} value={idCurso}>
-                        {nombre}
-                      </option>
-                    );
-                  })}
-                </Select>
+              //  <input {...register(test.${index}.firstName)} />
+              <React.Fragment key={id}>
+                <Controller
+                  render={({ field: { onChange, ...rest } }) => (
+                    <Select
+                      onChange={(event) => {
+                        onChange(event.target.value);
+                        setSelectedCurso(event.target.value);
+                      }}
+                      m="20px auto"
+                      placeholder="Seleccione un curso"
+                      {...rest}
+                    >
+                      {cursos.map(({ NO_ID_FIELD: idCurso, nombre }) => {
+                        return (
+                          <option key={idCurso} value={idCurso}>
+                            {nombre}
+                          </option>
+                        );
+                      })}
+                    </Select>
+                  )}
+                  name={`profesorDe.${index}.curso`}
+                  control={control}
+                />
 
                 <Controller
                   render={({ field }) => (
@@ -319,7 +353,7 @@ const SignUp = () => {
                 >
                   Eliminar
                 </Button>
-              </>
+              </React.Fragment>
             ))}
 
             <Button
@@ -341,7 +375,7 @@ const SignUp = () => {
               bg="secondary"
               color="white"
               margin="20px 0 auto"
-              isLoading={isSubmitting}
+              // isLoading={isSubmitting}
               _hover={{
                 background: "primary",
               }}
