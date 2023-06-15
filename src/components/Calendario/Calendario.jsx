@@ -3,6 +3,7 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import getFirestore from "firebase/firestore";
 
 const Calendario = () => {
   const [events, setEvents] = useState([
@@ -35,12 +36,27 @@ const Calendario = () => {
   };
 
   const handleDayCellDidMount = (dayCellInfo) => {
-    const { date } = dayCellInfo;
-    
+  const { date, dayEl } = dayCellInfo;
+
+  if (dayEl) {
     if (selectedDate === date.toISOString().split("T")[0]) {
-      dayCellInfo.dayEl.style.backgroundColor = "#faedcb";
+      dayEl.style.backgroundColor = "#faedcb";
     }
-  };
+  }
+};
+const getEventsData = async () => { 
+  await getFirestore.firestore().collection("Events").get().then((snapshot) => {
+    const events = snapshot.docs.map(event => event.data());
+    setEventsData(events)
+    console.log(events)
+  }).catch((e) => {
+    console.log(e + "fetching error")
+  })
+}
+
+useEffect(() => {
+  getEventsData()
+},[])
 
   return (
     <div className="body-calendario">
