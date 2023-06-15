@@ -3,7 +3,13 @@ import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
-import { collection, doc, setDoc, getFirestore } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  setDoc,
+  getFirestore,
+  addDoc,
+} from "firebase/firestore";
 import { useFirestoreCollectionData, useFirestore } from "reactfire";
 
 const Calendario = () => {
@@ -29,15 +35,14 @@ const Calendario = () => {
   const [selectedDate, setSelectedDate] = useState(null);
 
   const handleDateClick = (info) => {
-    setSelectedDate(info.dateStr);
+    setSelectedDate(new Date(info.dateStr));
   };
 
   async function handleAddEvent(eventName) {
-    console.log("FECHA SELESIONA", selectedDate);
     if (selectedDate) {
-      await setDoc(doc(db, "calendario", "PEITO"), {
-        title: infoCalendario.title,
-        date: infoCalendario.date,
+      await addDoc(collection(db, "calendario"), {
+        title: eventName,
+        date: selectedDate,
       });
 
       setEvents((prevEvents) => [...prevEvents, newEvent]);
@@ -46,11 +51,9 @@ const Calendario = () => {
     }
   }
 
-  const handleDeleteEvent = (info) => {
-    const { event } = info;
-    setEvents((prevEvents) => prevEvents.filter((e) => e !== event));
-    console.log("Deleted event:", event);
-  };
+  async function handleDeleteEvent(info) {
+    await deleteDoc(collection(db, "calendario"), {});
+  }
 
   const handleDayCellDidMount = (dayCellInfo) => {
     const { date, dayEl } = dayCellInfo;
