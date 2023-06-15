@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -11,28 +11,12 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { useFirestoreCollectionData, useFirestore } from "reactfire";
-
 const Calendario = () => {
+  const [selectedDate, setSelectedDate] = useState(null);
   const calendarioRef = collection(useFirestore(), "calendario");
   const { status, data: calendario } =
     useFirestoreCollectionData(calendarioRef);
-  if (status === "loading") {
-    return <p>Cargando...</p>;
-  }
-
-  const infoCalendario = calendario.map(({ title, date }) => {
-    const fechaTransformada = date.toDate();
-    return { title, date: fechaTransformada };
-  });
   const db = getFirestore();
-  // ASI OBTENIAMOS LOS EVENTOS ANTES DE LA CONEXION A FIREBASE, LLAMANDO EVENTS EN EL RETURN DE ABAJO
-
-  // const [events, setEvents] = useState([
-  //   { title: "evento 1", date: "2023-06-19" },
-  //   { title: "evento 2", start: "2023-06-24", end: "2023-06-26" },
-  // ]);
-
-  const [selectedDate, setSelectedDate] = useState(null);
 
   const handleDateClick = (info) => {
     setSelectedDate(new Date(info.dateStr));
@@ -44,10 +28,6 @@ const Calendario = () => {
         title: eventName,
         date: selectedDate,
       });
-
-      setEvents((prevEvents) => [...prevEvents, newEvent]);
-
-      console.log("New event:", newEvent);
     }
   }
 
@@ -62,6 +42,9 @@ const Calendario = () => {
       dayCellInfo.dayEl.style.backgroundColor = "#faedcb";
     }
   };
+  if (status === "loading") {
+    return <p>Cargando...</p>;
+  }
 
   return (
     <div className="body-calendario">
@@ -87,7 +70,10 @@ const Calendario = () => {
           center: "title",
           end: "dayGridMonth,timeGridWeek,timeGridDay addEventButton",
         }}
-        events={infoCalendario}
+        events={calendario.map(({ title, date }) => {
+          const fechaTransformada = date.toDate();
+          return { title, date: fechaTransformada };
+        })}
         height={"90vh"}
       />
     </div>

@@ -36,23 +36,32 @@ onSnapshot(q, (snapshot) => {
 
 const Admini = () => {
   return (
-    <div>
-      <div className="body-admini">
-        <Text color="black" fontSize="30px">
-          Menú Admin
-        </Text>
-        <Link to="/admini/signup">
-          <Button
-            size="lg"
-            bg="secondary"
-            color="white"
-            _hover={{ background: "primary" }}
-          >
-            <EditIcon />
-            Registro
-          </Button>
-        </Link>
-      </div>
+    <div className="body-admini">
+      <Text stroke="whiteAlpha.400" color="black" fontSize="30px">
+        Menú Admin
+      </Text>
+      <Link to="/admini/signup-profesor">
+        <Button
+          size="lg"
+          bg="secondary"
+          color="white"
+          _hover={{ background: "primary" }}
+        >
+          <EditIcon />
+          Registro Profesor
+        </Button>
+      </Link>
+      <Link to="/admini/signup-apoderado">
+        <Button
+          size="lg"
+          bg="secondary"
+          color="white"
+          _hover={{ background: "primary" }}
+        >
+          <EditIcon />
+          Registro Apoderado
+        </Button>
+      </Link>
     </div>
   );
 };

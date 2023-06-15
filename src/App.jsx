@@ -1,6 +1,7 @@
 import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
+import SignUp_apoderado from "./pages/SignUp_apoderado";
 import Login from "./pages/Login";
 import Profesor from "./pages/Profesor";
 import InfoCurso from "./pages/InfoCurso";
@@ -44,7 +45,11 @@ function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/admini" element={<Admini />} />
-                <Route path="/admini/signup" element={<SignUp />} />
+                <Route path="/admini/signup-profesor" element={<SignUp />} />
+                <Route
+                  path="/admini/signup-apoderado"
+                  element={<SignUp_apoderado />}
+                />
                 <Route path="/login" element={<Login />} />
                 <Route path="/calendario" element={<Calendario />} />
                 <Route path="/profesor" element={<Profesor />} />

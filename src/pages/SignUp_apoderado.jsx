@@ -44,31 +44,18 @@ const SignUp = () => {
         const uid = result.user.uid;
         await updateProfile(result.user, { displayName: data.nombres });
 
-        if (data.tipo_usuario == "Profesor") {
-          await setDoc(doc(db, "profesores", uid), {
-            nombres: data.nombres,
-            apellidos: data.apellidos,
-            rut: data.rut,
-            genero: data.genero,
-          });
-
-          navigate("/teacher");
-        }
-
-        if (data.tipo_usuario == "Apoderado") {
-          await setDoc(doc(db, "apoderados", uid), {
-            nombres: data.nombres,
-            apellidos: data.apellidos,
-            rut: data.rut,
-            genero: data.genero,
-          });
-        }
+        await setDoc(doc(db, "apoderados", uid), {
+          nombres: data.nombres,
+          apellidos: data.apellidos,
+          rut: data.rut,
+          genero: data.genero,
+        });
 
         navigate("/");
 
-        alert("NotApp: Usuario creado exitosamente");
+        alert("NotApp: Apoderado creado exitosamente");
       } else {
-        alert("NotApp: Creación de usuario fallida");
+        alert("NotApp: Creación de apoderado fallida");
       }
     } catch (error) {
       console.log(error);
@@ -89,9 +76,6 @@ const SignUp = () => {
   return (
     <div className="form-control">
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Text color="black" fontSize="30px">
-          Registro
-        </Text>
         <Link to="/admini">
           <Button
             size="md"
@@ -104,6 +88,10 @@ const SignUp = () => {
             <ArrowBackIcon />
           </Button>
         </Link>
+        <Text color="black" fontSize="30px">
+          Registro Apoderado
+        </Text>
+
         <FormControl isInvalid={errors.nombres}>
           <FormLabel fontWeight="bold">Nombres</FormLabel>
           <Input
@@ -169,13 +157,7 @@ const SignUp = () => {
             </HStack>
           </RadioGroup>
         </FormControl>
-        <FormControl>
-          <FormLabel fontWeight="bold">Tipo de usuario</FormLabel>
-          <Select {...register("tipo_usuario")} borderWidth="3px">
-            <option value="Profesor">Profesor</option>
-            <option value="Apoderado">Apoderado</option>
-          </Select>
-        </FormControl>
+
         <FormControl isInvalid={errors.email}>
           <FormLabel fontWeight="bold">Correo electrónico</FormLabel>
           <Input

@@ -93,6 +93,7 @@ p {
 }
 
 .body-admini {
+  display: grid;
   background-color: white;
   height: 500px;
   width: 50vmin;

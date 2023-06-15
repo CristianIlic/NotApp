@@ -29,9 +29,10 @@ import { auth } from "../AuthContext";
 import { useNavigate, Link } from "react-router-dom";
 
 import { useForm, useFieldArray, Controller } from "react-hook-form";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MultiSelect } from "chakra-multiselect";
 
+//Cada vez que haya un cambio en la info que trae firebase, se almacene la info anterior y se actualice el useState
 const SignUp = () => {
   const {
     register,
@@ -42,16 +43,14 @@ const SignUp = () => {
     control,
   } = useForm();
 
+  const [asignatura, setAsignatura] = useState([]);
+
   const idCurso = watch("profesorDe");
-
-  console.log("idCurso", idCurso);
-
   const [selectedCurso, setSelectedCurso] = useState("1-EMA-23");
 
   const cursosRef = collection(useFirestore(), "curso");
 
   const { data: cursos } = useFirestoreCollectionData(cursosRef);
-  console.log("CURSOS", cursos);
 
   // const asignaturasRef = collectionGroup(useFirestore(), "asignaturas");
   const asignaturasCursoRef = collection(
@@ -62,7 +61,22 @@ const SignUp = () => {
   );
   const { data: asignaturas } = useFirestoreCollectionData(asignaturasCursoRef);
 
-  console.log("asignaturas", asignaturas);
+  console.log("asignatura", asignatura);
+
+  useEffect(() => {
+    if (asignaturas?.length > 0) {
+      const asignaturaFormateada = asignaturas.map(
+        ({ NO_ID_FIELD: idAsignatura, nombre }) => {
+          return { label: nombre, value: idAsignatura };
+        }
+      );
+
+      setAsignatura((prevAsignaturas) => [
+        ...prevAsignaturas,
+        asignaturaFormateada,
+      ]);
+    }
+  }, [asignaturas]);
 
   const navigate = useNavigate();
   const db = getFirestore();
@@ -79,8 +93,6 @@ const SignUp = () => {
       data;
 
     const curso = {};
-
-    console.log("datita", data);
 
     profesorDe.forEach(({ curso: idCurso, asignatura }) => {
       curso[idCurso] = asignatura;
@@ -114,17 +126,16 @@ const SignUp = () => {
         });
         setSecondStep(true);
 
-        alert("NotApp: Usuario creado exitosamente");
+        alert("NotApp: Profesor creado exitosamente");
         navigate("/profesor");
       } else {
-        alert("NotApp: Creación de usuario fallida");
+        alert("NotApp: Creación de profesor fallida");
       }
     } catch (error) {
       console.log(error);
       alert("Creación de usuario fallida");
       alert(error);
     }
-    console.log("data formateada", curso);
   }
 
   return (
@@ -328,11 +339,7 @@ const SignUp = () => {
                 <Controller
                   render={({ field }) => (
                     <MultiSelect
-                      options={asignaturas.map(
-                        ({ NO_ID_FIELD: idAsignatura, nombre }) => {
-                          return { label: nombre, value: idAsignatura };
-                        }
-                      )}
+                      options={asignatura[index]}
                       label="Selecciona asignatura(s)"
                       {...field}
                     />
@@ -349,7 +356,16 @@ const SignUp = () => {
                   _hover={{
                     background: "primary",
                   }}
-                  onClick={() => remove(index)}
+                  onClick={() => {
+                    remove(index);
+                    setAsignatura((prev) => {
+                      const newValues = prev.filter((value, indexPrev) => {
+                        return index !== indexPrev;
+                      });
+
+                      return newValues;
+                    });
+                  }}
                 >
                   Eliminar
                 </Button>

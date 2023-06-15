@@ -64,10 +64,16 @@ const InfoCurso = () => {
           notas = [...notas, data[key]];
         });
 
+      const promedio = notas
+        .map(parseFloat)
+        .reduce((acc, value) => acc + value / notas.length, 0)
+        .toFixed(1);
+
       batch.update(alumnoRef, {
         materias: {
           [asignaturaFormat]: {
             notas: notas,
+            promedio: promedio,
           },
         },
       });
@@ -117,6 +123,7 @@ const InfoCurso = () => {
               <Th>Nota 8</Th>
               <Th>Nota 9</Th>
               <Th>Nota 10</Th>
+              <Th>Promedio</Th>
             </Tr>
           </Thead>
           <Tbody>
@@ -143,6 +150,16 @@ const InfoCurso = () => {
                       </>
                     )
                   )}
+                  <Td>
+                    {materias[idAsignatura].notas
+                      .map(parseFloat)
+                      .reduce((acc, value) => {
+                        return (
+                          acc + value / materias[idAsignatura].notas.length
+                        );
+                      }, 0)
+                      .toFixed(1)}
+                  </Td>
                 </Tr>
               )
             )}

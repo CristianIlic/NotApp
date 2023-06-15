@@ -30,7 +30,6 @@ const Profesor = () => {
     return <p>Cargando...</p>;
   }
 
-  console.log("CURSO CURSO", cursos);
   return (
     <div>
       <SimpleGrid spacing={4} minChildWidth="300px">
@@ -48,7 +47,7 @@ const Profesor = () => {
                     <Link
                       key={idAsignatura}
                       style={{ textDecoration: "none" }}
-                      to={`/cursos/${idCurso}@${idAsignatura}`}
+                      to={`/cursos/${idCurso}@${nombreAsignatura}`}
                     >
                       <Card maxW="500px">
                         <CardHeader>
