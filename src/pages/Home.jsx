@@ -63,14 +63,15 @@ const Home = () => {
             </AccordionButton>
             <AccordionPanel pb={4}>
               <p>
-                Con esta aplicación tendras la posibilidad de: -Mantener un
-                seguimiento de tus notas y de las evaluaciones y tareas que
-                debas realizar si eres un alumno. -Modificar, agregar o eliminar
-                notas, chatear con apoderados o realizar anuncios para tus
-                alumnos como profesor. -Mantener un seguimiento tanto de las
-                notas como de los promedios de tu pupilo, además de poder
-                chatear con los profesores,por otra parte tendrás la posibilidad
-                de mantener un seguimiento de los anuncios que los/las
+                Con esta aplicación tendrás la posibilidad de: <br />
+                <br />
+                -Mantener un seguimiento de tus notas y de las evaluaciones y
+                tareas que debas realizar si eres un alumno. <br />
+                <br />
+                -Agregar y modificar notas o realizar anuncios para los
+                apoderados como profesor. <br />
+                <br />
+                -Mantener un seguimiento de los anuncios que los/las
                 profesores/as realicen.
               </p>
             </AccordionPanel>
@@ -87,13 +88,11 @@ const Home = () => {
               <p>Aplicación realizada por:</p>
               <p>
                 {" "}
-                -Cristian Ilic, estudiante de 5to semestre Analista Programador
+                -Cristián Ilic
+                <br /> -Marcelo Aguilera
+                <br /> -Javier Sandoval <br />
+                <br /> Estudiantes de 5to semestre Analista Programador
                 Computacional Duoc UC
-              </p>
-              <p>
-                {" "}
-                -Marcelo Aguilera, estudiante de 5to semestre Analista
-                Programador Computacional Duoc UC
               </p>
             </AccordionPanel>
           </AccordionItem>
