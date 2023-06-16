@@ -2,6 +2,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import SignUp_apoderado from "./pages/SignUp_apoderado";
+import SignUp_alumno from "./pages/SignUp_alumno";
 import Login from "./pages/Login";
 import Profesor from "./pages/Profesor";
 import InfoCurso from "./pages/InfoCurso";
@@ -10,13 +11,6 @@ import Admini from "./pages/Admini";
 import Apoderado from "./pages/Apoderado";
 import "./styles/App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-
-import Casa from "./pages/Casa";
-import Products from "./pages/products";
-import Product1 from "./pages/product1";
-import Product2 from "./pages/product2";
-import Product3 from "./pages/product3";
-import DynamicPage from "./pages/DynamicPage";
 
 import { auth } from "./AuthContext";
 import { getDatabase } from "firebase/database"; // Firebase v9+
@@ -46,6 +40,10 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/admini" element={<Admini />} />
                 <Route path="/admini/signup-profesor" element={<SignUp />} />
+                <Route
+                  path="/admini/signup-alumno"
+                  element={<SignUp_alumno />}
+                />
                 <Route
                   path="/admini/signup-apoderado"
                   element={<SignUp_apoderado />}

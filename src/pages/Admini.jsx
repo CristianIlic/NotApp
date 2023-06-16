@@ -62,6 +62,17 @@ const Admini = () => {
           Registro Apoderado
         </Button>
       </Link>
+      <Link to="/admini/signup-alumno">
+        <Button
+          size="lg"
+          bg="secondary"
+          color="white"
+          _hover={{ background: "primary" }}
+        >
+          <EditIcon />
+          Registro Alumno
+        </Button>
+      </Link>
     </div>
   );
 };
