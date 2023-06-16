@@ -11,70 +11,94 @@ import {
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 import { collection } from "firebase/firestore";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 const Profesor = () => {
-  const [selectedCurso, setSelectedCurso] = useState("1-EMA-23");
+  const profesoresRef = collection(useFirestore(), "profesores");
+  const [cards, setCards] = useState([]);
   const cursosRef = collection(useFirestore(), "curso");
-  const asignaturasCursoRef = collection(
-    useFirestore(),
-    "curso",
-    selectedCurso,
-    "asignaturas"
-  );
-  const { data: asignaturas } = useFirestoreCollectionData(asignaturasCursoRef);
+
+  const { data: profesores, status: statusProfesores } =
+    useFirestoreCollectionData(profesoresRef);
 
   // subscribe to a document for realtime updates. just one line!
-  const { status, data: cursos } = useFirestoreCollectionData(cursosRef);
-  if (status === "loading") {
+  const { status: statusCursos, data: cursos } =
+    useFirestoreCollectionData(cursosRef);
+
+  useEffect(() => {
+    if (statusCursos === "success" && statusProfesores === "success") {
+      const cursosFormateados = cursos.flatMap(
+        ({ NO_ID_FIELD, nombre: nombreCurso }) => {
+          const profesoresPorCurso = profesores.flatMap(
+            ({ nombres, apellidos, curso }) => {
+              if (!!curso[NO_ID_FIELD]) {
+                return curso[NO_ID_FIELD].map((asignatura) => ({
+                  idCurso: NO_ID_FIELD,
+                  nombreCurso,
+                  nombres,
+                  apellidos,
+                  asignatura,
+                }));
+              }
+
+              return;
+              // return { nombres, apellidos, asignaturas: curso[NO_ID_FIELD] };
+            }
+          );
+
+          return profesoresPorCurso.filter((dddd) => dddd !== undefined);
+        }
+      );
+
+      setCards(cursosFormateados);
+    }
+  }, [profesores, cursos, statusCursos, statusProfesores]);
+
+  console.log("profesores", profesores);
+  console.log("cursos", cursos);
+
+  if (cards === 0) {
     return <p>Cargando...</p>;
   }
 
+  console.log("cards", cards);
+
+  // return (
   return (
     <div>
       <SimpleGrid spacing={4} minChildWidth="300px">
-        {cursos.map(({ NO_ID_FIELD: idCurso, nombre: nombreCurso }) => {
-          return (
-            <div key={idCurso}>
-              {asignaturas.map(
-                ({
-                  id: idAsignatura,
-                  idProfesor,
-                  nombre: nombreAsignatura,
-                  nombreProfesor,
-                }) => {
-                  return (
-                    <Link
-                      key={idAsignatura}
-                      style={{ textDecoration: "none" }}
-                      to={`/cursos/${idCurso}@${nombreAsignatura}`}
-                    >
-                      <Card maxW="500px">
-                        <CardHeader>
-                          <Image
-                            src="/banner.jpg"
-                            alt="Foto Libros"
-                            borderRadius="8px"
-                            width="100%"
-                            height="100px"
-                          />
-                        </CardHeader>
-                        <CardBody>
-                          <Text>Profesor: {nombreProfesor}</Text>
-                          <Text>Curso: {nombreCurso} </Text>
-                          <Text>Asignatura: {nombreAsignatura} </Text>
-                        </CardBody>
-                        {/* <CardFooter color="white">
+        {cards.map(
+          ({ idCurso, nombreCurso, nombres, apellidos, asignatura }) => {
+            return (
+              <div key={nombreCurso + asignatura}>
+                <Link
+                  style={{ textDecoration: "none" }}
+                  to={`/cursos/${idCurso}@${asignatura}`}
+                >
+                  <Card maxW="500px">
+                    <CardHeader>
+                      <Image
+                        src="/banner.jpg"
+                        alt="Foto Libros"
+                        borderRadius="8px"
+                        width="100%"
+                        height="100px"
+                      />
+                    </CardHeader>
+                    <CardBody>
+                      <Text>Profesor: {nombres}</Text>
+                      <Text>Curso: {nombreCurso} </Text>
+                      <Text>Asignatura: {asignatura} </Text>
+                    </CardBody>
+                    {/* <CardFooter color="white">
                             Alumnos: pendiente
                           </CardFooter> */}
-                      </Card>
-                    </Link>
-                  );
-                }
-              )}
-            </div>
-          );
-        })}
+                  </Card>
+                </Link>
+              </div>
+            );
+          }
+        )}
       </SimpleGrid>
     </div>
   );

@@ -67,7 +67,7 @@ const SignUp = () => {
     if (asignaturas?.length > 0) {
       const asignaturaFormateada = asignaturas.map(
         ({ NO_ID_FIELD: idAsignatura, nombre }) => {
-          return { label: nombre, value: idAsignatura };
+          return { label: nombre, value: nombre };
         }
       );
 
