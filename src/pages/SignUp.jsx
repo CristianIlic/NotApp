@@ -12,6 +12,7 @@ import {
   Checkbox,
   CheckboxGroup,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -42,7 +43,7 @@ const SignUp = () => {
     trigger,
     control,
   } = useForm();
-
+  const toast = useToast();
   const [asignatura, setAsignatura] = useState([]);
 
   const idCurso = watch("profesorDe");
@@ -126,15 +127,26 @@ const SignUp = () => {
         });
         setSecondStep(true);
 
-        alert("NotApp: Profesor creado exitosamente");
+        toast({
+          title: "Registro exitoso",
+          description: "Profesor creado satisfactoriamente",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
         navigate("/profesor");
       } else {
         alert("NotApp: Creación de profesor fallida");
       }
     } catch (error) {
-      console.log(error);
-      alert("Creación de usuario fallida");
-      alert(error);
+      toast({
+        title: "Error",
+        description: "No se pudo registrar alumno",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      console.log("ERROR: ", error);
     }
   }
 

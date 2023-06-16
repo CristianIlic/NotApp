@@ -1,7 +1,7 @@
 import { signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../AuthContext";
 import notAppLogo from ".././assets/logonotapp.png";
-import { Button, Text } from "@chakra-ui/react";
+import { Button, Text, Spinner } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
@@ -9,9 +9,12 @@ import { collection } from "firebase/firestore";
 
 const Navbar = () => {
   const profesoresRef = collection(useFirestore(), "profesores");
-  const { data } = useFirestoreCollectionData(profesoresRef);
+  const apoderadosRef = collection(useFirestore(), "apoderados");
+  const { status: statusProfesores, data: profesores } =
+    useFirestoreCollectionData(profesoresRef);
+  const { status: statusApoderados, data: apoderados } =
+    useFirestoreCollectionData(apoderadosRef);
 
-  // console.log("profesores", data);
   const logout = async () => {
     await signOut(auth);
     console.log("Se cerró sesión");
@@ -23,6 +26,15 @@ const Navbar = () => {
   });
   const nombreUsuario = user?.displayName;
 
+  if (statusProfesores === "loading" && statusApoderados === "loading") {
+    return <Spinner color="white" />;
+  }
+  const idProfesor = profesores.map(
+    ({ NO_ID_FIELD: idProfesor }) => idProfesor
+  );
+  const idApoderado = apoderados.map(
+    ({ NO_ID_FIELD: idApoderado }) => idApoderado
+  );
   return (
     <nav className="navbar">
       <Link to="/">
@@ -34,30 +46,20 @@ const Navbar = () => {
       {user && (
         <div className="links">
           <Text>Bienvenido {nombreUsuario} 🖐</Text>
-          <Link m="5px" to="/profesor">
-            <Button
-              m="5px"
-              bg="secondary"
-              color="white"
-              _hover={{
-                background: "primary",
-              }}
-            >
-              Profesor
-            </Button>
-          </Link>
-          <Link m="5px" to="/admini">
-            <Button
-              m="5px"
-              bg="secondary"
-              color="white"
-              _hover={{
-                background: "primary",
-              }}
-            >
-              Admin
-            </Button>
-          </Link>
+          {idProfesor.includes(user.uid) && (
+            <Link m="5px" to="/profesor">
+              <Button
+                m="5px"
+                bg="secondary"
+                color="white"
+                _hover={{
+                  background: "primary",
+                }}
+              >
+                Profesor
+              </Button>
+            </Link>
+          )}
           <Link m="5px" to="/calendario">
             <Button
               m="5px"

@@ -86,7 +86,9 @@ const Profesor = () => {
                       />
                     </CardHeader>
                     <CardBody>
-                      <Text>Profesor: {nombres}</Text>
+                      <Text>
+                        Profesor: {nombres} {apellidos}
+                      </Text>
                       <Text>Curso: {nombreCurso} </Text>
                       <Text>Asignatura: {asignatura} </Text>
                     </CardBody>

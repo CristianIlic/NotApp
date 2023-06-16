@@ -9,6 +9,7 @@ import {
   Radio,
   HStack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -33,7 +34,7 @@ const SignUp = () => {
     formState: { errors, isSubmitting },
     watch,
   } = useForm();
-
+  const toast = useToast();
   const navigate = useNavigate();
   const db = getFirestore();
   const cursosRef = collection(useFirestore(), "curso");
@@ -69,16 +70,27 @@ const SignUp = () => {
           materias,
         });
 
-        navigate("/");
+        navigate("/admini");
 
-        alert("NotApp: Alumno creado exitosamente");
+        toast({
+          title: "Registro exitoso",
+          description: "Alumno creado satisfactoriamente",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
       } else {
         alert("NotApp: Creación de Alumno fallida");
       }
     } catch (error) {
-      console.log(error);
-      alert("Creación de usuario fallida");
-      alert(error);
+      toast({
+        title: "Error",
+        description: "No se pudo registrar alumno",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      console.log("ERROR:", error);
     }
   }
 

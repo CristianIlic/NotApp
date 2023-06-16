@@ -9,6 +9,7 @@ import {
   Input,
   Button,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
 import { useState } from "react";
@@ -47,14 +48,15 @@ const InfoCurso = () => {
   const { status, data: alumnos } =
     useFirestoreCollectionData(orderedAlumnosRef);
   if (status === "loading") {
-    return <p>Cargando...</p>;
+    return <Spinner color="white" />;
   }
 
+  console.log("alumnos", alumnos);
   const onSubmit = async (data) => {
     const batch = writeBatch(db);
     const asignaturaFormat = idAsignatura.replaceAll("_", " ");
 
-    alumnos.forEach(({ NO_ID_FIELD }) => {
+    alumnos.forEach(({ NO_ID_FIELD, materias }) => {
       const alumnoRef = doc(db, "alumnos", NO_ID_FIELD);
       let notas = [];
 
@@ -69,13 +71,16 @@ const InfoCurso = () => {
         .reduce((acc, value) => acc + value / notas.length, 0)
         .toFixed(1);
 
-      batch.update(alumnoRef, {
-        materias: {
-          [asignaturaFormat]: {
-            notas: notas,
-            promedio: promedio,
-          },
+      const materiasActualizadas = {
+        ...materias,
+        [asignaturaFormat]: {
+          notas: notas,
+          promedio: promedio,
         },
+      };
+
+      batch.update(alumnoRef, {
+        materias: materiasActualizadas,
       });
     });
 

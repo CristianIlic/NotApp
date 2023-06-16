@@ -26,7 +26,7 @@ const Home = () => {
     setUser(currentUser);
   });
 
-  // console.log(user?.email);
+  console.log("CACA", user);
 
   return (
     <div className="home">
@@ -36,18 +36,20 @@ const Home = () => {
       <p>Para un efectivo monitoreo de tu rendimiento académico</p>
 
       <Stack direction="row" spacing={10} justify="center">
-        <Link to="/login">
-          <Button
-            leftIcon={<AiOutlineLogin />}
-            bg="secondary"
-            color="white"
-            _hover={{
-              background: "primary",
-            }}
-          >
-            Iniciar sesión
-          </Button>
-        </Link>
+        {!user && (
+          <Link to="/login">
+            <Button
+              leftIcon={<AiOutlineLogin />}
+              bg="secondary"
+              color="white"
+              _hover={{
+                background: "primary",
+              }}
+            >
+              Iniciar sesión
+            </Button>
+          </Link>
+        )}
       </Stack>
 
       <div className="accordion">

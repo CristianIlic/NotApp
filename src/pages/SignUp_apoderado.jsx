@@ -9,6 +9,7 @@ import {
   Radio,
   HStack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
@@ -27,7 +28,7 @@ const SignUp = () => {
     formState: { errors, isSubmitting },
     watch,
   } = useForm();
-
+  const toast = useToast();
   const navigate = useNavigate();
   const db = getFirestore();
 
@@ -51,16 +52,27 @@ const SignUp = () => {
           genero: data.genero,
         });
 
-        navigate("/");
+        navigate("/calendario");
 
-        alert("NotApp: Apoderado creado exitosamente");
+        toast({
+          title: "Registro exitoso",
+          description: "Apoderado creado satisfactoriamente",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
       } else {
         alert("NotApp: Creación de apoderado fallida");
       }
     } catch (error) {
-      console.log(error);
-      alert("Creación de usuario fallida");
-      alert(error);
+      toast({
+        title: "Error",
+        description: "No se pudo registrar apoderado",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      console.log("ERROR: ", error);
     }
   }
 

@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import { auth } from "../../AuthContext";
+import { onAuthStateChanged } from "firebase/auth";
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
@@ -11,6 +13,7 @@ import {
   addDoc,
 } from "firebase/firestore";
 import { useFirestoreCollectionData, useFirestore } from "reactfire";
+import { Spinner } from "@chakra-ui/react";
 const Calendario = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const calendarioRef = collection(useFirestore(), "calendario");
@@ -43,7 +46,7 @@ const Calendario = () => {
     }
   };
   if (status === "loading") {
-    return <p>Cargando...</p>;
+    return <Spinner color="white" />;
   }
 
   return (

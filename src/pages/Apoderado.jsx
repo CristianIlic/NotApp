@@ -19,7 +19,7 @@ const Apoderado = () => {
   const asignaturasRef = collection(useFirestore(), "asignaturas");
   const { status, data } = useFirestoreCollectionData(asignaturasRef);
   if (status === "loading") {
-    return <p>Cargando...</p>;
+    return <Spinner color="white" />;
   }
 
   return (
