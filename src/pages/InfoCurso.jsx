@@ -156,14 +156,31 @@ const InfoCurso = () => {
                     )
                   )}
                   <Td>
-                    {materias[idAsignatura].notas
-                      .map(parseFloat)
-                      .reduce((acc, value) => {
-                        return (
-                          acc + value / materias[idAsignatura].notas.length
-                        );
-                      }, 0)
-                      .toFixed(1)}
+                    {!isNaN(
+                      materias[idAsignatura].notas
+                        .map(parseFloat)
+                        .reduce((acc, value) => {
+                          return (
+                            acc +
+                            value /
+                              materias[idAsignatura].notas.filter((e) => e != 0)
+                                .length
+                          );
+                        }, 0)
+                    )
+                      ? materias[idAsignatura].notas
+                          .map(parseFloat)
+                          .reduce((acc, value) => {
+                            return (
+                              acc +
+                              value /
+                                materias[idAsignatura].notas.filter(
+                                  (e) => e != 0
+                                ).length
+                            );
+                          }, 0)
+                          .toFixed(1)
+                      : "Sin notas/notas inválidas"}
                   </Td>
                 </Tr>
               )
