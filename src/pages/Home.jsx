@@ -1,13 +1,31 @@
 import notAppLogo from ".././assets/logonotapp.png";
-import { Button, background } from "@chakra-ui/react";
-import { Stack } from "@chakra-ui/react";
 import { AiOutlineUserAdd, AiOutlineLogin } from "react-icons/ai";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import ".././styles/index.css";
-
+import {
+  Flex,
+  Box,
+  FormControl,
+  FormLabel,
+  Input,
+  Checkbox,
+  Stack,
+  HStack,
+  Button,
+  Heading,
+  useColorModeValue,
+  useToast,
+  Text,
+} from "@chakra-ui/react";
 import { useUser, useAuth } from "reactfire";
-import { useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { AuthContext, auth } from "../AuthContext";
+
+import { useState, useContext } from "react";
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
 import { getAuth } from "firebase/auth";
 import {
   Accordion,
@@ -15,8 +33,8 @@ import {
   AccordionButton,
   AccordionPanel,
   AccordionIcon,
-  Box,
 } from "@chakra-ui/react";
+import { useForm } from "react-hook-form";
 
 const Home = () => {
   const auth = getAuth();
@@ -28,76 +46,102 @@ const Home = () => {
 
   console.log("CACA", user);
 
+  const {
+    handleSubmit,
+    control,
+    register,
+    trigger,
+    formState: { errors, isSubmitting },
+  } = useForm();
+  const toast = useToast();
+  const navigate = useNavigate();
+  const submitHandler = async () => {
+    try {
+      const result = await signInWithEmailAndPassword(
+        auth,
+        document.querySelector(".email").value,
+        document.querySelector(".contrasena").value
+      );
+      if (result.user) {
+        navigate("/profesor");
+
+        toast({
+          title: "Sesión iniciada",
+          description: "Inició sesión correctamente",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      } else {
+        alert("NotApp: No se pudo iniciar sesión");
+      }
+    } catch (error) {
+      console.log(error);
+      toast({
+        title: "Error",
+        description: "Usuario y/o contraseña erroneos",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const currentUser = useContext(AuthContext);
+
+  if (currentUser) {
+    return <Navigate to="/" />;
+  }
+
   return (
     <div className="home">
-      <div className="logo-central">
-        <img src={notAppLogo} className="logo" alt="NotApp logo" />
-      </div>
-      <p>Para un efectivo monitoreo de tu rendimiento académico</p>
+      <span>
+        <Text color={"black"}>
+          Para una esperiencia de comunicación mejorada
+        </Text>
+      </span>
 
-      <Stack direction="row" spacing={10} justify="center">
-        {!user && (
-          <Link to="/login">
-            <Button
-              leftIcon={<AiOutlineLogin />}
-              bg="secondary"
-              color="white"
-              _hover={{
-                background: "primary",
-              }}
-            >
-              Iniciar sesión
-            </Button>
-          </Link>
-        )}
-      </Stack>
-
-      <div className="accordion">
-        <Accordion allowToggle>
-          <AccordionItem border="none">
-            <AccordionButton>
-              <Box as="span" flex="1" textAlign="left">
-                <p>Como funciona?</p>
-              </Box>
-              <AccordionIcon color="white" />
-            </AccordionButton>
-            <AccordionPanel pb={4}>
-              <p>
-                Con esta aplicación tendrás la posibilidad de: <br />
-                <br />
-                -Mantener un seguimiento de tus notas y de las evaluaciones y
-                tareas que debas realizar si eres un alumno. <br />
-                <br />
-                -Agregar y modificar notas o realizar anuncios para los
-                apoderados como profesor. <br />
-                <br />
-                -Mantener un seguimiento de los anuncios que los/las
-                profesores/as realicen.
-              </p>
-            </AccordionPanel>
-          </AccordionItem>
-
-          <AccordionItem border="none">
-            <AccordionButton>
-              <Box as="span" flex="1" textAlign="left">
-                <p>Nosotros</p>
-              </Box>
-              <AccordionIcon color="white" />
-            </AccordionButton>
-            <AccordionPanel pb={4}>
-              <p>Aplicación realizada por:</p>
-              <p>
-                {" "}
-                -Cristián Ilic
-                <br /> -Marcelo Aguilera
-                <br /> -Javier Sandoval <br />
-                <br /> Estudiantes de 5to semestre Analista Programador
-                Computacional Duoc UC
-              </p>
-            </AccordionPanel>
-          </AccordionItem>
-        </Accordion>
-      </div>
+      <HStack spacing={"30vmax"} mx={"1vmax"} maxW={"lg"} py={12} px={6}>
+        <img src="./nino-libro.png" alt="Niño con libro" />
+        <Box
+          rounded={"lg"}
+          bg={useColorModeValue("lightGreen", "gray.700")}
+          boxShadow={"lg"}
+          p={8}
+        >
+          <Stack spacing={4}>
+            <FormControl id="email">
+              <FormLabel>Correo electrónico</FormLabel>
+              <Input bg={"white"} type="email" className="email" />
+            </FormControl>
+            <FormControl id="contrasena">
+              <FormLabel>Contraseña</FormLabel>
+              <Input bg={"white"} type="password" className="contrasena" />
+            </FormControl>
+            <Stack spacing={10}>
+              <Stack
+                direction={{ base: "column", sm: "row" }}
+                align={"start"}
+                justify={"space-between"}
+              >
+                <Checkbox>Recordarme</Checkbox>
+                <Link color={"blue.400"}>Olvidaste tu contraseña?</Link>
+              </Stack>
+              <Button
+                onClick={() => submitHandler()}
+                bg={"#59D2FE"}
+                color={"white"}
+                isLoading={isSubmitting}
+                _hover={{
+                  bg: "secondary",
+                }}
+              >
+                Entrar
+              </Button>
+            </Stack>
+          </Stack>
+        </Box>
+      </HStack>
     </div>
   );
 };

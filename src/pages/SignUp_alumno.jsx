@@ -109,11 +109,11 @@ const SignUp = () => {
         <Link to="/admini">
           <Button
             size="md"
-            bg="secondary"
+            bg="primary"
             color="white"
             mb="5px"
             display="flex"
-            _hover={{ background: "primary" }}
+            _hover={{ background: "secondary", color: "black" }}
           >
             <ArrowBackIcon />
           </Button>
@@ -195,12 +195,13 @@ const SignUp = () => {
         <Button
           type="submit"
           size="sm"
-          bg="secondary"
+          bg="primary"
           color="white"
           margin="15px"
           isLoading={isSubmitting}
           _hover={{
-            background: "primary",
+            background: "secondary",
+            color: "black",
           }}
         >
           Registrar

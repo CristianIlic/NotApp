@@ -14,7 +14,6 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {
   doc,
@@ -158,11 +157,11 @@ const SignUp = () => {
           onClick={() =>
             secondStep ? setSecondStep(false) : navigate("/admini")
           }
-          bg="secondary"
+          bg="primary"
           color="white"
           mb="5px"
           display="flex"
-          _hover={{ background: "primary" }}
+          _hover={{ background: "secondary", color: "black" }}
         >
           <ArrowBackIcon />
         </Button>
@@ -303,11 +302,12 @@ const SignUp = () => {
                 if (result && setSecondStep(true));
               }}
               size="sm"
-              bg="secondary"
+              bg="primary"
               color="white"
               margin="15px"
               _hover={{
-                background: "primary",
+                background: "secondary",
+                color: "black",
               }}
             >
               Siguiente
@@ -362,7 +362,7 @@ const SignUp = () => {
 
                 <Button
                   size="sm"
-                  bg="secondary"
+                  bg="primary"
                   color="white"
                   margin="20px 0 auto"
                   _hover={{
@@ -387,7 +387,7 @@ const SignUp = () => {
             <Button
               onClick={() => append()}
               size="sm"
-              bg="secondary"
+              bg="primary"
               color="white"
               margin="20px 0 auto"
               _hover={{
@@ -400,7 +400,7 @@ const SignUp = () => {
             <Button
               type="submit"
               size="sm"
-              bg="secondary"
+              bg="primary"
               color="white"
               margin="20px 0 auto"
               // isLoading={isSubmitting}

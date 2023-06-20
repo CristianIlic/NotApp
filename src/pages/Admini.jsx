@@ -43,9 +43,9 @@ const Admini = () => {
       <Link to="/admini/signup-profesor">
         <Button
           size="lg"
-          bg="secondary"
+          bg="primary"
           color="white"
-          _hover={{ background: "primary" }}
+          _hover={{ background: "secondary" }}
         >
           <EditIcon />
           Registro Profesor
@@ -54,9 +54,9 @@ const Admini = () => {
       <Link to="/admini/signup-apoderado">
         <Button
           size="lg"
-          bg="secondary"
+          bg="primary"
           color="white"
-          _hover={{ background: "primary" }}
+          _hover={{ background: "secondary" }}
         >
           <EditIcon />
           Registro Apoderado
@@ -65,9 +65,9 @@ const Admini = () => {
       <Link to="/admini/signup-alumno">
         <Button
           size="lg"
-          bg="secondary"
+          bg="primary"
           color="white"
-          _hover={{ background: "primary" }}
+          _hover={{ background: "secondary" }}
         >
           <EditIcon />
           Registro Alumno

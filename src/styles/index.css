@@ -15,7 +15,7 @@
 }
 
 body.chakra-ui-light {
-  background-color: #2f0f5d;
+  background-image: url("../../background.jpg");
   height: 100vh;
 }
 
@@ -41,12 +41,22 @@ p {
   padding: 0.5rem;
 }
 
+.navbar-izq {
+  height: 5vmax;
+  width: 5vmax;
+  margin-bottom: 100px;
+}
+
 .home {
   position: absolute;
   left: 50%;
   top: 50%;
+  width: 80vmax;
+  height: 40vmax;
+  border-radius: 15px;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+  background: white;
 }
 
 .navbar {

@@ -24,6 +24,7 @@ import {
   doc,
 } from "firebase/firestore";
 import { ArrowBackIcon } from "@chakra-ui/icons";
+import { HiOutlineMail } from "react-icons/hi";
 
 import { useForm } from "react-hook-form";
 
@@ -181,6 +182,10 @@ const InfoCurso = () => {
                           }, 0)
                           .toFixed(1)
                       : "Sin notas/notas inválidas"}
+                  </Td>
+                  <Td>
+                    {" "}
+                    <HiOutlineMail size="30px" />
                   </Td>
                 </Tr>
               )
