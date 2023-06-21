@@ -15,7 +15,6 @@
 }
 
 body.chakra-ui-light {
-  background-color: #2f0f5d;
   height: 100vh;
 }
 
@@ -32,13 +31,6 @@ h2 {
   font-size: 3em;
   line-height: 1.1;
   color: black;
-}
-
-p {
-  font-size: 1.3em;
-  line-height: 1.1;
-  color: white;
-  padding: 0.5rem;
 }
 
 .home {

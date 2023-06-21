@@ -34,7 +34,6 @@ function App() {
       <AuthProvider sdk={auth}>
         <DatabaseProvider sdk={database}>
           <Router>
-            <Navbar />
             <div className="App">
               <Routes>
                 <Route path="/" element={<Home />} />
