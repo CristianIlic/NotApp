@@ -1,4 +1,6 @@
 import React from "react";
+import { useState } from "react";
+import { auth } from "../AuthContext";
 import {
   IconButton,
   Avatar,
@@ -9,7 +11,6 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
@@ -20,8 +21,8 @@ import {
   MenuItem,
   MenuList,
 } from "@chakra-ui/react";
+import { useNavigate, Link } from "react-router-dom";
 import {
-  FiHome,
   FiTrendingUp,
   FiCompass,
   FiStar,
@@ -30,10 +31,10 @@ import {
   FiBell,
   FiChevronDown,
 } from "react-icons/fi";
-
+import { TbRuler2 } from "react-icons/tb";
+import { signOut, onAuthStateChanged } from "firebase/auth";
 const LinkItems = [
-  { name: "Inicio", icon: FiHome },
-  { name: "Profesor", icon: FiTrendingUp },
+  { name: "Profesor", icon: TbRuler2 },
   { name: "Admini", icon: FiCompass },
   { name: "Calendario", icon: FiStar },
   { name: "Contacto", icon: FiSettings },
@@ -42,6 +43,7 @@ const LinkItems = [
 
 export default function Navbar({ children }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box minH="100vh" bg={useColorModeValue("background", "gray.900")}>
       <SidebarContent
@@ -95,6 +97,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {LinkItems.map((link) => (
         <NavItem
           key={link.name}
+          url={link.name}
           icon={link.icon}
           color={"white"}
           _hover={{
@@ -111,7 +114,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 const NavItem = ({ icon, children, ...rest }) => {
   return (
     <Link
-      href="#"
+      to={`/${rest.url}`}
       style={{ textDecoration: "none" }}
       _focus={{ boxShadow: "none" }}
     >
@@ -145,6 +148,18 @@ const NavItem = ({ icon, children, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  const [user, setUser] = useState({});
+  const navigate = useNavigate();
+
+  onAuthStateChanged(auth, (currentUser) => {
+    setUser(currentUser);
+  });
+  const nombreUsuario = user?.displayName;
+  const logout = async () => {
+    await signOut(auth);
+    console.log("Se cerró sesión");
+    navigate("/");
+  };
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -199,7 +214,12 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">Justina Clark</Text>
+                  {user ? (
+                    <Text fontSize="sm">{nombreUsuario}</Text>
+                  ) : (
+                    <Text fontSize="sm">Invitado</Text>
+                  )}
+
                   <Text fontSize="xs" color="gray.600">
                     Admin
                   </Text>
@@ -209,16 +229,20 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 </Box>
               </HStack>
             </MenuButton>
-            <MenuList
-              bg={useColorModeValue("white", "gray.900")}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
-            >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
-              <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
-            </MenuList>
+            {user ? (
+              <MenuList
+                bg={useColorModeValue("white", "gray.900")}
+                borderColor={useColorModeValue("gray.200", "gray.700")}
+              >
+                <MenuItem>Profile</MenuItem>
+                <MenuItem>Settings</MenuItem>
+                <MenuItem>Billing</MenuItem>
+                <MenuDivider />
+                <MenuItem onClick={logout}>Sign out</MenuItem>
+              </MenuList>
+            ) : (
+              []
+            )}
           </Menu>
         </Flex>
       </HStack>

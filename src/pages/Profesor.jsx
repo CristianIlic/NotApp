@@ -9,6 +9,8 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
+import Navbar from "../components/Navbar";
+
 import { collection } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -65,7 +67,7 @@ const Profesor = () => {
 
   // return (
   return (
-    <div>
+    <Navbar>
       <SimpleGrid spacing={4} minChildWidth="300px">
         {cards.map(
           ({ idCurso, nombreCurso, nombres, apellidos, asignatura }) => {
@@ -102,7 +104,7 @@ const Profesor = () => {
           }
         )}
       </SimpleGrid>
-    </div>
+    </Navbar>
   );
 };
 export default Profesor;

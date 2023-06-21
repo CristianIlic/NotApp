@@ -1,6 +1,7 @@
 import React, { useRef } from "react";
 import { FormControl, Input, Textarea, Button, Text } from "@chakra-ui/react";
 import emailjs from "@emailjs/browser";
+import Navbar from "../components/Navbar";
 
 const Contact = () => {
   const form = useRef();
@@ -25,7 +26,7 @@ const Contact = () => {
     e.target.reset();
   };
   return (
-    <section>
+    <Navbar>
       <div className="form-control">
         <Text color="black" fontSize="30px">
           Contáctanos
@@ -68,7 +69,7 @@ const Contact = () => {
           </FormControl>
         </form>
       </div>
-    </section>
+    </Navbar>
   );
 };
 

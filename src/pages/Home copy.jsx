@@ -26,8 +26,6 @@ const Home = () => {
     setUser(currentUser);
   });
 
-  console.log("CACA", user);
-
   return (
     <div className="home">
       <div className="logo-central">

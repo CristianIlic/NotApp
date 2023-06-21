@@ -35,34 +35,32 @@ function App() {
       <AuthProvider sdk={auth}>
         <DatabaseProvider sdk={database}>
           <Router>
-            <Navbar>
-              <div className="App">
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                  <Route path="/admini" element={<Admini />} />
-                  <Route path="/admini/signup-profesor" element={<SignUp />} />
-                  <Route
-                    path="/admini/signup-alumno"
-                    element={<SignUp_alumno />}
-                  />
-                  <Route
-                    path="/admini/signup-apoderado"
-                    element={<SignUp_apoderado />}
-                  />
-                  <Route path="/login" element={<Login />} />
-                  <Route path="/calendario" element={<Calendario />} />
-                  <Route path="/profesor" element={<Profesor />} />
-                  <Route path="/cursos/:id" element={<InfoCurso />} />
-                  <Route path="/Apoderado" element={<Apoderado />} />
-                  <Route path="/contacto" element={<Contact />} />
-                  {/* <Route path="/products" element={<Products />} />
+            <div className="App">
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/admini" element={<Admini />} />
+                <Route path="/admini/signup-profesor" element={<SignUp />} />
+                <Route
+                  path="/admini/signup-alumno"
+                  element={<SignUp_alumno />}
+                />
+                <Route
+                  path="/admini/signup-apoderado"
+                  element={<SignUp_apoderado />}
+                />
+                <Route path="/login" element={<Login />} />
+                <Route path="/calendario" element={<Calendario />} />
+                <Route path="/profesor" element={<Profesor />} />
+                <Route path="/cursos/:id" element={<InfoCurso />} />
+                <Route path="/Apoderado" element={<Apoderado />} />
+                <Route path="/contacto" element={<Contact />} />
+                {/* <Route path="/products" element={<Products />} />
                 <Route path="/products/product1" element={<Product1 />} />
                 <Route path="/products/product2" element={<Product2 />} />
                 <Route path="/products/product3" element={<Product3 />} />
                 <Route path="/products/:id" element={<DynamicPage />} /> */}
-                </Routes>
-              </div>
-            </Navbar>
+              </Routes>
+            </div>
           </Router>
         </DatabaseProvider>
       </AuthProvider>

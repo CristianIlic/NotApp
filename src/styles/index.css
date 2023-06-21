@@ -11,11 +11,11 @@
 }
 
 .selected-day {
-  background-color: #faedcb;
+  background-color: #00adb5;
 }
 
 body.chakra-ui-light {
-  background-image: url("../../background.jpg");
+  background-color: white;
   height: 100vh;
 }
 
@@ -34,12 +34,12 @@ h2 {
   color: black;
 }
 
-p {
+/* p {
   font-size: 1.3em;
   line-height: 1.1;
   color: white;
   padding: 0.5rem;
-}
+} */
 
 .navbar-izq {
   height: 5vmax;
