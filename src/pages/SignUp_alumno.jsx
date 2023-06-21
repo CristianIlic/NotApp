@@ -11,6 +11,7 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import Navbar from "../components/Navbar";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {
@@ -104,109 +105,112 @@ const SignUp = () => {
   // }
 
   return (
-    <div className="form-control">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Link to="/admini">
+    <Navbar>
+      <div className="form-control">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <Link to="/admini">
+            <Button
+              size="md"
+              bg="primary"
+              color="white"
+              mb="5px"
+              display="flex"
+              _hover={{ background: "secondary", color: "black" }}
+            >
+              <ArrowBackIcon />
+            </Button>
+          </Link>
+          <Text color="black" fontSize="30px">
+            Registro Alumno
+          </Text>
+
+          <FormControl isInvalid={errors.nombres}>
+            <FormLabel fontWeight="bold">Nombres</FormLabel>
+            <Input
+              borderWidth="3px"
+              type="text"
+              {...register("nombres", {
+                required: "* Campo obligatorio",
+                minLength: { value: 2, message: "* Mínimo 2 caracteres" },
+                maxLength: { value: 30, message: "* Máximo 30 caracteres" },
+              })}
+            />
+            <FormErrorMessage>
+              {errors.nombres && errors.nombres.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={errors.apellidos}>
+            <FormLabel fontWeight="bold">Apellidos</FormLabel>
+            <Input
+              borderWidth="3px"
+              type="text"
+              {...register("apellidos", {
+                required: "* Campo obligatorio",
+                minLength: { value: 3, message: "* Mínimo 3 caracteres" },
+                maxLength: 30,
+              })}
+            />
+            <FormErrorMessage>
+              {errors.apellidos && errors.apellidos.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={errors.rut}>
+            <FormLabel fontWeight="bold">RUT</FormLabel>
+            <Input
+              borderWidth="3px"
+              type="text"
+              placeholder="Sin puntos y con guión"
+              {...register("rut", {
+                required: "* Campo obligatorio",
+                maxLength: 12,
+                pattern: {
+                  value: /^[0-9]+[-|‐]{1}[0-9kK]{1}$/,
+                  message: "RUT inválido",
+                },
+              })}
+            />
+            <FormErrorMessage>
+              {errors.rut && errors.rut.message}
+            </FormErrorMessage>
+          </FormControl>
+          <FormControl isInvalid={errors.curso}>
+            <FormLabel fontWeight="bold">Curso</FormLabel>
+            <Select
+              m="20px auto"
+              placeholder="Seleccione un curso"
+              {...register("curso")}
+            >
+              {cursos?.map(({ NO_ID_FIELD: id, nombre }) => {
+                return (
+                  <option key={id} value={id}>
+                    {nombre}
+                  </option>
+                );
+              })}
+            </Select>
+
+            <FormErrorMessage>
+              {errors.curso && errors.curso.message}
+            </FormErrorMessage>
+          </FormControl>
+
           <Button
-            size="md"
-            bg="secondary"
+            type="submit"
+            size="sm"
+            bg="primary"
             color="white"
-            mb="5px"
-            display="flex"
-            _hover={{ background: "primary" }}
+            margin="15px"
+            isLoading={isSubmitting}
+            _hover={{
+              background: "secondary",
+              color: "black",
+            }}
           >
-            <ArrowBackIcon />
+            Registrar
           </Button>
-        </Link>
-        <Text color="black" fontSize="30px">
-          Registro Alumno
-        </Text>
-
-        <FormControl isInvalid={errors.nombres}>
-          <FormLabel fontWeight="bold">Nombres</FormLabel>
-          <Input
-            borderWidth="3px"
-            type="text"
-            {...register("nombres", {
-              required: "* Campo obligatorio",
-              minLength: { value: 2, message: "* Mínimo 2 caracteres" },
-              maxLength: { value: 30, message: "* Máximo 30 caracteres" },
-            })}
-          />
-          <FormErrorMessage>
-            {errors.nombres && errors.nombres.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={errors.apellidos}>
-          <FormLabel fontWeight="bold">Apellidos</FormLabel>
-          <Input
-            borderWidth="3px"
-            type="text"
-            {...register("apellidos", {
-              required: "* Campo obligatorio",
-              minLength: { value: 3, message: "* Mínimo 3 caracteres" },
-              maxLength: 30,
-            })}
-          />
-          <FormErrorMessage>
-            {errors.apellidos && errors.apellidos.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={errors.rut}>
-          <FormLabel fontWeight="bold">RUT</FormLabel>
-          <Input
-            borderWidth="3px"
-            type="text"
-            placeholder="Sin puntos y con guión"
-            {...register("rut", {
-              required: "* Campo obligatorio",
-              maxLength: 12,
-              pattern: {
-                value: /^[0-9]+[-|‐]{1}[0-9kK]{1}$/,
-                message: "RUT inválido",
-              },
-            })}
-          />
-          <FormErrorMessage>
-            {errors.rut && errors.rut.message}
-          </FormErrorMessage>
-        </FormControl>
-        <FormControl isInvalid={errors.curso}>
-          <FormLabel fontWeight="bold">Curso</FormLabel>
-          <Select
-            m="20px auto"
-            placeholder="Seleccione un curso"
-            {...register("curso")}
-          >
-            {cursos?.map(({ NO_ID_FIELD: id, nombre }) => {
-              return (
-                <option key={id} value={id}>
-                  {nombre}
-                </option>
-              );
-            })}
-          </Select>
-
-          <FormErrorMessage>
-            {errors.curso && errors.curso.message}
-          </FormErrorMessage>
-        </FormControl>
-
-        <Button
-          type="submit"
-          size="sm"
-          bg="secondary"
-          color="white"
-          margin="15px"
-          isLoading={isSubmitting}
-          _hover={{
-            background: "primary",
-          }}
-        >
-          Registrar
-        </Button>
-      </form>
-    </div>
+        </form>
+      </div>
+    </Navbar>
   );
 };
 

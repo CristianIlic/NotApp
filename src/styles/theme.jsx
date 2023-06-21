@@ -10,11 +10,10 @@ const theme = extendTheme({
     body: `'Poppins'`,
   },
   colors: {
-    background: "#2F0F5D",
-    backgroundText: "#19092e",
-    primary: "#0EA293",
-    secondary: "#27E1C1",
-    pastel: "#F5F3C1",
+    background: "#222831",
+    backgroundText: "#393E46",
+    primary: "#00ADB5",
+    secondary: "#EEEEEE",
   },
   components: {
     Accordion: accordionTheme,

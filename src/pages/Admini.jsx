@@ -1,5 +1,6 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
+import Navbar from "../components/Navbar";
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,
@@ -36,44 +37,46 @@ onSnapshot(q, (snapshot) => {
 
 const Admini = () => {
   return (
-    <div className="body-admini">
-      <Text stroke="whiteAlpha.400" color="black" fontSize="30px">
-        Menú Admin
-      </Text>
-      <Link to="/admini/signup-profesor">
-        <Button
-          size="lg"
-          bg="secondary"
-          color="white"
-          _hover={{ background: "primary" }}
-        >
-          <EditIcon />
-          Registro Profesor
-        </Button>
-      </Link>
-      <Link to="/admini/signup-apoderado">
-        <Button
-          size="lg"
-          bg="secondary"
-          color="white"
-          _hover={{ background: "primary" }}
-        >
-          <EditIcon />
-          Registro Apoderado
-        </Button>
-      </Link>
-      <Link to="/admini/signup-alumno">
-        <Button
-          size="lg"
-          bg="secondary"
-          color="white"
-          _hover={{ background: "primary" }}
-        >
-          <EditIcon />
-          Registro Alumno
-        </Button>
-      </Link>
-    </div>
+    <Navbar>
+      <div className="body-admini">
+        <Text stroke="whiteAlpha.400" color="black" fontSize="30px">
+          Menú Admin
+        </Text>
+        <Link to="/admini/signup-profesor">
+          <Button
+            size="lg"
+            bg="primary"
+            color="white"
+            _hover={{ background: "secondary" }}
+          >
+            <EditIcon />
+            Registro Profesor
+          </Button>
+        </Link>
+        <Link to="/admini/signup-apoderado">
+          <Button
+            size="lg"
+            bg="primary"
+            color="white"
+            _hover={{ background: "secondary" }}
+          >
+            <EditIcon />
+            Registro Apoderado
+          </Button>
+        </Link>
+        <Link to="/admini/signup-alumno">
+          <Button
+            size="lg"
+            bg="primary"
+            color="white"
+            _hover={{ background: "secondary" }}
+          >
+            <EditIcon />
+            Registro Alumno
+          </Button>
+        </Link>
+      </div>
+    </Navbar>
   );
 };
 

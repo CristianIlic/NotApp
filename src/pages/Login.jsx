@@ -35,7 +35,7 @@ const Login = () => {
         document.querySelector(".contrasena").value
       );
       if (result.user) {
-        navigate("/");
+        navigate("/profesor");
 
         toast({
           title: "Sesión iniciada",
