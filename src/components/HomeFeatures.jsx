@@ -58,20 +58,32 @@ export default function SplitWithImage() {
               }
               iconBg={useColorModeValue("yellow.100", "yellow.900")}
               text={
-                "Mantener un seguimiento de tus notas m de las evaluaciones y tareas"
+                <Text fontSize={"20px"} color={"gray.500"}>
+                  Mantener un seguimiento de tus notas m de las evaluaciones y
+                  tareas
+                </Text>
               }
             />
             <Feature
               icon={<Icon as={IoLogoBitcoin} color={"green.500"} w={5} h={5} />}
               iconBg={useColorModeValue("green.100", "green.900")}
-              text={"Financial Planning"}
+              text={
+                <Text fontSize={"20px"} color={"gray.500"}>
+                  Financial Planning
+                </Text>
+              }
             />
             <Feature
               icon={
                 <Icon as={IoSearchSharp} color={"purple.500"} w={5} h={5} />
               }
               iconBg={useColorModeValue("purple.100", "purple.900")}
-              text={"Market Analysis"}
+              text={
+                <Text fontSize={"20px"} color={"gray.500"}>
+                  Mantener un seguimiento de tus notas m de las evaluaciones y
+                  tareas
+                </Text>
+              }
             />
           </Stack>
         </Stack>

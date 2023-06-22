@@ -56,11 +56,11 @@ const Contact = () => {
             />
             <Textarea name="mensaje" mb="1vh" cols="30" rows="10"></Textarea>
             <Button
-              bg="secondary"
+              bg="primary"
               color="white"
               margin="15px"
               _hover={{
-                background: "primary",
+                background: "primaryHover",
               }}
               type="submit"
             >

@@ -47,7 +47,7 @@ const Admini = () => {
             size="lg"
             bg="primary"
             color="white"
-            _hover={{ background: "secondary" }}
+            _hover={{ background: "primaryHover" }}
           >
             <EditIcon />
             Registro Profesor
@@ -58,7 +58,7 @@ const Admini = () => {
             size="lg"
             bg="primary"
             color="white"
-            _hover={{ background: "secondary" }}
+            _hover={{ background: "primaryHover" }}
           >
             <EditIcon />
             Registro Apoderado
@@ -69,7 +69,7 @@ const Admini = () => {
             size="lg"
             bg="primary"
             color="white"
-            _hover={{ background: "secondary" }}
+            _hover={{ background: "primaryHover" }}
           >
             <EditIcon />
             Registro Alumno

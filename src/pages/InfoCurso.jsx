@@ -105,11 +105,11 @@ const InfoCurso = () => {
         <Link to="/profesor">
           <Button
             size="md"
-            bg="secondary"
+            bg="primary"
             color="white"
             mb="5px"
             display="flex"
-            _hover={{ background: "primary" }}
+            _hover={{ background: "primaryHover" }}
           >
             <ArrowBackIcon />
           </Button>

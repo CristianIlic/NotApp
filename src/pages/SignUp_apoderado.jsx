@@ -97,7 +97,7 @@ const SignUp = () => {
               color="white"
               mb="5px"
               display="flex"
-              _hover={{ background: "secondary", color: "black" }}
+              _hover={{ background: "primaryHover" }}
             >
               <ArrowBackIcon />
             </Button>
@@ -230,8 +230,7 @@ const SignUp = () => {
             margin="15px"
             isLoading={isSubmitting}
             _hover={{
-              background: "secondary",
-              color: "black",
+              background: "primaryHover",
             }}
           >
             Registrarse

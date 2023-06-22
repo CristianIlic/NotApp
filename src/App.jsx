@@ -1,4 +1,3 @@
-import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import SignUp from "./pages/SignUp";
 import SignUp_apoderado from "./pages/SignUp_apoderado";
@@ -22,6 +21,7 @@ import {
   FirestoreProvider,
   useFirebaseApp,
 } from "reactfire";
+import RecoverPassword from "./pages/Recover_password";
 
 function App() {
   const app = useFirebaseApp(); // a parent element contains a `FirebaseAppProvider`
@@ -34,8 +34,8 @@ function App() {
     <FirestoreProvider sdk={firestore}>
       <AuthProvider sdk={auth}>
         <DatabaseProvider sdk={database}>
-          <Router>
-            <div className="App">
+          <div className="App">
+            <Router>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/admini" element={<Admini />} />
@@ -54,14 +54,10 @@ function App() {
                 <Route path="/cursos/:id" element={<InfoCurso />} />
                 <Route path="/Apoderado" element={<Apoderado />} />
                 <Route path="/contacto" element={<Contact />} />
-                {/* <Route path="/products" element={<Products />} />
-                <Route path="/products/product1" element={<Product1 />} />
-                <Route path="/products/product2" element={<Product2 />} />
-                <Route path="/products/product3" element={<Product3 />} />
-                <Route path="/products/:id" element={<DynamicPage />} /> */}
+                <Route path="/recover_password" element={<RecoverPassword />} />
               </Routes>
-            </div>
-          </Router>
+            </Router>
+          </div>
         </DatabaseProvider>
       </AuthProvider>
     </FirestoreProvider>

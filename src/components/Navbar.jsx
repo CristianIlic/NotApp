@@ -86,7 +86,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     >
       <Flex h="200" alignItems="center" mx="8" justifyContent="center">
         <VStack align={"center"} className="navbar-izq">
-          <Text fontSize="2xl" fontWeight="bold">
+          <Text onClick={() => navigate("/")} fontSize="2xl" fontWeight="bold">
             <img src="../logonotapp.png" alt="Logo NotApp" />
             NotApp
           </Text>
