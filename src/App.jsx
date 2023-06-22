@@ -10,7 +10,14 @@ import Admini from "./pages/Admini";
 import Apoderado from "./pages/Apoderado";
 import Contact from "./components/Contact";
 import "./styles/App.css";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+  createBrowserRouter,
+  Outlet,
+  RouterProvider,
+} from "react-router-dom";
 
 import { auth } from "./AuthContext";
 import { getDatabase } from "firebase/database"; // Firebase v9+
@@ -22,6 +29,7 @@ import {
   useFirebaseApp,
 } from "reactfire";
 import RecoverPassword from "./pages/Recover_password";
+import Navbar from "./components/Navbar";
 
 function App() {
   const app = useFirebaseApp(); // a parent element contains a `FirebaseAppProvider`
@@ -30,33 +38,125 @@ function App() {
   const database = getDatabase(app);
   const firestore = getFirestore(app);
 
+  const Layout = () => (
+    <>
+      <Navbar Outlet={Outlet} />
+    </>
+  );
+
+  const router = createBrowserRouter([
+    // public routes
+    {
+      path: "/",
+      element: <Home />,
+    },
+    {
+      path: "/login",
+      element: <Login />,
+    },
+    {
+      path: "/recover_password",
+      element: <RecoverPassword />,
+    },
+    //private routes
+    {
+      path: "/admini",
+      element: <Layout />,
+      children: [
+        {
+          path: "/admini",
+          element: <Admini />,
+        },
+      ],
+    },
+    {
+      path: "/admini/signup-profesor",
+      element: <Layout />,
+      children: [
+        {
+          path: "/admini/signup-profesor",
+          element: <SignUp />,
+        },
+      ],
+    },
+    {
+      path: "/admini/signup-alumno",
+      element: <Layout />,
+      children: [
+        {
+          path: "/admini/signup-alumno",
+          element: <SignUp_alumno />,
+        },
+      ],
+    },
+    {
+      path: "/admini/signup-apoderado",
+      element: <Layout />,
+      children: [
+        {
+          path: "/admini/signup-apoderado",
+          element: <SignUp_apoderado />,
+        },
+      ],
+    },
+    {
+      path: "/calendario",
+      element: <Layout />,
+      children: [
+        {
+          path: "/calendario",
+          element: <Calendario />,
+        },
+      ],
+    },
+    {
+      path: "/profesor",
+      element: <Layout />,
+      children: [
+        {
+          path: "/profesor",
+          element: <Profesor />,
+        },
+      ],
+    },
+    {
+      path: "/cursos/:id",
+      element: <Layout />,
+      children: [
+        {
+          path: "/cursos/:id",
+          element: <InfoCurso />,
+        },
+      ],
+    },
+    {
+      path: "/Apoderado",
+      element: <Layout />,
+      children: [
+        {
+          path: "/Apoderado",
+          element: <Apoderado />,
+        },
+      ],
+    },
+    {
+      path: "/contacto",
+      element: <Layout />,
+      children: [
+        {
+          path: "/contacto",
+          element: <Contact />,
+        },
+      ],
+    },
+  ]);
+
   return (
     <FirestoreProvider sdk={firestore}>
       <AuthProvider sdk={auth}>
         <DatabaseProvider sdk={database}>
           <div className="App">
-            <Router>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/admini" element={<Admini />} />
-                <Route path="/admini/signup-profesor" element={<SignUp />} />
-                <Route
-                  path="/admini/signup-alumno"
-                  element={<SignUp_alumno />}
-                />
-                <Route
-                  path="/admini/signup-apoderado"
-                  element={<SignUp_apoderado />}
-                />
-                <Route path="/login" element={<Login />} />
-                <Route path="/calendario" element={<Calendario />} />
-                <Route path="/profesor" element={<Profesor />} />
-                <Route path="/cursos/:id" element={<InfoCurso />} />
-                <Route path="/Apoderado" element={<Apoderado />} />
-                <Route path="/contacto" element={<Contact />} />
-                <Route path="/recover_password" element={<RecoverPassword />} />
-              </Routes>
-            </Router>
+            <RouterProvider router={router} />
           </div>
         </DatabaseProvider>
       </AuthProvider>
