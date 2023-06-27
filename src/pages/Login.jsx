@@ -72,8 +72,10 @@ const Login = () => {
   useEffect(() => {
     if (checked) {
       setPersistence(auth, browserLocalPersistence);
+      console.log("CHECKED", checked);
     } else {
       setPersistence(auth, browserSessionPersistence);
+      console.log("CHECKED", checked);
     }
   }, [checked]);
 

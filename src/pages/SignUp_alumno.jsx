@@ -26,6 +26,7 @@ import { ArrowBackIcon } from "@chakra-ui/icons";
 import { auth } from "../AuthContext";
 
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
 const SignUp = () => {
   const {
@@ -103,6 +104,18 @@ const SignUp = () => {
   return (
     <div className="form-control">
       <form onSubmit={handleSubmit(onSubmit)}>
+        <Link to="/admini">
+          <Button
+            size="md"
+            bg="primary"
+            color="white"
+            mb="5px"
+            display="flex"
+            _hover={{ background: "primaryHover" }}
+          >
+            <ArrowBackIcon />
+          </Button>
+        </Link>
         <Text color="black" fontSize="30px">
           Registro Alumno
         </Text>

@@ -191,6 +191,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
+          color={"white"}
+          _hover={{ color: "black", bgColor: "white" }}
         />
         <Flex alignItems={"center"}>
           <Menu>

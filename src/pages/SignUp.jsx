@@ -13,6 +13,7 @@ import {
   CheckboxGroup,
   Stack,
   useToast,
+  Flex,
 } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 
@@ -83,12 +84,17 @@ const SignUp = () => {
   const navigate = useNavigate();
   const db = getFirestore();
   const [secondStep, setSecondStep] = useState(false);
+  const [profesorJefe, setProfesorJefe] = useState(false);
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormContext)
       name: "profesorDe", // unique name for your Field Array
     }
   );
+
+  // useEffect(() => {
+  //   first
+  // }, [profesorJefe])
 
   async function onSubmit(data) {
     const { apellidos, contrasena, email, genero, nombres, rut, profesorDe } =
@@ -317,74 +323,91 @@ const SignUp = () => {
         )}
         {secondStep && (
           <>
-            <Text display="flex" m="20px auto" color="black" fontSize="18px">
-              ¿En qué cursos impartirá clases?
-            </Text>
+            <Flex flexDirection={"column"}>
+              <Text display="flex" m="20px auto" color="black" fontSize="18px">
+                ¿En qué cursos impartirá clases?
+              </Text>
 
-            {fields.map(({ id }, index) => (
-              //  <li key={item.id}>
-              //  <input {...register(test.${index}.firstName)} />
-              <React.Fragment key={id}>
-                <Controller
-                  render={({ field: { onChange, ...rest } }) => (
-                    <Select
-                      onChange={(event) => {
-                        onChange(event.target.value);
-                        setSelectedCurso(event.target.value);
-                      }}
-                      m="20px auto"
-                      placeholder="Seleccione un curso"
-                      {...rest}
-                    >
-                      {cursos.map(({ NO_ID_FIELD: idCurso, nombre }) => {
-                        return (
-                          <option key={idCurso} value={idCurso}>
-                            {nombre}
-                          </option>
-                        );
-                      })}
-                    </Select>
-                  )}
-                  name={`profesorDe.${index}.curso`}
-                  control={control}
-                />
+              {fields.map(({ id }, index) => (
+                //  <li key={item.id}>
+                //  <input {...register(test.${index}.firstName)} />
+                <React.Fragment key={id}>
+                  <Controller
+                    render={({ field: { onChange, ...rest } }) => (
+                      <Select
+                        onChange={(event) => {
+                          onChange(event.target.value);
+                          setSelectedCurso(event.target.value);
+                        }}
+                        m="20px auto"
+                        placeholder="Seleccione un curso"
+                        {...rest}
+                      >
+                        {cursos.map(({ NO_ID_FIELD: idCurso, nombre }) => {
+                          return (
+                            <option key={idCurso} value={idCurso}>
+                              {nombre}
+                            </option>
+                          );
+                        })}
+                      </Select>
+                    )}
+                    name={`profesorDe.${index}.curso`}
+                    control={control}
+                  />
 
-                <Controller
-                  render={({ field }) => (
-                    <MultiSelect
-                      options={asignatura[index]}
-                      label="Selecciona asignatura(s)"
-                      {...field}
-                    />
-                  )}
-                  name={`profesorDe.${index}.asignatura`}
-                  control={control}
-                />
+                  <Controller
+                    render={({ onChange, field }) => (
+                      <Checkbox
+                        onChange={() => {
+                          onChange, setProfesorJefe(!profesorJefe);
+                        }}
+                        mb={"15px"}
+                        {...field}
+                      >
+                        Es profesor jefe?
+                      </Checkbox>
+                    )}
+                    name={`profesorDe.${index}.profesorJefe`}
+                    control={control}
+                  />
 
-                <Button
-                  size="sm"
-                  bg="primary"
-                  color="white"
-                  margin="20px 0 auto"
-                  _hover={{
-                    background: "primary",
-                  }}
-                  onClick={() => {
-                    remove(index);
-                    setAsignatura((prev) => {
-                      const newValues = prev.filter((value, indexPrev) => {
-                        return index !== indexPrev;
+                  <Controller
+                    render={({ field }) => (
+                      <MultiSelect
+                        options={asignatura[index]}
+                        label="Selecciona asignatura(s)"
+                        {...field}
+                      />
+                    )}
+                    name={`profesorDe.${index}.asignatura`}
+                    control={control}
+                  />
+
+                  <Button
+                    size="sm"
+                    bg="primary"
+                    color="white"
+                    margin="20px 0 auto"
+                    _hover={{
+                      background: "primary",
+                    }}
+                    onClick={() => {
+                      remove(index);
+                      setAsignatura((prev) => {
+                        const newValues = prev.filter((value, indexPrev) => {
+                          return index !== indexPrev;
+                        });
+
+                        return newValues;
                       });
-
-                      return newValues;
-                    });
-                  }}
-                >
-                  Eliminar
-                </Button>
-              </React.Fragment>
-            ))}
-
+                    }}
+                  >
+                    Eliminar
+                  </Button>
+                </React.Fragment>
+              ))}
+            </Flex>
             <Button
               onClick={() => append()}
               size="sm"
