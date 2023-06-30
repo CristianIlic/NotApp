@@ -1,7 +1,6 @@
 import React, { useRef } from "react";
 import { FormControl, Input, Textarea, Button, Text } from "@chakra-ui/react";
 import emailjs from "@emailjs/browser";
-import Navbar from "../components/Navbar";
 
 const Contact = () => {
   const form = useRef();

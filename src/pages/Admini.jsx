@@ -1,6 +1,5 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import { EditIcon } from "@chakra-ui/icons";
-import Navbar from "../components/Navbar";
 import { initializeApp } from "firebase/app";
 import {
   getFirestore,

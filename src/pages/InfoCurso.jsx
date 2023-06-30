@@ -12,7 +12,6 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { Link, useParams } from "react-router-dom";
-import Navbar from "../components/Navbar";
 
 import { useState } from "react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";

@@ -9,7 +9,6 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
-import Navbar from "../components/Navbar";
 
 import { collection } from "firebase/firestore";
 import { Link } from "react-router-dom";
