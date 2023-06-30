@@ -1,6 +1,5 @@
 import React from "react";
 import { Box, SimpleGrid, Text, Image, ChakraProvider } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
 
 const Informacion_util = () => {
   const links = [
@@ -46,7 +45,6 @@ const Informacion_util = () => {
 
   return (
     <ChakraProvider>
-      <Navbar>
         <Box maxW="1550px" mx="auto" p="4">
           <Box textAlign="center" mb="10">
             <Text fontWeight="bold" fontSize="35" textDecorationLine= "underline">
@@ -102,7 +100,6 @@ const Informacion_util = () => {
             ))}
           </SimpleGrid>
         </Box>
-      </Navbar>
     </ChakraProvider>
   );
 };
