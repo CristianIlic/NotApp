@@ -54,7 +54,7 @@ const SignUp = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const db = getFirestore();
-  const [secondStep, setSecondStep] = useState(true);
+  const [secondStep, setSecondStep] = useState(false);
   const [selectedCurso, setSelectedCurso] = useState("");
   const [alumnosList, setAlumnosList] = useState([]);
 
