@@ -38,16 +38,6 @@ export default function WithBackgroundImage() {
             >
               Para un efectivo monitoreo de tu rendimiento académico
             </Text>
-            <Stack direction={"row"}>
-              <Button
-                bg={"whiteAlpha.300"}
-                rounded={"full"}
-                color={"white"}
-                _hover={{ bg: "whiteAlpha.500" }}
-              >
-                ¿Cómo funciona?
-              </Button>
-            </Stack>
           </Stack>
         </VStack>
       </Flex>

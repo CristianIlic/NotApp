@@ -9,6 +9,7 @@ import Calendario from "./components/Calendario/Calendario";
 import Admini from "./pages/Admini";
 import Apoderado from "./pages/Apoderado";
 import Contact from "./components/Contact";
+import Informacion_util from"./pages/Informacion_util";
 import "./styles/App.css";
 import {
   BrowserRouter as Router,
@@ -137,6 +138,16 @@ function App() {
         {
           path: "/Apoderado",
           element: <Apoderado />,
+        },
+      ],
+    },
+    {
+      path: "/Informacion_util",
+      element: <Layout />,
+      children: [
+        {
+          path: "/Informacion_util",
+          element: <Informacion_util />,
         },
       ],
     },

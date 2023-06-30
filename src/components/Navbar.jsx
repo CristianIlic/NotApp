@@ -32,6 +32,7 @@ import {
   FiMenu,
   FiBell,
   FiChevronDown,
+  FiInfo,
 } from "react-icons/fi";
 import { TbRuler2 } from "react-icons/tb";
 import { signOut, onAuthStateChanged } from "firebase/auth";
@@ -41,6 +42,7 @@ const LinkItems = [
   { name: "Calendario", icon: FiStar },
   { name: "Contacto", icon: FiSettings },
   { name: "Apoderado", icon: FiTrendingUp },
+  { name: "Informacion_util", icon: FiInfo },
 ];
 
 export default function Navbar({ Outlet }) {
