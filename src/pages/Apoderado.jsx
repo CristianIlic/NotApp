@@ -31,7 +31,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import AlumnosAvatars from "../components/Alumnos";
-import { AlumnosDetail, AlumnosAsignatura } from "../components/AlumnosDetail";
+import { AlumnosDetail } from "../components/AlumnosDetail";
 
 const Apoderado = () => {
   const { uid } = useOutletContext();
@@ -72,38 +72,10 @@ const Apoderado = () => {
                 listadoAlumnos={apoderado?.alumnos?.map((alumno) => alumno)}
                 setSelectedAlumno={setSelectedAlumno}
               />
-              <Flex
-                as="aside"
-                w="full"
-                h="full"
-                maxW={350}
-                bg="white"
-                alignItems="start"
-                padding={6}
-                flexDirection="column"
-                justifyContent="flex-start"
-                transition="ease-in-out .2s"
-                borderRadius="3xl"
-              >
-                <AlumnosAsignatura
-                  selectedAlumno={selectedAlumno || apoderado.alumnos[0]}
-                />
-              </Flex>
-              <Flex
-                as="main"
-                w="full"
-                h="full"
-                bg="white"
-                alignItems="center"
-                justifyContent="center"
-                flexDirection="column"
-                position="relative"
-                borderRadius="3xl"
-              >
-                <AlumnosDetail
-                  selectedAlumno={selectedAlumno || apoderado.alumnos[0]}
-                />
-              </Flex>
+
+              <AlumnosDetail
+                selectedAlumno={selectedAlumno || apoderado.alumnos[0]}
+              />
             </HStack>
           </TabPanel>
           <TabPanel>

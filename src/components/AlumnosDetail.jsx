@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { doc, getFirestore } from "firebase/firestore";
 import {
   List,
@@ -9,52 +9,63 @@ import {
   Card,
   CardHeader,
   Heading,
+  Flex,
+  Spinner,
 } from "@chakra-ui/react";
 import { useFirestoreDocData } from "reactfire";
 
-export function AlumnosAsignatura({ selectedAlumno }) {
+export function AlumnosDetail({ selectedAlumno }) {
   const db = getFirestore();
+  const [selectedAsignatura, setSelectedAsignatura] = useState("");
   const alumnosRef = doc(db, "usuario", selectedAlumno);
   const { status: statusAlumnos, data: alumnos } =
     useFirestoreDocData(alumnosRef);
 
   const asignaturas = alumnos?.asignaturas;
-  if (asignaturas) {
-    const nombresAsignaturas = Object.getOwnPropertyNames(asignaturas);
-
-    {
-      return nombresAsignaturas.sort().map((asignatura) => {
-        return (
-          <Card bg="transparent" size="sm" margin="20px" width={60}>
-            <CardHeader>
-              <Heading size="sm">{asignatura}</Heading>
-            </CardHeader>
-          </Card>
-        );
-      });
-    }
-  } else {
-    return (
-      <Card bg="transparent" size="sm" margin="20px" width={60}>
-        <CardHeader>
-          <Heading size="sm">No hay asignaturas</Heading>
-        </CardHeader>
-      </Card>
-    );
+  if (statusAlumnos === "loading") {
+    return <Spinner color="primary" />;
   }
-}
-
-export function AlumnosDetail({ selectedAlumno, notas }) {
-  const db = getFirestore();
-  const alumnosRef = doc(db, "usuario", selectedAlumno);
-  const { status: statusAlumnos, data: alumnos } =
-    useFirestoreDocData(alumnosRef);
-
+  console.log("caquita", Object.getOwnPropertyNames(asignaturas));
   return (
-    <UnorderedList>
-      {["6.7", "5.7", "6.1"].map(() => (
-        <ListItem>Lorem ipsum dolor sit amet</ListItem>
-      ))}
-    </UnorderedList>
+    <>
+      <Flex
+        as="main"
+        w="full"
+        h="full"
+        bg="white"
+        alignItems="center"
+        justifyContent="center"
+        flexDirection="row"
+        position="relative"
+        borderRadius="3xl"
+      >
+        <Flex flexDirection={"column"}>
+          {Object.getOwnPropertyNames(asignaturas)
+            .sort()
+            .map((asignatura) => (
+              <Card
+                key={asignatura}
+                bg="transparent"
+                size="sm"
+                margin="20px"
+                width={60}
+                onClick={(e) => setSelectedAsignatura(e.target.outerText)}
+                _hover={{ bg: "primary" }}
+              >
+                <CardHeader>
+                  <Heading size="sm">{asignatura}</Heading>
+                </CardHeader>
+              </Card>
+            ))}
+        </Flex>
+
+        <UnorderedList>
+          {selectedAsignatura &&
+            asignaturas[selectedAsignatura].notas.map((nota) => (
+              <ListItem>{nota}</ListItem>
+            ))}
+        </UnorderedList>
+      </Flex>
+    </>
   );
 }

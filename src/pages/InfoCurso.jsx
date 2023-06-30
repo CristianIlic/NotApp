@@ -39,11 +39,12 @@ const InfoCurso = () => {
 
   const [idCurso, idAsignatura] = id.split("@");
 
-  const alumnosRef = collection(useFirestore(), "alumnos");
+  const alumnosRef = collection(useFirestore(), "usuario");
+  const filteredAlumnosRef = query(alumnosRef, where("rol", "==", "alumno"));
   const orderedAlumnosRef = query(
-    alumnosRef,
+    filteredAlumnosRef,
     orderBy("apellidos"),
-    where("curso", "==", idCurso)
+    where("idCurso", "==", idCurso)
   );
 
   // subscribe to a document for realtime updates. just one line!
@@ -57,8 +58,8 @@ const InfoCurso = () => {
     const batch = writeBatch(db);
     const asignaturaFormat = idAsignatura.replaceAll("_", " ");
 
-    alumnos.forEach(({ NO_ID_FIELD, materias }) => {
-      const alumnoRef = doc(db, "alumnos", NO_ID_FIELD);
+    alumnos.forEach(({ NO_ID_FIELD, asignaturas }) => {
+      const alumnoRef = doc(db, "usuario", NO_ID_FIELD);
       let notas = [];
 
       Object.keys(data)
@@ -72,8 +73,8 @@ const InfoCurso = () => {
         .reduce((acc, value) => acc + value / notas.length, 0)
         .toFixed(1);
 
-      const materiasActualizadas = {
-        ...materias,
+      const asignaturasActualizadas = {
+        ...asignaturas,
         [asignaturaFormat]: {
           notas: notas,
           promedio: promedio,
@@ -81,7 +82,7 @@ const InfoCurso = () => {
       };
 
       batch.update(alumnoRef, {
-        materias: materiasActualizadas,
+        asignaturas: asignaturasActualizadas,
       });
     });
 
@@ -134,11 +135,14 @@ const InfoCurso = () => {
           </Thead>
           <Tbody>
             {alumnos.map(
-              ({ NO_ID_FIELD, rut, nombres, apellidos, materias }, index) => (
+              (
+                { NO_ID_FIELD, rut, nombres, apellidos, asignaturas },
+                index
+              ) => (
                 <Tr key={rut}>
                   <Td>{index + 1}</Td>
                   <Td>{`${apellidos} ${nombres}`}</Td>
-                  {materias[idAsignatura.replaceAll("_", " ")].notas.map(
+                  {asignaturas[idAsignatura.replaceAll("_", " ")].notas.map(
                     (nota, index) => (
                       <>
                         {edit ? (
@@ -158,24 +162,25 @@ const InfoCurso = () => {
                   )}
                   <Td>
                     {!isNaN(
-                      materias[idAsignatura].notas
+                      asignaturas[idAsignatura].notas
                         .map(parseFloat)
                         .reduce((acc, value) => {
                           return (
                             acc +
                             value /
-                              materias[idAsignatura].notas.filter((e) => e != 0)
-                                .length
+                              asignaturas[idAsignatura].notas.filter(
+                                (e) => e != 0
+                              ).length
                           );
                         }, 0)
                     )
-                      ? materias[idAsignatura].notas
+                      ? asignaturas[idAsignatura].notas
                           .map(parseFloat)
                           .reduce((acc, value) => {
                             return (
                               acc +
                               value /
-                                materias[idAsignatura].notas.filter(
+                                asignaturas[idAsignatura].notas.filter(
                                   (e) => e != 0
                                 ).length
                             );
