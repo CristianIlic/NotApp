@@ -9,7 +9,7 @@ import Calendario from "./components/Calendario/Calendario";
 import Admini from "./pages/Admini";
 import Apoderado from "./pages/Apoderado";
 import Contact from "./components/Contact";
-import Informacion_util from"./pages/Informacion_util";
+import Informacion from "./pages/Informacion";
 import "./styles/App.css";
 import {
   BrowserRouter as Router,
@@ -142,12 +142,12 @@ function App() {
       ],
     },
     {
-      path: "/Informacion_util",
+      path: "/Informacion",
       element: <Layout />,
       children: [
         {
-          path: "/Informacion_util",
-          element: <Informacion_util />,
+          path: "/Informacion",
+          element: <Informacion />,
         },
       ],
     },

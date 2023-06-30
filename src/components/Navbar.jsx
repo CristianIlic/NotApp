@@ -42,7 +42,7 @@ const LinkItems = [
   { name: "Calendario", icon: FiStar },
   { name: "Contacto", icon: FiSettings },
   { name: "Apoderado", icon: FiTrendingUp },
-  { name: "Informacion_util", icon: FiInfo },
+  { name: "Informacion", icon: FiInfo },
 ];
 
 export default function Navbar({ Outlet }) {
