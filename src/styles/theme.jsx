@@ -13,6 +13,7 @@ const theme = extendTheme({
     background: "#222831",
     backgroundText: "#393E46",
     primary: "#00ADB5",
+    primaryHover: "#037a80",
     secondary: "#EEEEEE",
   },
   components: {

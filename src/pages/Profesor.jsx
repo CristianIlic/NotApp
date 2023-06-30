@@ -56,55 +56,46 @@ const Profesor = () => {
     }
   }, [profesores, cursos, statusCursos, statusProfesores]);
 
-  console.log("profesores", profesores);
-  console.log("cursos", cursos);
-
   if (cards === 0) {
     return <p>Cargando...</p>;
   }
 
-  console.log("cards", cards);
-
   // return (
   return (
-    <Navbar>
-      <SimpleGrid spacing={4} minChildWidth="300px">
-        {cards.map(
-          ({ idCurso, nombreCurso, nombres, apellidos, asignatura }) => {
-            return (
-              <div key={nombreCurso + asignatura}>
-                <Link
-                  style={{ textDecoration: "none" }}
-                  to={`/cursos/${idCurso}@${asignatura}`}
-                >
-                  <Card maxW="500px">
-                    <CardHeader>
-                      <Image
-                        src="/banner.jpg"
-                        alt="Foto Libros"
-                        borderRadius="8px"
-                        width="100%"
-                        height="100px"
-                      />
-                    </CardHeader>
-                    <CardBody>
-                      <Text>
-                        Profesor: {nombres} {apellidos}
-                      </Text>
-                      <Text>Curso: {nombreCurso} </Text>
-                      <Text>Asignatura: {asignatura} </Text>
-                    </CardBody>
-                    {/* <CardFooter color="white">
+    <SimpleGrid spacing={4} minChildWidth="300px">
+      {cards.map(({ idCurso, nombreCurso, nombres, apellidos, asignatura }) => {
+        return (
+          <div key={nombreCurso + asignatura}>
+            <Link
+              style={{ textDecoration: "none" }}
+              to={`/cursos/${idCurso}@${asignatura}`}
+            >
+              <Card maxW="500px">
+                <CardHeader>
+                  <Image
+                    src="/banner.jpg"
+                    alt="Foto Libros"
+                    borderRadius="8px"
+                    width="100%"
+                    height="100px"
+                  />
+                </CardHeader>
+                <CardBody>
+                  <Text>
+                    Profesor: {nombres} {apellidos}
+                  </Text>
+                  <Text>Curso: {nombreCurso} </Text>
+                  <Text>Asignatura: {asignatura} </Text>
+                </CardBody>
+                {/* <CardFooter color="white">
                             Alumnos: pendiente
                           </CardFooter> */}
-                  </Card>
-                </Link>
-              </div>
-            );
-          }
-        )}
-      </SimpleGrid>
-    </Navbar>
+              </Card>
+            </Link>
+          </div>
+        );
+      })}
+    </SimpleGrid>
   );
 };
 export default Profesor;

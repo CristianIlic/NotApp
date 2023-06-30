@@ -38,10 +38,10 @@ const Home = () => {
           <Link to="/login">
             <Button
               leftIcon={<AiOutlineLogin />}
-              bg="secondary"
+              bg="primary"
               color="white"
               _hover={{
-                background: "primary",
+                background: "primaryHover",
               }}
             >
               Iniciar sesión

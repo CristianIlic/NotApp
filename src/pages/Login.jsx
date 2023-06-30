@@ -1,7 +1,13 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { AuthContext, auth } from "../AuthContext";
-import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  setPersistence,
+  signInWithEmailAndPassword,
+  updateProfile,
+  browserSessionPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
 import { useForm } from "react-hook-form";
 import {
   Flex,
@@ -25,6 +31,8 @@ const Login = () => {
     trigger,
     formState: { errors, isSubmitting },
   } = useForm();
+  const [checked, setChecked] = useState(false);
+
   const toast = useToast();
   const navigate = useNavigate();
   const submitHandler = async () => {
@@ -61,13 +69,23 @@ const Login = () => {
 
   const currentUser = useContext(AuthContext);
 
+  useEffect(() => {
+    if (checked) {
+      setPersistence(auth, browserLocalPersistence);
+      console.log("CHECKED", checked);
+    } else {
+      setPersistence(auth, browserSessionPersistence);
+      console.log("CHECKED", checked);
+    }
+  }, [checked]);
+
   if (currentUser) {
     return <Navigate to="/" />;
   }
   return (
     <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
       <Stack align={"center"}>
-        <Heading color="white" fontSize={"4xl"}>
+        <Heading color="black" fontSize={"4xl"}>
           Inicia sesión ✌
         </Heading>
       </Stack>
@@ -92,16 +110,25 @@ const Login = () => {
               align={"start"}
               justify={"space-between"}
             >
-              <Checkbox>Recordarme</Checkbox>
-              <Link color={"blue.400"}>Olvidaste tu contraseña?</Link>
+              <Checkbox
+                value={checked}
+                onChange={() => {
+                  setChecked(!checked);
+                }}
+              >
+                Recordarme
+              </Checkbox>
+              <Link to={"/recover_password"} color={"blue.400"}>
+                Olvidaste tu contraseña?
+              </Link>
             </Stack>
             <Button
               onClick={() => submitHandler()}
-              bg={"secondary"}
+              bg={"primary"}
               color={"white"}
               isLoading={isSubmitting}
               _hover={{
-                bg: "primary",
+                bg: "primaryHover",
               }}
             >
               Entrar

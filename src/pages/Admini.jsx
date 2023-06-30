@@ -37,46 +37,44 @@ onSnapshot(q, (snapshot) => {
 
 const Admini = () => {
   return (
-    <Navbar>
-      <div className="body-admini">
-        <Text stroke="whiteAlpha.400" color="black" fontSize="30px">
-          Menú Admin
-        </Text>
-        <Link to="/admini/signup-profesor">
-          <Button
-            size="lg"
-            bg="primary"
-            color="white"
-            _hover={{ background: "secondary" }}
-          >
-            <EditIcon />
-            Registro Profesor
-          </Button>
-        </Link>
-        <Link to="/admini/signup-apoderado">
-          <Button
-            size="lg"
-            bg="primary"
-            color="white"
-            _hover={{ background: "secondary" }}
-          >
-            <EditIcon />
-            Registro Apoderado
-          </Button>
-        </Link>
-        <Link to="/admini/signup-alumno">
-          <Button
-            size="lg"
-            bg="primary"
-            color="white"
-            _hover={{ background: "secondary" }}
-          >
-            <EditIcon />
-            Registro Alumno
-          </Button>
-        </Link>
-      </div>
-    </Navbar>
+    <div className="body-admini">
+      <Text stroke="whiteAlpha.400" color="black" fontSize="30px">
+        Menú Admin
+      </Text>
+      <Link to="/admini/signup-profesor">
+        <Button
+          size="lg"
+          bg="primary"
+          color="white"
+          _hover={{ background: "primaryHover" }}
+        >
+          <EditIcon />
+          Registro Profesor
+        </Button>
+      </Link>
+      <Link to="/admini/signup-apoderado">
+        <Button
+          size="lg"
+          bg="primary"
+          color="white"
+          _hover={{ background: "primaryHover" }}
+        >
+          <EditIcon />
+          Registro Apoderado
+        </Button>
+      </Link>
+      <Link to="/admini/signup-alumno">
+        <Button
+          size="lg"
+          bg="primary"
+          color="white"
+          _hover={{ background: "primaryHover" }}
+        >
+          <EditIcon />
+          Registro Alumno
+        </Button>
+      </Link>
+    </div>
   );
 };
 

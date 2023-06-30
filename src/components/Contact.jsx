@@ -26,50 +26,48 @@ const Contact = () => {
     e.target.reset();
   };
   return (
-    <Navbar>
-      <div className="form-control">
-        <Text color="black" fontSize="30px">
-          Contáctanos
-        </Text>
-        <form onSubmit={sendEmail} ref={form} className="--form-control --card">
-          <FormControl>
-            <Input
-              mb="1vh"
-              type="text"
-              placeholder="Nombre completo"
-              name="user_name"
-              isRequired
-            />
-            <Input
-              mb="1vh"
-              type="email"
-              placeholder="Email"
-              name="user_email"
-              isRequired
-            />
-            <Input
-              mb="1vh"
-              type="text"
-              placeholder="Asunto"
-              name="asunto"
-              isRequired
-            />
-            <Textarea name="mensaje" mb="1vh" cols="30" rows="10"></Textarea>
-            <Button
-              bg="secondary"
-              color="white"
-              margin="15px"
-              _hover={{
-                background: "primary",
-              }}
-              type="submit"
-            >
-              Enviar mensaje
-            </Button>
-          </FormControl>
-        </form>
-      </div>
-    </Navbar>
+    <div className="form-control">
+      <Text color="black" fontSize="30px">
+        Contáctanos
+      </Text>
+      <form onSubmit={sendEmail} ref={form} className="--form-control --card">
+        <FormControl>
+          <Input
+            mb="1vh"
+            type="text"
+            placeholder="Nombre completo"
+            name="user_name"
+            isRequired
+          />
+          <Input
+            mb="1vh"
+            type="email"
+            placeholder="Email"
+            name="user_email"
+            isRequired
+          />
+          <Input
+            mb="1vh"
+            type="text"
+            placeholder="Asunto"
+            name="asunto"
+            isRequired
+          />
+          <Textarea name="mensaje" mb="1vh" cols="30" rows="10"></Textarea>
+          <Button
+            bg="primary"
+            color="white"
+            margin="15px"
+            _hover={{
+              background: "primaryHover",
+            }}
+            type="submit"
+          >
+            Enviar mensaje
+          </Button>
+        </FormControl>
+      </form>
+    </div>
   );
 };
 

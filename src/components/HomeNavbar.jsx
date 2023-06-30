@@ -78,26 +78,17 @@ export default function WithSubnavigation() {
         >
           <Button
             onClick={() => navigate("/login")}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-          >
-            Iniciar sesión
-          </Button>
-
-          <Button
-            as={"a"}
             display={{ base: "none", md: "inline-flex" }}
             fontSize={"sm"}
-            fontWeight={600}
+            fontWeight={400}
             color={"white"}
-            bg={"pink.400"}
+            bg={"primary"}
             href={"#"}
             _hover={{
-              bg: "pink.300",
+              bg: "primaryHover",
             }}
           >
-            Registrarse
+            Iniciar sesión
           </Button>
         </Stack>
       </Flex>

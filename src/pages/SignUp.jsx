@@ -13,6 +13,7 @@ import {
   CheckboxGroup,
   Stack,
   useToast,
+  Flex,
 } from "@chakra-ui/react";
 import Navbar from "../components/Navbar";
 
@@ -83,12 +84,17 @@ const SignUp = () => {
   const navigate = useNavigate();
   const db = getFirestore();
   const [secondStep, setSecondStep] = useState(false);
+  const [profesorJefe, setProfesorJefe] = useState(false);
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormContext)
       name: "profesorDe", // unique name for your Field Array
     }
   );
+
+  // useEffect(() => {
+  //   first
+  // }, [profesorJefe])
 
   async function onSubmit(data) {
     const { apellidos, contrasena, email, genero, nombres, rut, profesorDe } =
@@ -152,174 +158,172 @@ const SignUp = () => {
   }
 
   return (
-    <Navbar>
-      <div className="form-control">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Button
-            size="md"
-            onClick={() =>
-              secondStep ? setSecondStep(false) : navigate("/admini")
-            }
-            bg="primary"
-            color="white"
-            mb="5px"
-            display="flex"
-            _hover={{ background: "secondary", color: "black" }}
-          >
-            <ArrowBackIcon />
-          </Button>
-          <Text color="black" fontSize="30px">
-            Registro Profesor
-          </Text>
-          {!secondStep && (
-            <>
-              <FormControl isInvalid={errors.nombres}>
-                <FormLabel fontWeight="bold">Nombres</FormLabel>
-                <Input
-                  borderWidth="3px"
-                  type="text"
-                  {...register("nombres", {
-                    required: "* Campo obligatorio",
-                    minLength: { value: 2, message: "* Mínimo 2 caracteres" },
-                    maxLength: { value: 30, message: "* Máximo 30 caracteres" },
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.nombres && errors.nombres.message}
-                </FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={errors.apellidos}>
-                <FormLabel fontWeight="bold">Apellidos</FormLabel>
-                <Input
-                  borderWidth="3px"
-                  type="text"
-                  {...register("apellidos", {
-                    required: "* Campo obligatorio",
-                    minLength: { value: 3, message: "* Mínimo 3 caracteres" },
-                    maxLength: 30,
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.apellidos && errors.apellidos.message}
-                </FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={errors.rut}>
-                <FormLabel fontWeight="bold">RUT</FormLabel>
-                <Input
-                  borderWidth="3px"
-                  type="text"
-                  placeholder="Sin puntos y con guión"
-                  {...register("rut", {
-                    required: "* Campo obligatorio",
-                    maxLength: 12,
-                    pattern: {
-                      value: /^[0-9]+[-|‐]{1}[0-9kK]{1}$/,
-                      message: "RUT inválido",
-                    },
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.rut && errors.rut.message}
-                </FormErrorMessage>
-              </FormControl>
-              <FormControl>
-                <FormLabel fontWeight="bold">Género</FormLabel>
-                <RadioGroup defaultValue="Hombre">
-                  <HStack spacing="20px">
-                    <Radio name="genero" value="Hombre" {...register("genero")}>
-                      Hombre
-                    </Radio>
-                    <Radio name="genero" value="Mujer" {...register("genero")}>
-                      Mujer
-                    </Radio>
-                    <Radio name="genero" value="Otro" {...register("genero")}>
-                      Otro
-                    </Radio>
-                  </HStack>
-                </RadioGroup>
-              </FormControl>
-              <FormControl isInvalid={errors.email}>
-                <FormLabel fontWeight="bold">Correo electrónico</FormLabel>
-                <Input
-                  borderWidth="3px"
-                  type="email"
-                  {...register("email", {
-                    required: "* Campo obligatorio",
-                    pattern: {
-                      value: /^\S+@\S+$/i,
-                      message: "* Correo inválido",
-                    },
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.email && errors.email.message}
-                </FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={errors.contrasena}>
-                <FormLabel fontWeight="bold">Contraseña</FormLabel>
-                <Input
-                  borderWidth="3px"
-                  type="password"
-                  {...register("contrasena", {
-                    required: "Debe contener entre 8 y 12 caracteres",
-                    maxLength: {
-                      value: 12,
-                      message: "Debe contener entre 8 y 12 caracteres",
-                    },
-                    minLength: {
-                      value: 8,
-                      message: "Debe contener entre 8 y 12 caracteres",
-                    },
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.contrasena && errors.contrasena.message}
-                </FormErrorMessage>
-              </FormControl>
-              <FormControl isInvalid={errors.confirmaContrasena}>
-                <FormLabel>Repite tu contraseña</FormLabel>
-                <Input
-                  borderWidth="3px"
-                  type="password"
-                  {...register("confirmaContrasena", {
-                    validate: (value) =>
-                      value === watch("contrasena", "") ||
-                      "Las contraseñas no coinciden",
-                  })}
-                />
-                <FormErrorMessage>
-                  {errors.confirmaContrasena &&
-                    errors.confirmaContrasena.message}
-                </FormErrorMessage>
-              </FormControl>
-              <Button
-                onClick={async () => {
-                  const result = await trigger([
-                    "nombres",
-                    "apellidos",
-                    "rut",
-                    "genero",
-                    "email",
-                    "contrasena",
-                    "confirmaContrasena",
-                  ]);
-                  if (result && setSecondStep(true));
-                }}
-                size="sm"
-                bg="primary"
-                color="white"
-                margin="15px"
-                _hover={{
-                  background: "secondary",
-                  color: "black",
-                }}
-              >
-                Siguiente
-              </Button>
-            </>
-          )}
-          {secondStep && (
-            <>
+    <div className="form-control">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Button
+          size="md"
+          onClick={() =>
+            secondStep ? setSecondStep(false) : navigate("/admini")
+          }
+          bg="primary"
+          color="white"
+          mb="5px"
+          display="flex"
+          _hover={{ background: "primaryHover" }}
+        >
+          <ArrowBackIcon />
+        </Button>
+        <Text color="black" fontSize="30px">
+          Registro Profesor
+        </Text>
+        {!secondStep && (
+          <>
+            <FormControl isInvalid={errors.nombres}>
+              <FormLabel fontWeight="bold">Nombres</FormLabel>
+              <Input
+                borderWidth="3px"
+                type="text"
+                {...register("nombres", {
+                  required: "* Campo obligatorio",
+                  minLength: { value: 2, message: "* Mínimo 2 caracteres" },
+                  maxLength: { value: 30, message: "* Máximo 30 caracteres" },
+                })}
+              />
+              <FormErrorMessage>
+                {errors.nombres && errors.nombres.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={errors.apellidos}>
+              <FormLabel fontWeight="bold">Apellidos</FormLabel>
+              <Input
+                borderWidth="3px"
+                type="text"
+                {...register("apellidos", {
+                  required: "* Campo obligatorio",
+                  minLength: { value: 3, message: "* Mínimo 3 caracteres" },
+                  maxLength: 30,
+                })}
+              />
+              <FormErrorMessage>
+                {errors.apellidos && errors.apellidos.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={errors.rut}>
+              <FormLabel fontWeight="bold">RUT</FormLabel>
+              <Input
+                borderWidth="3px"
+                type="text"
+                placeholder="Sin puntos y con guión"
+                {...register("rut", {
+                  required: "* Campo obligatorio",
+                  maxLength: 12,
+                  pattern: {
+                    value: /^[0-9]+[-|‐]{1}[0-9kK]{1}$/,
+                    message: "RUT inválido",
+                  },
+                })}
+              />
+              <FormErrorMessage>
+                {errors.rut && errors.rut.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl>
+              <FormLabel fontWeight="bold">Género</FormLabel>
+              <RadioGroup defaultValue="Hombre">
+                <HStack spacing="20px">
+                  <Radio name="genero" value="Hombre" {...register("genero")}>
+                    Hombre
+                  </Radio>
+                  <Radio name="genero" value="Mujer" {...register("genero")}>
+                    Mujer
+                  </Radio>
+                  <Radio name="genero" value="Otro" {...register("genero")}>
+                    Otro
+                  </Radio>
+                </HStack>
+              </RadioGroup>
+            </FormControl>
+            <FormControl isInvalid={errors.email}>
+              <FormLabel fontWeight="bold">Correo electrónico</FormLabel>
+              <Input
+                borderWidth="3px"
+                type="email"
+                {...register("email", {
+                  required: "* Campo obligatorio",
+                  pattern: {
+                    value: /^\S+@\S+$/i,
+                    message: "* Correo inválido",
+                  },
+                })}
+              />
+              <FormErrorMessage>
+                {errors.email && errors.email.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={errors.contrasena}>
+              <FormLabel fontWeight="bold">Contraseña</FormLabel>
+              <Input
+                borderWidth="3px"
+                type="password"
+                {...register("contrasena", {
+                  required: "Debe contener entre 8 y 12 caracteres",
+                  maxLength: {
+                    value: 12,
+                    message: "Debe contener entre 8 y 12 caracteres",
+                  },
+                  minLength: {
+                    value: 8,
+                    message: "Debe contener entre 8 y 12 caracteres",
+                  },
+                })}
+              />
+              <FormErrorMessage>
+                {errors.contrasena && errors.contrasena.message}
+              </FormErrorMessage>
+            </FormControl>
+            <FormControl isInvalid={errors.confirmaContrasena}>
+              <FormLabel>Repite tu contraseña</FormLabel>
+              <Input
+                borderWidth="3px"
+                type="password"
+                {...register("confirmaContrasena", {
+                  validate: (value) =>
+                    value === watch("contrasena", "") ||
+                    "Las contraseñas no coinciden",
+                })}
+              />
+              <FormErrorMessage>
+                {errors.confirmaContrasena && errors.confirmaContrasena.message}
+              </FormErrorMessage>
+            </FormControl>
+            <Button
+              onClick={async () => {
+                const result = await trigger([
+                  "nombres",
+                  "apellidos",
+                  "rut",
+                  "genero",
+                  "email",
+                  "contrasena",
+                  "confirmaContrasena",
+                ]);
+                if (result && setSecondStep(true));
+              }}
+              size="sm"
+              bg="primary"
+              color="white"
+              margin="15px"
+              _hover={{
+                background: "primaryHover",
+              }}
+            >
+              Siguiente
+            </Button>
+          </>
+        )}
+        {secondStep && (
+          <>
+            <Flex flexDirection={"column"}>
               <Text display="flex" m="20px auto" color="black" fontSize="18px">
                 ¿En qué cursos impartirá clases?
               </Text>
@@ -349,6 +353,22 @@ const SignUp = () => {
                       </Select>
                     )}
                     name={`profesorDe.${index}.curso`}
+                    control={control}
+                  />
+
+                  <Controller
+                    render={({ onChange, field }) => (
+                      <Checkbox
+                        onChange={() => {
+                          onChange, setProfesorJefe(!profesorJefe);
+                        }}
+                        mb={"15px"}
+                        {...field}
+                      >
+                        Es profesor jefe?
+                      </Checkbox>
+                    )}
+                    name={`profesorDe.${index}.profesorJefe`}
                     control={control}
                   />
 
@@ -387,38 +407,37 @@ const SignUp = () => {
                   </Button>
                 </React.Fragment>
               ))}
+            </Flex>
+            <Button
+              onClick={() => append()}
+              size="sm"
+              bg="primary"
+              color="white"
+              margin="20px 0 auto"
+              _hover={{
+                background: "primary",
+              }}
+            >
+              Agregar
+            </Button>
 
-              <Button
-                onClick={() => append()}
-                size="sm"
-                bg="primary"
-                color="white"
-                margin="20px 0 auto"
-                _hover={{
-                  background: "primary",
-                }}
-              >
-                Agregar
-              </Button>
-
-              <Button
-                type="submit"
-                size="sm"
-                bg="primary"
-                color="white"
-                margin="20px 0 auto"
-                // isLoading={isSubmitting}
-                _hover={{
-                  background: "primary",
-                }}
-              >
-                Finalizar
-              </Button>
-            </>
-          )}
-        </form>
-      </div>
-    </Navbar>
+            <Button
+              type="submit"
+              size="sm"
+              bg="primary"
+              color="white"
+              margin="20px 0 auto"
+              // isLoading={isSubmitting}
+              _hover={{
+                background: "primary",
+              }}
+            >
+              Finalizar
+            </Button>
+          </>
+        )}
+      </form>
+    </div>
   );
 };
 

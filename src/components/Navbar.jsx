@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { auth } from "../AuthContext";
+import { useAuth } from "reactfire";
 import {
   IconButton,
   Avatar,
@@ -43,7 +44,7 @@ const LinkItems = [
   { name: "Informacion_util", icon: FiInfo },
 ];
 
-export default function Navbar({ children }) {
+export default function Navbar({ Outlet }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -68,7 +69,7 @@ export default function Navbar({ children }) {
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        {children}
+        <Outlet />
       </Box>
     </Box>
   );
@@ -88,7 +89,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     >
       <Flex h="200" alignItems="center" mx="8" justifyContent="center">
         <VStack align={"center"} className="navbar-izq">
-          <Text fontSize="2xl" fontWeight="bold">
+          <Text onClick={() => navigate("/")} fontSize="2xl" fontWeight="bold">
             <img src="../logonotapp.png" alt="Logo NotApp" />
             NotApp
           </Text>
@@ -150,13 +151,10 @@ const NavItem = ({ icon, children, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
-  const [user, setUser] = useState({});
   const navigate = useNavigate();
 
-  onAuthStateChanged(auth, (currentUser) => {
-    setUser(currentUser);
-  });
-  const nombreUsuario = user?.displayName;
+  const { currentUser } = useAuth();
+
   const logout = async () => {
     await signOut(auth);
     console.log("Se cerró sesión");
@@ -195,6 +193,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
+          color={"white"}
+          _hover={{ color: "black", bgColor: "white" }}
         />
         <Flex alignItems={"center"}>
           <Menu>
@@ -216,11 +216,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   spacing="1px"
                   ml="2"
                 >
-                  {user ? (
-                    <Text fontSize="sm">{nombreUsuario}</Text>
-                  ) : (
-                    <Text fontSize="sm">Invitado</Text>
-                  )}
+                  <Text fontSize="sm">{currentUser?.displayName}</Text>
 
                   <Text fontSize="xs" color="gray.600">
                     Admin
@@ -231,20 +227,17 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 </Box>
               </HStack>
             </MenuButton>
-            {user ? (
-              <MenuList
-                bg={useColorModeValue("white", "gray.900")}
-                borderColor={useColorModeValue("gray.200", "gray.700")}
-              >
-                <MenuItem>Profile</MenuItem>
-                <MenuItem>Settings</MenuItem>
-                <MenuItem>Billing</MenuItem>
-                <MenuDivider />
-                <MenuItem onClick={logout}>Sign out</MenuItem>
-              </MenuList>
-            ) : (
-              []
-            )}
+
+            <MenuList
+              bg={useColorModeValue("white", "gray.900")}
+              borderColor={useColorModeValue("gray.200", "gray.700")}
+            >
+              <MenuItem>Profile</MenuItem>
+              <MenuItem>Settings</MenuItem>
+              <MenuItem>Billing</MenuItem>
+              <MenuDivider />
+              <MenuItem onClick={logout}>Sign out</MenuItem>
+            </MenuList>
           </Menu>
         </Flex>
       </HStack>
