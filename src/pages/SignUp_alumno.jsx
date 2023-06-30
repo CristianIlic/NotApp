@@ -11,7 +11,6 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {
@@ -39,7 +38,7 @@ const SignUp = () => {
   const db = getFirestore();
   const cursosRef = collection(useFirestore(), "curso");
   const { status, data: cursos } = useFirestoreCollectionData(cursosRef);
-  const materias = {
+  const asignaturas = {
     Matemáticas: {
       notas: ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"],
     },
@@ -60,12 +59,14 @@ const SignUp = () => {
     console.log(data);
     try {
       if (data) {
-        await addDoc(collection(db, "alumnos"), {
+        await addDoc(collection(db, "usuario"), {
           nombres: data.nombres,
           apellidos: data.apellidos,
           rut: data.rut,
-          curso: data.curso,
-          materias,
+          idCurso: data.curso,
+          asignaturas,
+          rol: "alumno",
+          anotaciones: [{ descripcion: "", esPositiva: true }], //Debe modificarse si es positiva o no, además del contenido de la anotación
         });
 
         // navigate("/admini");
@@ -91,15 +92,6 @@ const SignUp = () => {
       console.log("ERROR:", error);
     }
   }
-
-  // function onSubmit(values) {
-  //   return new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       alert(JSON.stringify(values, null, 2));
-  //       resolve();
-  //     }, 3000);
-  //   });
-  // }
 
   return (
     <div className="form-control">

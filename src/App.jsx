@@ -20,9 +20,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 
-import { auth } from "./AuthContext";
 import { getDatabase } from "firebase/database"; // Firebase v9+
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+
 import {
   AuthProvider,
   DatabaseProvider,
@@ -34,7 +35,7 @@ import Navbar from "./components/Navbar";
 
 function App() {
   const app = useFirebaseApp(); // a parent element contains a `FirebaseAppProvider`
-
+  const auth = getAuth();
   // initialize Database and Auth with the normal Firebase SDK functions
   const database = getDatabase(app);
   const firestore = getFirestore(app);

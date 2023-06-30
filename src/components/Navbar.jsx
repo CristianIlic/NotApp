@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { auth } from "../AuthContext";
-import { useAuth } from "reactfire";
+import { useAuth, useSigninCheck } from "reactfire";
 import {
   IconButton,
   Avatar,
@@ -21,6 +21,7 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  Spinner,
 } from "@chakra-ui/react";
 import { useNavigate, Link } from "react-router-dom";
 import {
@@ -45,7 +46,13 @@ const LinkItems = [
 ];
 
 export default function Navbar({ Outlet }) {
+  const { status } = useSigninCheck();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { currentUser } = useAuth();
+  const uid = currentUser?.uid;
+  if (status === "loading") {
+    return <Spinner color="primary" />;
+  }
 
   return (
     <Box minH="100vh" bg={useColorModeValue("background", "gray.900")}>
@@ -69,7 +76,7 @@ export default function Navbar({ Outlet }) {
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p="4">
-        <Outlet />
+        <Outlet context={{ uid }} />
       </Box>
     </Box>
   );
@@ -154,7 +161,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const navigate = useNavigate();
 
   const { currentUser } = useAuth();
-
   const logout = async () => {
     await signOut(auth);
     console.log("Se cerró sesión");

@@ -15,7 +15,6 @@ import {
   useToast,
   Flex,
 } from "@chakra-ui/react";
-import Navbar from "../components/Navbar";
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import {
@@ -83,8 +82,8 @@ const SignUp = () => {
 
   const navigate = useNavigate();
   const db = getFirestore();
-  const [secondStep, setSecondStep] = useState(false);
-  const [profesorJefe, setProfesorJefe] = useState(false);
+  const [secondStep, setSecondStep] = useState(true);
+  const [esProfesorJefe, setEsProfesorJefe] = useState(false);
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormContext)
@@ -102,10 +101,11 @@ const SignUp = () => {
 
     const curso = {};
 
-    profesorDe.forEach(({ curso: idCurso, asignatura }) => {
-      curso[idCurso] = asignatura;
+    profesorDe.forEach(({ curso: idCurso, asignatura, profesorJefe }) => {
+      curso[idCurso] = { asignatura, profesorJefe };
     });
 
+    console.log("PROFEEEEEEEE", profesorDe);
     const formattedData = {
       apellidos,
       contrasena,
@@ -125,12 +125,13 @@ const SignUp = () => {
       if (result.user) {
         const uid = result.user.uid;
         await updateProfile(result.user, { displayName: data.nombres });
-        await setDoc(doc(db, "profesores", uid), {
+        await setDoc(doc(db, "usuario", uid), {
           nombres: formattedData.nombres,
           apellidos: formattedData.apellidos,
           rut: formattedData.rut,
           genero: formattedData.genero,
           curso: formattedData.curso,
+          rol: "profesor",
         });
         setSecondStep(true);
 
@@ -156,7 +157,6 @@ const SignUp = () => {
       console.log("ERROR: ", error);
     }
   }
-
   return (
     <div className="form-control">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -360,7 +360,7 @@ const SignUp = () => {
                     render={({ onChange, field }) => (
                       <Checkbox
                         onChange={() => {
-                          onChange, setProfesorJefe(!profesorJefe);
+                          onChange, setEsProfesorJefe(!esProfesorJefe);
                         }}
                         mb={"15px"}
                         {...field}
@@ -413,9 +413,9 @@ const SignUp = () => {
               size="sm"
               bg="primary"
               color="white"
-              margin="20px 0 auto"
+              margin="20px 20px"
               _hover={{
-                background: "primary",
+                background: "primaryHover",
               }}
             >
               Agregar
@@ -426,10 +426,10 @@ const SignUp = () => {
               size="sm"
               bg="primary"
               color="white"
-              margin="20px 0 auto"
-              // isLoading={isSubmitting}
+              margin="20px 20px"
+              isLoading={isSubmitting}
               _hover={{
-                background: "primary",
+                background: "primaryHover",
               }}
             >
               Finalizar

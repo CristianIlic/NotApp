@@ -89,7 +89,14 @@ p {
   background-color: white;
   border-radius: 8px;
   padding: 20px;
-  max-width: 500px;
+  max-width: 550px;
+}
+.form-control-apo {
+  margin: 0 auto;
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 700px;
 }
 
 .body-profesor {
