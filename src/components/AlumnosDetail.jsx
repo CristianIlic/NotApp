@@ -11,6 +11,12 @@ import {
   Heading,
   Flex,
   Spinner,
+  Stack,
+  HStack,
+  VStack,
+  StackDivider,
+  Box,
+  Text,
 } from "@chakra-ui/react";
 import { useFirestoreDocData } from "reactfire";
 
@@ -25,7 +31,7 @@ export function AlumnosDetail({ selectedAlumno }) {
   if (statusAlumnos === "loading") {
     return <Spinner color="primary" />;
   }
-  console.log("caquita", Object.getOwnPropertyNames(asignaturas));
+  console.log("caquita", asignaturas.Física.notas);
   return (
     <>
       <Flex
@@ -35,36 +41,30 @@ export function AlumnosDetail({ selectedAlumno }) {
         bg="white"
         alignItems="center"
         justifyContent="center"
-        flexDirection="row"
+        flexDirection="column"
         position="relative"
         borderRadius="3xl"
       >
-        <Flex flexDirection={"column"}>
-          {Object.getOwnPropertyNames(asignaturas)
-            .sort()
-            .map((asignatura) => (
-              <Card
-                key={asignatura}
-                bg="transparent"
-                size="sm"
-                margin="20px"
-                width={60}
-                onClick={(e) => setSelectedAsignatura(e.target.outerText)}
-                _hover={{ bg: "primary" }}
-              >
-                <CardHeader>
-                  <Heading size="sm">{asignatura}</Heading>
-                </CardHeader>
-              </Card>
-            ))}
-        </Flex>
-
-        <UnorderedList>
-          {selectedAsignatura &&
-            asignaturas[selectedAsignatura].notas.map((nota) => (
-              <ListItem>{nota}</ListItem>
-            ))}
-        </UnorderedList>
+        {Object.getOwnPropertyNames(asignaturas)
+          .sort()
+          .map((nombreAsignatura) => (
+            <Card
+              key={nombreAsignatura}
+              bg="transparent"
+              size="sm"
+              margin="20px"
+              width={"800px"}
+              _hover={{ bg: "primary" }}
+              flexDirection={"row"}
+            >
+              <CardHeader>
+                <Heading size="sm">{nombreAsignatura}</Heading>
+              </CardHeader>
+              {asignaturas[nombreAsignatura].notas.map((nota) => (
+                <Text color={"black"}>{nota}</Text>
+              ))}
+            </Card>
+          ))}
       </Flex>
     </>
   );
