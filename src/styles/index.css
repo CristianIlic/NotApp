@@ -41,6 +41,67 @@ p {
   padding: 0.5rem;
 }
 
+.greenCircle {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(0, 128, 64);
+  border-width: 2px;
+  border-color: black;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+.yellowCircle {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(245, 228, 0);
+  border-width: 2px;
+  border-color: black;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+.orangeCircle {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(255, 145, 0);
+  border-width: 2px;
+  border-color: black;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+.redCircle {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(211, 9, 9);
+  border-width: 2px;
+  border-color: black;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+.grayCircle {
+  display: flex;
+  width: 40px;
+  height: 40px;
+  background-color: rgb(136, 136, 136);
+  border-width: 2px;
+  border-color: black;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  margin: 5px;
+}
+
 .navbar-izq {
   height: 5vmax;
   width: 5vmax;

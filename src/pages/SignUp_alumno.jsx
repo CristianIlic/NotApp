@@ -41,18 +41,23 @@ const SignUp = () => {
   const asignaturas = {
     Matemáticas: {
       notas: ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"],
+      promedio: "0",
     },
     "Lenguaje y Comunicaciones": {
       notas: ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"],
+      promedio: "0",
     },
     Química: {
       notas: ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"],
+      promedio: "0",
     },
     Física: {
       notas: ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"],
+      promedio: "0",
     },
     Historia: {
       notas: ["0", "0", "0", "0", "0", "0", "0", "0", "0", "0"],
+      promedio: "0",
     },
   };
   async function onSubmit(data) {
