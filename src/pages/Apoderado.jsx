@@ -105,13 +105,19 @@ const Apoderado = () => {
                 transition="ease-in-out .2s"
                 borderRadius="3xl"
               >
-                {asignaturas.map((asignaturas) => (
-                  <Card bg="transparent" size="sm" margin="20px" width={60}>
-                    <CardHeader>
-                      <Heading size="sm">Curso: {asignaturas.nombre}</Heading>
-                    </CardHeader>
-                  </Card>
-                ))}
+                {asignaturas ? (
+                  asignaturas.map((asignaturas) => (
+                    <Card bg="transparent" size="sm" margin="20px" width={60}>
+                      <CardHeader>
+                        <Heading size="sm">Curso: {asignaturas.nombre}</Heading>
+                      </CardHeader>
+                    </Card>
+                  ))
+                ) : (
+                  <p>
+                    <Spinner />
+                  </p>
+                )}
               </Flex>
               <Flex
                 as="main"

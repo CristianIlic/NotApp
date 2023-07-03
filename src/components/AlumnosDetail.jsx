@@ -121,7 +121,7 @@ export function AlumnosDetail({ selectedAlumno }) {
                   <>
                     {asignaturas[nombreAsignatura].promedio >= 6 && (
                       <div className="greenCircle">
-                        <Text fontSize={"5px"} color={"white"}>
+                        <Text fontSize={"1.5vmin"} color={"white"}>
                           {asignaturas[nombreAsignatura].promedio}
                         </Text>
                       </div>

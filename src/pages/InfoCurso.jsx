@@ -70,7 +70,12 @@ const InfoCurso = () => {
 
       const promedio = notas
         .map(parseFloat)
-        .reduce((acc, value) => acc + value / notas.length, 0)
+        .reduce((acc, value) => {
+          return (
+            acc +
+            value / asignaturas[idAsignatura].notas.filter((e) => e != 0).length
+          );
+        }, 0)
         .toFixed(1);
 
       const asignaturasActualizadas = {
