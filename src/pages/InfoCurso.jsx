@@ -27,15 +27,20 @@ import {
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { HiOutlineMail } from "react-icons/hi";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import useNotifications from "../hooks/useNotifications";
 
 const InfoCurso = () => {
   const toast = useToast();
   const [edit, setEdit] = useState(false);
+  const [editedAlumnos, setEditedAlumnos] = useState([]);
+  const { sendNotification } = useNotifications();
   const { id } = useParams();
   const db = getFirestore();
 
-  const { register, handleSubmit } = useForm();
+  console.log("setEditedAlumnos", editedAlumnos);
+
+  const { register, handleSubmit, control, getValues } = useForm();
 
   const [idCurso, idAsignatura] = id.split("@");
 
@@ -93,6 +98,20 @@ const InfoCurso = () => {
 
     await batch.commit();
 
+    console.log("editedAlumnos", editedAlumnos);
+
+    await sendNotification(
+      editedAlumnos.map((id) => {
+        const { nombres, apellidos } = alumnos.find(
+          (alumno) => alumno.NO_ID_FIELD === id
+        );
+        return {
+          contenido: `el alumno ${nombres} ${apellidos} ha recibido una actualización de notas en la asignatura ${asignaturaFormat}`,
+          sufferedChangeIds: id,
+        };
+      })
+    );
+
     toast({
       title: "Notas actualizadas",
       description: "Las notas se han actualizado correctamente",
@@ -140,23 +159,35 @@ const InfoCurso = () => {
           </Thead>
           <Tbody>
             {alumnos.map(
-              (
-                { NO_ID_FIELD, rut, nombres, apellidos, asignaturas },
-                index
-              ) => (
+              ({ NO_ID_FIELD, rut, nombres, apellidos, asignaturas }) => (
                 <Tr key={rut}>
-                  <Td>{index + 1}</Td>
                   <Td>{`${apellidos} ${nombres}`}</Td>
                   {asignaturas[idAsignatura.replaceAll("_", " ")].notas.map(
                     (nota, index) => (
                       <>
                         {edit ? (
                           <Td>
-                            <Input
-                              w="60px"
-                              bgColor={"white"}
+                            <Controller
                               defaultValue={nota}
-                              {...register(`${index + 1}_${NO_ID_FIELD}`)}
+                              render={({ field: { onBlur, ...rest } }) => (
+                                <Input
+                                  w="60px"
+                                  bgColor={"white"}
+                                  {...rest}
+                                  onBlur={(e) => {
+                                    if (!editedAlumnos.includes(NO_ID_FIELD)) {
+                                      setEditedAlumnos((prev) => [
+                                        ...prev,
+                                        NO_ID_FIELD,
+                                      ]);
+                                    }
+
+                                    onBlur(e.target.value);
+                                  }}
+                                />
+                              )}
+                              name={`${index + 1}_${NO_ID_FIELD}`}
+                              control={control}
                             />
                           </Td>
                         ) : (

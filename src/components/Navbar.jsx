@@ -1,7 +1,7 @@
 import React from "react";
-import { doc, getFirestore } from "firebase/firestore";
+import { useState } from "react";
 import { auth } from "../AuthContext";
-import { useAuth, useSigninCheck, useFirestoreDocData } from "reactfire";
+import { useAuth, useSigninCheck } from "reactfire";
 import {
   IconButton,
   Avatar,
@@ -36,7 +36,7 @@ import {
 } from "react-icons/fi";
 import { TbRuler2 } from "react-icons/tb";
 import { signOut, onAuthStateChanged } from "firebase/auth";
-
+import Notifications from "./Notifications";
 const LinkItems = [
   { name: "Profesor", icon: TbRuler2 },
   { name: "Admini", icon: FiCompass },
@@ -50,6 +50,7 @@ export default function Navbar({ Outlet }) {
   const { status } = useSigninCheck();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { currentUser } = useAuth();
+
   const uid = currentUser?.uid;
   if (status === "loading") {
     return <Spinner color="primary" />;
@@ -160,16 +161,8 @@ const NavItem = ({ icon, children, ...rest }) => {
 
 const MobileNav = ({ onOpen, ...rest }) => {
   const navigate = useNavigate();
-  const db = getFirestore();
+
   const { currentUser } = useAuth();
-  const alumnosRef = doc(db, "usuario", currentUser.uid);
-  const { status: status, data: usuario } = useFirestoreDocData(alumnosRef);
-  const rol = usuario?.rol;
-
-  if (status === "loading") {
-    return <Spinner color="primary" />;
-  }
-
   const logout = async () => {
     await signOut(auth);
     console.log("Se cerró sesión");
@@ -203,14 +196,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-          color={"white"}
-          _hover={{ color: "black", bgColor: "white" }}
-        />
+        <Notifications />
         <Flex alignItems={"center"}>
           <Menu>
             <MenuButton
@@ -234,7 +220,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   <Text fontSize="sm">{currentUser?.displayName}</Text>
 
                   <Text fontSize="xs" color="gray.600">
-                    {rol.charAt(0).toUpperCase() + rol.slice(1)}
+                    Admin
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
