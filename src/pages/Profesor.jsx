@@ -10,17 +10,22 @@ import {
 } from "@chakra-ui/react";
 import { useFirestore, useFirestoreCollectionData } from "reactfire";
 
-import { collection } from "firebase/firestore";
+import { collection, query, where } from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const Profesor = () => {
-  const profesoresRef = collection(useFirestore(), "profesores");
+  const profesoresRef = collection(useFirestore(), "usuario");
+  const filteredProfesoresRef = query(
+    profesoresRef,
+    where("rol", "==", "profesor")
+  );
+
   const [cards, setCards] = useState([]);
   const cursosRef = collection(useFirestore(), "curso");
 
   const { data: profesores, status: statusProfesores } =
-    useFirestoreCollectionData(profesoresRef);
+    useFirestoreCollectionData(filteredProfesoresRef);
 
   // subscribe to a document for realtime updates. just one line!
   const { status: statusCursos, data: cursos } =
@@ -33,7 +38,7 @@ const Profesor = () => {
           const profesoresPorCurso = profesores.flatMap(
             ({ nombres, apellidos, curso }) => {
               if (!!curso[NO_ID_FIELD]) {
-                return curso[NO_ID_FIELD].map((asignatura) => ({
+                return curso[NO_ID_FIELD].asignatura.map((asignatura) => ({
                   idCurso: NO_ID_FIELD,
                   nombreCurso,
                   nombres,

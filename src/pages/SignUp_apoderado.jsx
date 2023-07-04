@@ -124,6 +124,7 @@ const SignUp = () => {
         await setDoc(doc(db, "usuario", uid), {
           nombres: formattedData.nombres,
           apellidos: formattedData.apellidos,
+          correo: formattedData.email,
           rut: formattedData.rut,
           genero: formattedData.genero,
           alumnos: formattedData.alumnos,

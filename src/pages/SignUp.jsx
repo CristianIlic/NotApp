@@ -91,10 +91,6 @@ const SignUp = () => {
     }
   );
 
-  // useEffect(() => {
-  //   first
-  // }, [profesorJefe])
-
   async function onSubmit(data) {
     const { apellidos, contrasena, email, genero, nombres, rut, profesorDe } =
       data;
@@ -128,6 +124,7 @@ const SignUp = () => {
         await setDoc(doc(db, "usuario", uid), {
           nombres: formattedData.nombres,
           apellidos: formattedData.apellidos,
+          correo: formattedData.email,
           rut: formattedData.rut,
           genero: formattedData.genero,
           curso: formattedData.curso,
