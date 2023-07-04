@@ -36,6 +36,7 @@ import {
 } from "react-icons/fi";
 import { TbRuler2 } from "react-icons/tb";
 import { signOut, onAuthStateChanged } from "firebase/auth";
+import Notifications from "./Notifications";
 
 const LinkItems = [
   { name: "Profesor", icon: TbRuler2 },
@@ -203,14 +204,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
-          size="lg"
-          variant="ghost"
-          aria-label="open menu"
-          icon={<FiBell />}
-          color={"white"}
-          _hover={{ color: "black", bgColor: "white" }}
-        />
+        <Notifications />
         <Flex alignItems={"center"}>
           <Menu>
             <MenuButton
@@ -247,11 +241,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
-              <MenuItem>Billing</MenuItem>
-              <MenuDivider />
-              <MenuItem onClick={logout}>Sign out</MenuItem>
+              <MenuItem onClick={logout}>Cerrar sesión</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

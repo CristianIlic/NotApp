@@ -150,7 +150,7 @@ export function AlumnosDetail({ selectedAlumno }) {
                           </Text>
                         </div>
                       )}
-                    {!asignaturas[nombreAsignatura].promedio && (
+                    {asignaturas[nombreAsignatura].promedio == 0 && (
                       <div className="grayCircle">
                         <Text p={"0px"} fontSize={"1.5vmin"} color={"white"}>
                           {asignaturas[nombreAsignatura].promedio}

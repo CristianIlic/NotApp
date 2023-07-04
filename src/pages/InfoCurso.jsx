@@ -27,16 +27,18 @@ import {
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { HiOutlineMail } from "react-icons/hi";
 
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
+import useNotifications from "../hooks/useNotifications";
 
 const InfoCurso = () => {
   const toast = useToast();
   const [edit, setEdit] = useState(false);
+  const [editedAlumnos, setEditedAlumnos] = useState([]);
+  const { sendNotification } = useNotifications();
   const { id } = useParams();
   const db = getFirestore();
 
-  const { register, handleSubmit } = useForm();
-
+  const { register, handleSubmit, control, getValues } = useForm();
   const [idCurso, idAsignatura] = id.split("@");
 
   const alumnosRef = collection(useFirestore(), "usuario");
@@ -92,6 +94,18 @@ const InfoCurso = () => {
     });
 
     await batch.commit();
+
+    await sendNotification(
+      editedAlumnos.map((id) => {
+        const { nombres, apellidos } = alumnos.find(
+          (alumno) => alumno.NO_ID_FIELD === id
+        );
+        return {
+          contenido: `El alumno ${nombres} ${apellidos} ha recibido una actualización de notas en la asignatura ${asignaturaFormat}`,
+          sufferedChangeIds: id,
+        };
+      })
+    );
 
     toast({
       title: "Notas actualizadas",
@@ -152,11 +166,27 @@ const InfoCurso = () => {
                       <>
                         {edit ? (
                           <Td>
-                            <Input
-                              w="60px"
-                              bgColor={"white"}
+                            <Controller
                               defaultValue={nota}
-                              {...register(`${index + 1}_${NO_ID_FIELD}`)}
+                              render={({ field: { onBlur, ...rest } }) => (
+                                <Input
+                                  w="60px"
+                                  bgColor={"white"}
+                                  {...rest}
+                                  onBlur={(e) => {
+                                    if (!editedAlumnos.includes(NO_ID_FIELD)) {
+                                      setEditedAlumnos((prev) => [
+                                        ...prev,
+                                        NO_ID_FIELD,
+                                      ]);
+                                    }
+
+                                    onBlur(e.target.value);
+                                  }}
+                                />
+                              )}
+                              name={`${index + 1}_${NO_ID_FIELD}`}
+                              control={control}
                             />
                           </Td>
                         ) : (

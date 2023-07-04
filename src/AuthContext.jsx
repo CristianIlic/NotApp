@@ -59,7 +59,6 @@ export const AuthProvider = ({ children }) => {
     });
     return unsubscribe;
   }, []);
-  console.log("PENDDDDDDDDDDDDDDDDDING", pending);
   if (pending) {
     return <>Loading...</>;
   }

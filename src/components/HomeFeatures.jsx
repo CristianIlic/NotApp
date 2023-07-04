@@ -42,8 +42,10 @@ const Feature = ({ text, icon, iconBg }) => {
 const Feature_dos = ({ title, text, icon }) => {
   return (
     <Stack>
-      <Text fontWeight={600} color={"black"}>{title}</Text>
-      <Text color={'gray.600'}>{text}</Text>
+      <Text fontWeight={600} color={"black"}>
+        {title}
+      </Text>
+      <Text color={"gray.600"}>{text}</Text>
     </Stack>
   );
 };
@@ -71,12 +73,19 @@ export default function SplitWithImage() {
               iconBg={useColorModeValue("yellow.100", "yellow.900")}
               text={
                 <Text fontSize={"20px"} color={"gray.500"}>
-                  Mantener un seguimiento de tus notas, promedios, tareas y evaluaciones.
+                  Mantener un seguimiento de tus notas y promedios
                 </Text>
               }
             />
             <Feature
-              icon={<Icon as={IoChatboxEllipsesOutline} color={"green.500"} w={5} h={5} />}
+              icon={
+                <Icon
+                  as={IoChatboxEllipsesOutline}
+                  color={"green.500"}
+                  w={5}
+                  h={5}
+                />
+              }
               iconBg={useColorModeValue("green.100", "green.900")}
               text={
                 <Text fontSize={"20px"} color={"gray.500"}>
@@ -86,12 +95,18 @@ export default function SplitWithImage() {
             />
             <Feature
               icon={
-                <Icon as={IoInformationCircleOutline} color={"purple.500"} w={5} h={5} />
+                <Icon
+                  as={IoInformationCircleOutline}
+                  color={"purple.500"}
+                  w={5}
+                  h={5}
+                />
               }
               iconBg={useColorModeValue("purple.100", "purple.900")}
               text={
                 <Text fontSize={"20px"} color={"gray.500"}>
-                  Entrega de información de utilidad para estudiantes de todo curso.
+                  Entrega de información de utilidad para estudiantes de todo
+                  curso.
                 </Text>
               }
             />
@@ -109,25 +124,16 @@ export default function SplitWithImage() {
           />
         </Flex>
       </SimpleGrid>
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <br />
-      <Box p={4} id="nosotros">
-      <Heading mb={20} fontSize={45}>Nosotros</Heading>
+
+      <Box p={100} id="nosotros">
+        <Heading mb={20} fontSize={45}>
+          Nosotros
+        </Heading>
         <SimpleGrid columns={{ base: 1, md: 3 }} spacing={10}>
           <Flex direction="column" align="center" justify="center">
             <Image
               rounded="full"
-              alt="feature image"
+              alt="Cristián Ilic"
               src="/flan.jpg"
               objectFit="cover"
               boxSize="200px"
@@ -140,7 +146,7 @@ export default function SplitWithImage() {
           <Flex direction="column" align="center" justify="center">
             <Image
               rounded="full"
-              alt="feature image"
+              alt="Marcelo Aguilera"
               src="/sho.png"
               objectFit="cover"
               boxSize="200px"
@@ -153,7 +159,7 @@ export default function SplitWithImage() {
           <Flex direction="column" align="center" justify="center">
             <Image
               rounded="full"
-              alt="feature image"
+              alt="Javier Sandoval"
               src="/xavier.png"
               objectFit="cover"
               boxSize="200px"
@@ -168,4 +174,3 @@ export default function SplitWithImage() {
     </Container>
   );
 }
-

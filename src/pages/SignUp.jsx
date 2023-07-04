@@ -63,8 +63,6 @@ const SignUp = () => {
   );
   const { data: asignaturas } = useFirestoreCollectionData(asignaturasCursoRef);
 
-  console.log("asignatura", asignatura);
-
   useEffect(() => {
     if (asignaturas?.length > 0) {
       const asignaturaFormateada = asignaturas.map(
@@ -101,7 +99,8 @@ const SignUp = () => {
       curso[idCurso] = { asignatura, profesorJefe };
     });
 
-    console.log("PROFEEEEEEEE", profesorDe);
+    const cursosACargo = Object.getOwnPropertyNames(curso);
+
     const formattedData = {
       apellidos,
       contrasena,
@@ -110,6 +109,7 @@ const SignUp = () => {
       nombres,
       rut,
       curso,
+      cursosACargo,
     };
     try {
       const result = await createUserWithEmailAndPassword(
@@ -127,6 +127,7 @@ const SignUp = () => {
           correo: formattedData.email,
           rut: formattedData.rut,
           genero: formattedData.genero,
+          cursosACargo: formattedData.cursosACargo,
           curso: formattedData.curso,
           rol: "profesor",
         });
