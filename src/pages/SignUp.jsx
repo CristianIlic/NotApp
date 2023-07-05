@@ -79,7 +79,7 @@ const SignUp = () => {
 
   const navigate = useNavigate();
   const db = getFirestore();
-  const [secondStep, setSecondStep] = useState(true);
+  const [secondStep, setSecondStep] = useState(false);
   const [esProfesorJefe, setEsProfesorJefe] = useState(true);
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
