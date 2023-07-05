@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import {
   FormControl,
   Input,
@@ -28,7 +28,9 @@ import useNotifications from "../hooks/useNotifications";
 const Contact = () => {
   const form = useRef();
   const [selectedCurso, setSelectedCurso] = useState("");
-  const [selectedProfesor, setSelectedProfesor] = useState("");
+  const [selectedProfesor, setSelectedProfesor] = useState(
+    "tEDStjHWDTWeB5fohypcTYqeDUd2"
+  );
   const { sendNotification } = useNotifications();
   const {
     register,
@@ -42,8 +44,11 @@ const Contact = () => {
 
   //profesor o apoderado
   const ref = doc(firestore, "usuario", currentUser?.uid);
-
   const { status: statusProfesor, data: profesor } = useFirestoreDocData(ref);
+
+  const profeRef = doc(firestore, "usuario", selectedProfesor);
+  const { data: profeSeleccionado } = useFirestoreDocData(profeRef);
+  console.log("profeSeleccionado", profeSeleccionado);
 
   //alumnos
   const alumnosCollection = collection(firestore, "usuario");
@@ -73,35 +78,24 @@ const Contact = () => {
       console.log("El UID", uid, "no existe en la colección.");
     }
   });
-
   const resultados = [];
 
   const sendEmail = async ({ asunto, mensaje, alumno }) => {
-    const db = getFirestore();
-
-    const usersQuery = query(
-      collection(db, "usuario"),
-      where("alumnos", "array-contains", alumno)
-    );
-
-    const apoderados = await getDocs(usersQuery);
-
-    apoderados.forEach((doc) => {
-      const { nombres, apellidos, correo } = doc.data();
+    if (profesor.rol === "apoderado") {
       sendNotification({
-        contenido: `El profesor ${profesor?.nombres} ${profesor?.apellidos} te ha enviado un mensaje`,
+        contenido: `El ${profesor?.rol} ${profesor?.nombres} ${profesor?.apellidos} te ha enviado un mensaje`,
         sendTo: doc.id,
       });
-
       emailjs
         .send(
           "service_dkgm1nw",
           "template_rtaeubj",
           {
-            correo,
+            correo: profeSeleccionado.correo,
+            correoEnviador: profesor.correo,
             asunto,
             mensaje,
-            enviadoA: `${nombres} ${apellidos}`,
+            enviadoA: `${profeSeleccionado.nombres} ${profeSeleccionado.apellidos}`,
             enviadoPor: `${profesor?.nombres} ${profesor?.apellidos}`,
           },
           "Yi2Sz8BpNYNP4mEzw"
@@ -114,14 +108,56 @@ const Contact = () => {
             console.log(error.text);
           }
         );
-    });
+    } else if (profesor.rol === "profesor") {
+      const db = getFirestore();
+
+      const usersQuery = query(
+        collection(db, "usuario"),
+        where("alumnos", "array-contains", alumno)
+      );
+      const apoderados = await getDocs(usersQuery);
+
+      apoderados.forEach((doc) => {
+        const { nombres, apellidos, correo } = doc.data();
+        sendNotification({
+          contenido: `El ${profesor?.rol} ${profesor?.nombres} ${profesor?.apellidos} te ha enviado un mensaje`,
+          sendTo: doc.id,
+        });
+        emailjs
+          .send(
+            "service_dkgm1nw",
+            "template_kbtl55e",
+            {
+              correo,
+              correoEnviador: profesor.correo,
+              asunto,
+              mensaje,
+              enviadoA: `${nombres} ${apellidos}`,
+              enviadoPor: `${profesor?.nombres} ${profesor?.apellidos}`,
+            },
+            "Yi2Sz8BpNYNP4mEzw"
+          )
+          .then(
+            (result) => {
+              console.log(result.text);
+            },
+            (error) => {
+              console.log(error.text);
+            }
+          );
+      });
+    }
   };
 
-  if (statusProfesores === "success") {
+  if (statusProfesores === "success" && idCurso) {
     for (const obj of profesores) {
       for (const curso of idCurso) {
         if (obj.curso && obj.curso[curso]) {
-          resultados.push(`${obj.nombres} ${obj.apellidos}`);
+          resultados.push({
+            nombres: `${obj.nombres} ${obj.apellidos}`,
+            correo: `${obj.correo}`,
+            NO_ID_FIELD: `${obj.NO_ID_FIELD}`,
+          });
           break; // Salir del bucle interior si se encuentra una coincidencia
         }
       }
@@ -156,12 +192,12 @@ const Contact = () => {
                   }}
                   {...rest}
                 >
-                  {resultados.map((profesor) => (
-                    <option value={profesor}>{profesor}</option>
+                  {resultados.map(({ nombres, NO_ID_FIELD }) => (
+                    <option value={NO_ID_FIELD}>{nombres}</option>
                   ))}
                 </Select>
               )}
-              name={`curso`}
+              name={`profe`}
               control={control}
             />
           ) : (

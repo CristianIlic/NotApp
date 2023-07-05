@@ -3,7 +3,7 @@ import { Wrap, WrapItem, Avatar } from "@chakra-ui/react";
 
 export default function Alumnos({ listadoAlumnos, setSelectedAlumno }) {
   return (
-    <Wrap mb={"20px"}>
+    <Wrap mb={"20px"} overflow={"visible"}>
       {listadoAlumnos?.map((id) => {
         return (
           <WrapItem>

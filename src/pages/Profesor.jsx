@@ -66,7 +66,7 @@ const Profesor = () => {
 
   // return (
   return (
-    <SimpleGrid spacing={4} minChildWidth="300px">
+    <SimpleGrid spacing={4} minChildWidth="400px">
       {cards.map(({ idCurso, nombreCurso, nombres, apellidos, asignatura }) => {
         return (
           <div key={nombreCurso + asignatura}>

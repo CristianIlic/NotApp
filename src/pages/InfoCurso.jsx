@@ -223,10 +223,6 @@ const InfoCurso = () => {
                           .toFixed(1)
                       : "Sin notas"}
                   </Td>
-                  <Td>
-                    {" "}
-                    <HiOutlineMail size="30px" />
-                  </Td>
                 </Tr>
               )
             )}

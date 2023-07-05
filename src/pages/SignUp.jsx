@@ -54,7 +54,6 @@ const SignUp = () => {
 
   const { data: cursos } = useFirestoreCollectionData(cursosRef);
 
-  // const asignaturasRef = collectionGroup(useFirestore(), "asignaturas");
   const asignaturasCursoRef = collection(
     useFirestore(),
     "curso",
@@ -80,8 +79,8 @@ const SignUp = () => {
 
   const navigate = useNavigate();
   const db = getFirestore();
-  const [secondStep, setSecondStep] = useState(false);
-  const [esProfesorJefe, setEsProfesorJefe] = useState(false);
+  const [secondStep, setSecondStep] = useState(true);
+  const [esProfesorJefe, setEsProfesorJefe] = useState(true);
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     {
       control, // control props comes from useForm (optional: if you are using FormContext)
@@ -96,9 +95,9 @@ const SignUp = () => {
     const curso = {};
 
     profesorDe.forEach(({ curso: idCurso, asignatura, profesorJefe }) => {
-      curso[idCurso] = { asignatura, profesorJefe };
+      curso[idCurso] = { asignatura, profesorJefe: !!profesorJefe };
     });
-
+    console.log("CURSO", curso);
     const cursosACargo = Object.getOwnPropertyNames(curso);
 
     const formattedData = {
@@ -111,49 +110,49 @@ const SignUp = () => {
       curso,
       cursosACargo,
     };
-    try {
-      const result = await createUserWithEmailAndPassword(
-        auth,
-        formattedData.email,
-        formattedData.contrasena
-      );
+    // try {
+    //   const result = await createUserWithEmailAndPassword(
+    //     auth,
+    //     formattedData.email,
+    //     formattedData.contrasena
+    //   );
 
-      if (result.user) {
-        const uid = result.user.uid;
-        await updateProfile(result.user, { displayName: data.nombres });
-        await setDoc(doc(db, "usuario", uid), {
-          nombres: formattedData.nombres,
-          apellidos: formattedData.apellidos,
-          correo: formattedData.email,
-          rut: formattedData.rut,
-          genero: formattedData.genero,
-          cursosACargo: formattedData.cursosACargo,
-          curso: formattedData.curso,
-          rol: "profesor",
-        });
-        setSecondStep(true);
+    //   if (result.user) {
+    //     const uid = result.user.uid;
+    //     await updateProfile(result.user, { displayName: data.nombres });
+    //     await setDoc(doc(db, "usuario", uid), {
+    //       nombres: formattedData.nombres,
+    //       apellidos: formattedData.apellidos,
+    //       correo: formattedData.email,
+    //       rut: formattedData.rut,
+    //       genero: formattedData.genero,
+    //       cursosACargo: formattedData.cursosACargo,
+    //       curso: formattedData.curso,
+    //       rol: "profesor",
+    //     });
+    //     setSecondStep(true);
 
-        toast({
-          title: "Registro exitoso",
-          description: "Profesor creado satisfactoriamente",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-        navigate("/profesor");
-      } else {
-        alert("NotApp: Creación de profesor fallida");
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "No se pudo registrar alumno",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      console.log("ERROR: ", error);
-    }
+    //     toast({
+    //       title: "Registro exitoso",
+    //       description: "Profesor creado satisfactoriamente",
+    //       status: "success",
+    //       duration: 3000,
+    //       isClosable: true,
+    //     });
+    //     navigate("/profesor");
+    //   } else {
+    //     alert("NotApp: Creación de profesor fallida");
+    //   }
+    // } catch (error) {
+    //   toast({
+    //     title: "Error",
+    //     description: "No se pudo registrar alumno",
+    //     status: "error",
+    //     duration: 3000,
+    //     isClosable: true,
+    //   });
+    //   console.log("ERROR: ", error);
+    // }
   }
   return (
     <div className="form-control">
@@ -361,6 +360,7 @@ const SignUp = () => {
                           onChange, setEsProfesorJefe(!esProfesorJefe);
                         }}
                         mb={"15px"}
+                        value={esProfesorJefe}
                         {...field}
                       >
                         Es profesor jefe?
@@ -425,7 +425,7 @@ const SignUp = () => {
               bg="primary"
               color="white"
               margin="20px 20px"
-              isLoading={isSubmitting}
+              // isLoading={isSubmitting}
               _hover={{
                 background: "primaryHover",
               }}
