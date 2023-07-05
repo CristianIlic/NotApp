@@ -54,7 +54,7 @@ const SignUp = () => {
   const toast = useToast();
   const navigate = useNavigate();
   const db = getFirestore();
-  const [secondStep, setSecondStep] = useState(false);
+  const [secondStep, setSecondStep] = useState(true);
   const [selectedCurso, setSelectedCurso] = useState("");
   const [alumnosList, setAlumnosList] = useState([]);
 
@@ -94,11 +94,19 @@ const SignUp = () => {
   );
 
   async function onSubmit(data) {
-    const { apellidos, contrasena, email, genero, nombres, rut } = data;
+    const { apellidos, contrasena, email, genero, nombres, rut, apoderadoDe } =
+      data;
 
     const alumnos = alumnosList
       .flatMap((list) => list)
       .map(({ label }) => label);
+
+    const alumnosApoderado = apoderadoDe.flatMap(({ alumnos }) => alumnos);
+
+    console.log(
+      "PIRULA",
+      alumnosList.map((item) => item)
+    );
 
     const formattedData = {
       apellidos,
@@ -109,50 +117,49 @@ const SignUp = () => {
       rut,
       alumnos,
     };
+    // try {
+    //   const result = await createUserWithEmailAndPassword(
+    //     auth,
+    //     formattedData.email,
+    //     formattedData.contrasena
+    //   );
 
-    try {
-      const result = await createUserWithEmailAndPassword(
-        auth,
-        formattedData.email,
-        formattedData.contrasena
-      );
+    //   if (result.user) {
+    //     const uid = result.user.uid;
+    //     await updateProfile(result.user, { displayName: data.nombres });
 
-      if (result.user) {
-        const uid = result.user.uid;
-        await updateProfile(result.user, { displayName: data.nombres });
+    //     await setDoc(doc(db, "usuario", uid), {
+    //       nombres: formattedData.nombres,
+    //       apellidos: formattedData.apellidos,
+    //       correo: formattedData.email,
+    //       rut: formattedData.rut,
+    //       genero: formattedData.genero,
+    //       alumnos: formattedData.alumnos,
+    //       rol: "apoderado",
+    //     });
 
-        await setDoc(doc(db, "usuario", uid), {
-          nombres: formattedData.nombres,
-          apellidos: formattedData.apellidos,
-          correo: formattedData.email,
-          rut: formattedData.rut,
-          genero: formattedData.genero,
-          alumnos: formattedData.alumnos,
-          rol: "apoderado",
-        });
+    //     setSecondStep(true);
 
-        setSecondStep(true);
-
-        toast({
-          title: "Registro exitoso",
-          description: "Apoderado creado satisfactoriamente",
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-      } else {
-        alert("NotApp: Creación de apoderado fallida");
-      }
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "No se pudo registrar apoderado",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      console.log("ERROR: ", error);
-    }
+    //     toast({
+    //       title: "Registro exitoso",
+    //       description: "Apoderado creado satisfactoriamente",
+    //       status: "success",
+    //       duration: 3000,
+    //       isClosable: true,
+    //     });
+    //   } else {
+    //     alert("NotApp: Creación de apoderado fallida");
+    //   }
+    // } catch (error) {
+    //   toast({
+    //     title: "Error",
+    //     description: "No se pudo registrar apoderado",
+    //     status: "error",
+    //     duration: 3000,
+    //     isClosable: true,
+    //   });
+    //   console.log("ERROR: ", error);
+    // }
   }
 
   if (statusCursos === "loading" && statusAlumnos === "loading") {

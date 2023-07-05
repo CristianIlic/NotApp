@@ -39,12 +39,12 @@ import { signOut, onAuthStateChanged } from "firebase/auth";
 import Notifications from "./Notifications";
 
 const LinkItems = [
-  { name: "Profesor", icon: TbRuler2 },
+  { name: "Profesor", icon: TbRuler2, canSee: ["profesor"] },
   { name: "Admini", icon: FiCompass },
-  { name: "Calendario", icon: FiStar },
-  { name: "Contacto", icon: FiSettings },
-  { name: "Apoderado", icon: FiTrendingUp },
-  { name: "Informacion", icon: FiInfo },
+  { name: "Calendario", icon: FiStar, canSee: ["profesor", "apoderado"] },
+  { name: "Contacto", icon: FiSettings, canSee: ["profesor", "apoderado"] },
+  { name: "Apoderado", icon: FiTrendingUp, canSee: ["apoderado"] },
+  { name: "Informacion", icon: FiInfo, canSee: ["profesor", "apoderado"] },
 ];
 
 export default function Navbar({ Outlet }) {
@@ -52,6 +52,7 @@ export default function Navbar({ Outlet }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { currentUser } = useAuth();
   const uid = currentUser?.uid;
+
   if (status === "loading") {
     return <Spinner color="primary" />;
   }
@@ -85,6 +86,14 @@ export default function Navbar({ Outlet }) {
 }
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const db = getFirestore();
+  const { currentUser } = useAuth();
+  const ref = doc(db, "usuario", currentUser?.uid);
+  const { status: statusUsuario, data: usuario } = useFirestoreDocData(ref);
+  if (statusUsuario === "loading") {
+    return <Spinner color="primary" />;
+  }
+
   return (
     <Box
       transition="3s ease"
@@ -106,19 +115,23 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <NavItem
-          key={link.name}
-          url={link.name}
-          icon={link.icon}
-          color={"white"}
-          _hover={{
-            background: "primary",
-          }}
-        >
-          {link.name}
-        </NavItem>
-      ))}
+      {LinkItems.filter(({ canSee }) => canSee?.includes(usuario.rol)).map(
+        (link) => {
+          return (
+            <NavItem
+              key={link.name}
+              url={link.name}
+              icon={link.icon}
+              color={"white"}
+              _hover={{
+                background: "primary",
+              }}
+            >
+              {link.name}
+            </NavItem>
+          );
+        }
+      )}
     </Box>
   );
 };

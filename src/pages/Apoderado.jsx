@@ -37,7 +37,6 @@ const Apoderado = () => {
   const { uid } = useOutletContext();
   const [selectedAlumno, setSelectedAlumno] = useState("");
   const db = getFirestore();
-
   const apoderadoRef = doc(db, "usuario", uid);
   const { status: statusApoderado, data: apoderado } =
     useFirestoreDocData(apoderadoRef);
@@ -45,6 +44,15 @@ const Apoderado = () => {
   if (statusApoderado === "loading") {
     return <Spinner color="primary" />;
   }
+
+  const alumnosApoderado = apoderado?.alumnos?.map((alumno) => {
+    const ref = doc(db, "usuario", alumno);
+    const { status: statusAlumno, data: dataAlumno } = useFirestoreDocData(ref);
+    return {
+      name: `${dataAlumno.nombres} ${dataAlumno.apellidos}`,
+      id: dataAlumno.NO_ID_FIELD,
+    };
+  });
 
   return (
     <div>
@@ -65,7 +73,9 @@ const Apoderado = () => {
               m="0 auto"
             >
               <AlumnosAvatars
-                listadoAlumnos={apoderado?.alumnos?.map((alumno) => alumno)}
+                listadoAlumnos={alumnosApoderado.map(({ name, id }) => {
+                  return { name, id };
+                })}
                 setSelectedAlumno={setSelectedAlumno}
               />
 

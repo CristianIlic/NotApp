@@ -110,49 +110,49 @@ const SignUp = () => {
       curso,
       cursosACargo,
     };
-    // try {
-    //   const result = await createUserWithEmailAndPassword(
-    //     auth,
-    //     formattedData.email,
-    //     formattedData.contrasena
-    //   );
+    try {
+      const result = await createUserWithEmailAndPassword(
+        auth,
+        formattedData.email,
+        formattedData.contrasena
+      );
 
-    //   if (result.user) {
-    //     const uid = result.user.uid;
-    //     await updateProfile(result.user, { displayName: data.nombres });
-    //     await setDoc(doc(db, "usuario", uid), {
-    //       nombres: formattedData.nombres,
-    //       apellidos: formattedData.apellidos,
-    //       correo: formattedData.email,
-    //       rut: formattedData.rut,
-    //       genero: formattedData.genero,
-    //       cursosACargo: formattedData.cursosACargo,
-    //       curso: formattedData.curso,
-    //       rol: "profesor",
-    //     });
-    //     setSecondStep(true);
+      if (result.user) {
+        const uid = result.user.uid;
+        await updateProfile(result.user, { displayName: data.nombres });
+        await setDoc(doc(db, "usuario", uid), {
+          nombres: formattedData.nombres,
+          apellidos: formattedData.apellidos,
+          correo: formattedData.email,
+          rut: formattedData.rut,
+          genero: formattedData.genero,
+          cursosACargo: formattedData.cursosACargo,
+          curso: formattedData.curso,
+          rol: "profesor",
+        });
+        setSecondStep(true);
 
-    //     toast({
-    //       title: "Registro exitoso",
-    //       description: "Profesor creado satisfactoriamente",
-    //       status: "success",
-    //       duration: 3000,
-    //       isClosable: true,
-    //     });
-    //     navigate("/profesor");
-    //   } else {
-    //     alert("NotApp: Creación de profesor fallida");
-    //   }
-    // } catch (error) {
-    //   toast({
-    //     title: "Error",
-    //     description: "No se pudo registrar alumno",
-    //     status: "error",
-    //     duration: 3000,
-    //     isClosable: true,
-    //   });
-    //   console.log("ERROR: ", error);
-    // }
+        toast({
+          title: "Registro exitoso",
+          description: "Profesor creado satisfactoriamente",
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+        navigate("/profesor");
+      } else {
+        alert("NotApp: Creación de profesor fallida");
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "No se pudo registrar alumno",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+      console.log("ERROR: ", error);
+    }
   }
   return (
     <div className="form-control">
@@ -425,7 +425,7 @@ const SignUp = () => {
               bg="primary"
               color="white"
               margin="20px 20px"
-              // isLoading={isSubmitting}
+              isLoading={isSubmitting}
               _hover={{
                 background: "primaryHover",
               }}

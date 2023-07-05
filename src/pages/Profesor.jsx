@@ -8,66 +8,86 @@ import {
   Heading,
   Image,
 } from "@chakra-ui/react";
-import { useFirestore, useFirestoreCollectionData } from "reactfire";
+import {
+  useFirestore,
+  useFirestoreCollectionData,
+  useAuth,
+  useFirestoreDocData,
+} from "reactfire";
 
-import { collection, query, where } from "firebase/firestore";
+import {
+  collection,
+  query,
+  where,
+  doc,
+  getFirestore,
+} from "firebase/firestore";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 const Profesor = () => {
-  const profesoresRef = collection(useFirestore(), "usuario");
-  const filteredProfesoresRef = query(
-    profesoresRef,
-    where("rol", "==", "profesor")
-  );
+  const { currentUser } = useAuth();
+  const db = getFirestore();
+  const profesoresRef = doc(db, "usuario", currentUser.uid);
 
-  const [cards, setCards] = useState([]);
   const cursosRef = collection(useFirestore(), "curso");
 
-  const { data: profesores, status: statusProfesores } =
-    useFirestoreCollectionData(filteredProfesoresRef);
+  const { data: profesor, status: statusProfesores } =
+    useFirestoreDocData(profesoresRef);
 
   // subscribe to a document for realtime updates. just one line!
   const { status: statusCursos, data: cursos } =
     useFirestoreCollectionData(cursosRef);
 
-  useEffect(() => {
-    if (statusCursos === "success" && statusProfesores === "success") {
-      const cursosFormateados = cursos.flatMap(
-        ({ NO_ID_FIELD, nombre: nombreCurso }) => {
-          const profesoresPorCurso = profesores.flatMap(
-            ({ nombres, apellidos, curso }) => {
-              if (!!curso[NO_ID_FIELD]) {
-                return curso[NO_ID_FIELD].asignatura.map((asignatura) => ({
-                  idCurso: NO_ID_FIELD,
-                  nombreCurso,
-                  nombres,
-                  apellidos,
-                  asignatura,
-                }));
-              }
+  // useEffect(() => {
+  //   if (statusCursos === "success" && statusProfesores === "success") {
+  //     const cursosFormateados = cursos.flatMap(
+  //       ({ NO_ID_FIELD, nombre: nombreCurso }) => {
+  //         const profesoresPorCurso = profesores.flatMap(
+  //           ({ nombres, apellidos, curso }) => {
+  //             if (!!curso[NO_ID_FIELD]) {
+  //               return curso[NO_ID_FIELD].asignatura.map((asignatura) => ({
+  //                 idCurso: NO_ID_FIELD,
+  //                 nombreCurso,
+  //                 nombres,
+  //                 apellidos,
+  //                 asignatura,
+  //               }));
+  //             }
 
-              return;
-              // return { nombres, apellidos, asignaturas: curso[NO_ID_FIELD] };
-            }
-          );
+  //             return;
+  //           }
+  //         );
 
-          return profesoresPorCurso.filter((dddd) => dddd !== undefined);
-        }
-      );
+  //         return profesoresPorCurso.filter((dddd) => dddd !== undefined);
+  //       }
+  //     );
 
-      setCards(cursosFormateados);
-    }
-  }, [profesores, cursos, statusCursos, statusProfesores]);
+  //     setCards(cursosFormateados);
+  //   }
+  // }, [profesores, cursos, statusCursos, statusProfesores]);
 
-  if (cards === 0) {
+  if (statusProfesores === "loading" && statusCursos === "loading") {
     return <p>Cargando...</p>;
   }
 
-  // return (
+  const cards = Object.keys(profesor.curso).flatMap((key) => {
+    const asignaturas = profesor.curso[key].asignatura;
+
+    const card = asignaturas.map((nombreAsignatura) => ({
+      profesor: `${profesor.nombres} ${profesor.apellidos}`,
+      asignatura: nombreAsignatura,
+      idCurso: key,
+      nombreCurso: cursos?.find(({ NO_ID_FIELD: idCurso }) => idCurso === key)
+        .nombre,
+    }));
+
+    return card;
+  });
+
   return (
     <SimpleGrid spacing={4} minChildWidth="400px">
-      {cards.map(({ idCurso, nombreCurso, nombres, apellidos, asignatura }) => {
+      {cards.map(({ profesor, asignatura, idCurso, nombreCurso }) => {
         return (
           <div key={nombreCurso + asignatura}>
             <Link
@@ -85,9 +105,7 @@ const Profesor = () => {
                   />
                 </CardHeader>
                 <CardBody>
-                  <Text>
-                    Profesor: {nombres} {apellidos}
-                  </Text>
+                  <Text>Profesor: {profesor}</Text>
                   <Text>Curso: {nombreCurso} </Text>
                   <Text>Asignatura: {asignatura} </Text>
                 </CardBody>

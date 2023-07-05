@@ -233,8 +233,9 @@ const InfoCurso = () => {
       {!edit && (
         <Button
           mt="30px"
-          bg="blue.400"
+          bg="primary"
           color="white"
+          _hover={{ bg: "primaryHover" }}
           onClick={() => setEdit((e) => !e)}
         >
           Editar
@@ -246,6 +247,7 @@ const InfoCurso = () => {
           mt="30px"
           bg="green.400"
           color="white"
+          _hover={{ bg: "green.600" }}
           onClick={() => handleSubmit(onSubmit)()}
         >
           Guardar

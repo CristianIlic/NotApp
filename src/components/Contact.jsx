@@ -37,6 +37,7 @@ const Contact = () => {
     handleSubmit,
     formState: { errors },
     control,
+    reset,
   } = useForm();
 
   const { currentUser } = useAuth();
@@ -48,7 +49,6 @@ const Contact = () => {
 
   const profeRef = doc(firestore, "usuario", selectedProfesor);
   const { data: profeSeleccionado } = useFirestoreDocData(profeRef);
-  console.log("profeSeleccionado", profeSeleccionado);
 
   //alumnos
   const alumnosCollection = collection(firestore, "usuario");
@@ -106,7 +106,8 @@ const Contact = () => {
           },
           (error) => {
             console.log(error.text);
-          }
+          },
+          reset()
         );
     } else if (profesor.rol === "profesor") {
       const db = getFirestore();
@@ -143,7 +144,8 @@ const Contact = () => {
             },
             (error) => {
               console.log(error.text);
-            }
+            },
+            reset()
           );
       });
     }
@@ -231,8 +233,10 @@ const Contact = () => {
                 disabled={!selectedCurso}
                 {...register("alumno")}
               >
-                {alumnos?.map(({ NO_ID_FIELD, nombres }) => (
-                  <option value={NO_ID_FIELD}>{nombres}</option>
+                {alumnos?.map(({ NO_ID_FIELD, nombres, apellidos }) => (
+                  <option
+                    value={NO_ID_FIELD}
+                  >{`${nombres} ${apellidos}`}</option>
                 ))}
               </Select>
             </>
