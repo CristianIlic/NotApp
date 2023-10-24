@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "http://CristianIlic.github.io/NotApp",
+  "homepage": "http://cristianilic.github.io/NotApp",
   "scripts": {
     "dev": "npx vite",
     "build": "npx vite build",
