@@ -39,7 +39,8 @@
     "react-scroll": "^1.8.9",
     "reactfire": "^4.0.0-rc.2",
     "save-dev": "^0.0.1-security",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "vite-plugin-css": "^1.0.4"
   },
   "devDependencies": {
     "@types/react": "^18.0.28",
