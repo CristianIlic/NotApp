@@ -13,7 +13,7 @@ import {
 } from "reactfire";
 import firebaseConfig from "./firebase-config";
 
-import "../node_modules/@fontsource/Poppins/600.css";
+import "/@fontsource/Poppins/600.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
