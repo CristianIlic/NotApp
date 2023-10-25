@@ -9,4 +9,7 @@ export default defineConfig({
       '@fontsource/Poppins': '@fontsource/poppins',
     },
   },
+  css: {
+    modules: {},
+  },
 })
